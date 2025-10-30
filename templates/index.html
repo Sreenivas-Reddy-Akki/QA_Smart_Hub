@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Smart Hub - Resource Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for professional font (Inter) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Lighter, softer background for a clean, simple look */
+            background-color: #f7f9fc; /* Very light slate-blue/off-white */
+        }
+        .card-shadow {
+            /* Slightly softer shadow for a cleaner, modern lift */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e2e8f0; /* Subtle border for definition */
+        }
+        /* Style the navigation buttons - use the new primary color (slate-700) */
+        .nav-btn {
+            @apply text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-slate-600 transition duration-150;
+        }
+        /* Style the result box to allow pre-formatted content from the AI model */
+        .result-box {
+            line-height: 1.6;
+        }
+    </style>
+    <script>
+        // Configure a custom, more professional blue primary color in Tailwind
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': {
+                            700: '#334155', /* Dark Slate Blue (used for Navbar/Header) */
+                            600: '#475569', /* Slightly lighter (used for hover) */
+                            500: '#64748b', /* Medium Slate Blue */
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen">
+
+    <header class="bg-primary-blue-700 shadow-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="#" onclick="switchView('home-view')" class="text-white text-2xl font-bold tracking-wider flex items-center hover:text-primary-blue-500 transition duration-300">
+                    <svg class="h-6 w-6 mr-2 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944v3.136l.228.228m0-3.364l7.108 7.108a12.01 12.01 0 01-3.535 4.966m-7.85-2.285a1.213 1.213 0 01-1.815-.157 1.116 1.116 0 01-.157-1.815m-1.742 4.414l-7.108-7.108m-3.956 7.828c.708.885 1.704 1.55 2.859 1.838m7.01-11.751a1.213 1.213 0 011.815.157 1.116 1.116 0 01.157 1.815"/>
+                    </svg>
+                    QA_Smart_Hub
+                </a>
+
+                <nav class="flex space-x-2 lg:space-x-4">
+                    <button class="nav-btn" onclick="switchView('home-view')"><i class="fas fa-home mr-1"></i> Home</button>
+                    <button class="nav-btn" onclick="switchView('ai-tools-view')"><i class="fas fa-brain mr-1"></i> AI Tools</button>
+                    <button class="nav-btn hidden sm:inline-block" onclick="switchView('manual-view')"><i class="fas fa-list-check mr-1"></i> Manual Testing</button>
+                    <button class="nav-btn hidden sm:inline-block" onclick="switchView('automation-view')"><i class="fas fa-gears mr-1"></i> Automation</button>
+                    <button class="nav-btn" onclick="switchView('interview-view')"><i class="fas fa-user-tie mr-1"></i> Interview</button>
+                    <button class="nav-btn hidden lg:inline-block" onclick="switchView('about-view')"><i class="fas fa-info-circle mr-1"></i> About</button>
+                </nav>
+
+                <button id="auth-button" class="bg-white text-primary-blue-700 font-semibold py-1.5 px-4 rounded-lg text-sm hover:bg-slate-100 transition duration-300 shadow-lg">
+                    <i class="fas fa-sign-in-alt mr-1"></i> Login / Sign Up
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 sm:p-8 pt-10">
+
+        <div id="home-view" class="view">
+            <div class="bg-white p-6 sm:p-10 rounded-xl card-shadow border-t-4 border-primary-blue-500">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-primary-blue-700 mb-4">Welcome to the QA Smart Hub! 🚀</h2>
+                <p class="text-base sm:text-lg text-gray-600 mb-8">Your central, intelligent resource center for all QA, Manual, and Automation testing needs, designed for efficiency.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+
+                    <div class="p-6 bg-blue-50 rounded-xl card-shadow hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+                        <i class="fas fa-brain text-4xl text-primary-blue-700 mb-3"></i>
+                        <h3 class="font-bold text-xl text-primary-blue-700 mb-2">AI Test Generator</h3>
+                        <p class="text-gray-700 text-sm">Quickly draft structured test cases, complex boundary values, and negative scenarios instantly. **Boost your test planning speed.**</p>
+                        <button onclick="switchView('ai-tools-view')" class="mt-4 text-sm text-primary-blue-600 hover:text-primary-blue-700 font-bold flex items-center">Explore Tools <i class="fas fa-arrow-right ml-2 text-xs"></i></button>
+                    </div>
+
+                    <div class="p-6 bg-emerald-50 rounded-xl card-shadow hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+                        <i class="fas fa-list-check text-4xl text-emerald-600 mb-3"></i>
+                        <h3 class="font-bold text-xl text-emerald-700 mb-2">Manual Guides & Templates</h3>
+                        <p class="text-gray-700 text-sm">Access best practices for **Exploratory Testing** and the latest **Defect Reporting** standards for clarity and speed.</p>
+                        <button onclick="switchView('manual-view')" class="mt-4 text-sm text-emerald-600 hover:text-emerald-800 font-bold flex items-center">View Resources <i class="fas fa-arrow-right ml-2 text-xs"></i></button>
+                    </div>
+
+                    <div class="p-6 bg-red-50 rounded-xl card-shadow hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+                        <i class="fas fa-gears text-4xl text-red-600 mb-3"></i>
+                        <h3 class="font-bold text-xl text-red-700 mb-2">Automation Codebase</h3>
+                        <p class="text-gray-700 text-sm">Direct links to our framework documentation, code snippets, and latest **CI/CD Pipeline reports** and analytics.</p>
+                        <button onclick="switchView('automation-view')" class="mt-4 text-sm text-red-600 hover:text-red-800 font-bold flex items-center">Go to Codebase <i class="fas fa-arrow-right ml-2 text-xs"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="ai-tools-view" class="view hidden">
+            <div class="bg-white p-8 rounded-xl card-shadow border-t-4 border-primary-blue-500">
+                <button onclick="switchView('back')" class="mb-6 text-sm text-gray-500 hover:text-primary-blue-600 transition duration-150 flex items-center font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Previous
+                </button>
+
+                <h2 class="text-3xl font-bold text-primary-blue-700 mb-6"><i class="fas fa-brain mr-2"></i> AI Test Idea Generator</h2>
+                <p class="text-gray-600 mb-4">Enter a feature description or scenario to receive a **comprehensive set of test cases** including positive, negative, and boundary analysis.</p>
+
+                <textarea id="prompt"
+                            placeholder="Enter your feature (e.g., 'Payment form that accepts credit card details') or scenario (e.g., 'User tries to log in with an expired session') here..."
+                            class="w-full h-40 p-4 border border-gray-300 rounded-lg focus:border-primary-blue-500 focus:ring-1 focus:ring-primary-blue-500 transition duration-150 resize-y"></textarea>
+
+                <button id="generate"
+                        class="mt-4 bg-primary-blue-600 hover:bg-primary-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg transition duration-300 shadow-md">
+                    <i class="fas fa-magic mr-2"></i> Generate Smart Test Ideas
+                </button>
+
+                <div id="result" class="mt-8 p-6 bg-white border border-gray-200 rounded-xl result-box min-h-[150px] text-gray-700 shadow-inner whitespace-pre-wrap">
+                    Awaiting your input...
+                </div>
+            </div>
+        </div>
+
+        <div id="manual-view" class="view hidden">
+            <div class="bg-white p-8 rounded-xl card-shadow border-t-4 border-emerald-500">
+                <button onclick="switchView('back')" class="mb-6 text-sm text-gray-500 hover:text-emerald-600 transition duration-150 flex items-center font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Previous
+                </button>
+
+                <h2 class="text-3xl font-bold text-emerald-800 mb-6"><i class="fas fa-list-check mr-2"></i> Manual Testing Resources</h2>
+                <div class="space-y-4">
+                    <a href="#" class="block p-4 bg-emerald-50 rounded-lg hover:bg-emerald-100 transition duration-200 border border-emerald-200">
+                        <h3 class="font-semibold text-lg text-emerald-700"><i class="fas fa-file-pdf mr-2"></i> Exploratory Testing Guide v2.1</h3>
+                        <p class="text-sm text-gray-600">The latest guide on charter creation and mind mapping techniques.</p>
+                    </a>
+                    <a href="#" class="block p-4 bg-emerald-50 rounded-lg hover:bg-emerald-100 transition duration-200 border border-emerald-200">
+                        <h3 class="font-semibold text-lg text-emerald-700"><i class="fas fa-bug mr-2"></i> Defect Reporting Standards</h3>
+                        <p class="text-sm text-gray-600">How to write clear, actionable bug reports with high reproducibility steps.</p>
+                    </a>
+                    <a href="#" class="block p-4 bg-emerald-50 rounded-lg hover:bg-emerald-100 transition duration-200 border border-emerald-200">
+                        <h3 class="font-semibold text-lg text-emerald-700"><i class="fas fa-people-arrows mr-2"></i> UAT and Stakeholder Sign-Off Process</h3>
+                        <p class="text-sm text-gray-600">Documentation on user acceptance criteria and release workflows.</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="automation-view" class="view hidden">
+            <div class="bg-white p-8 rounded-xl card-shadow border-t-4 border-red-500">
+                <button onclick="switchView('back')" class="mb-6 text-sm text-gray-500 hover:text-red-600 transition duration-150 flex items-center font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Previous
+                </button>
+
+                <h2 class="text-3xl font-bold text-red-800 mb-6"><i class="fas fa-gears mr-2"></i> Automation Frameworks & Reports</h2>
+                <div class="space-y-4">
+                    <a href="#" class="block p-4 bg-red-50 rounded-lg hover:bg-red-100 transition duration-200 border border-red-200">
+                        <h3 class="font-semibold text-lg text-red-700"><i class="fas fa-code mr-2"></i> Playwright Framework Docs</h3>
+                        <p class="text-sm text-gray-600">Setup instructions, fixture examples, and common debugging tips.</p>
+                    </a>
+                    <a href="#" class="block p-4 bg-red-50 rounded-lg hover:bg-red-100 transition duration-200 border border-red-200">
+                        <h3 class="font-semibold text-lg text-red-700"><i class="fas fa-chart-line mr-2"></i> Latest Nightly Build Reports</h3>
+                        <p class="text-sm text-gray-600">Direct link to Allure/Extent reports dashboard.</p>
+                    </a>
+                    <a href="#" class="block p-4 bg-red-50 rounded-lg hover:bg-red-100 transition duration-200 border border-red-200">
+                        <h3 class="font-semibold text-lg text-red-700"><i class="fas fa-database mr-2"></i> CI/CD Pipeline Configuration</h3>
+                        <p class="text-sm text-gray-600">Jenkins/GitHub Actions pipeline setup for test execution.</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="interview-view" class="view hidden">
+            <div class="bg-white p-8 rounded-xl card-shadow border-t-4 border-amber-500">
+                <button onclick="switchView('back')" class="mb-6 text-sm text-gray-500 hover:text-amber-600 transition duration-150 flex items-center font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Previous
+                </button>
+
+                <h2 class="text-3xl font-bold text-amber-800 mb-6"><i class="fas fa-user-tie mr-2"></i> Interview Preparation</h2>
+                <p class="text-gray-600 mb-4">Resources to help you grow your career and prepare for interviews.</p>
+                <ul class="list-disc list-inside space-y-3 text-gray-700 pl-4">
+                    <li>**Commonly Asked Behavior Questions** in QA.</li>
+                    <li>Advanced SQL Queries for Testers (PDF).</li>
+                    <li>Mock Interview Schedule Signup Sheet.</li>
+                    <li><button class="text-amber-600 font-medium hover:underline">Download Automation Interview Cheat Sheet</button></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="about-view" class="view hidden">
+            <div class="bg-white p-8 rounded-xl card-shadow border-t-4 border-gray-500">
+                <button onclick="switchView('back')" class="mb-6 text-sm text-gray-500 hover:text-gray-600 transition duration-150 flex items-center font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Previous
+                </button>
+
+                <h2 class="text-3xl font-bold text-gray-800 mb-6"><i class="fas fa-info-circle mr-2"></i> About QA_Smart_Hub</h2>
+                <p class="text-gray-600">The QA Smart Hub was created by the team to streamline knowledge sharing and introduce intelligent tooling into our daily workflow. It is maintained by the **QA Operations team**.</p>
+                <ul class="mt-6 list-disc list-inside space-y-2 text-gray-700 pl-4">
+                    <li><strong class="font-medium">Version:</strong> 1.0.0 (October 2025)</li>
+                    <li><strong class="font-medium">Maintainer:</strong> QA Operations Team</li>
+                    <li><strong class="font-medium">Feedback:</strong> <a href="#" class="text-primary-blue-600 hover:underline">Submit Feedback Form</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-gray-700 text-white text-center p-4 mt-12">
+        <p>&copy; 2025 QA_Smart_Hub | All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Global array to store navigation history for the 'Back' button
+        const viewHistory = [];
+
+        /**
+         * Switches between the different page views (client-side routing).
+         * @param {string} viewId - The ID of the view to switch to, or 'back'.
+         */
+        function switchView(viewId) {
+            const currentView = document.querySelector('.view:not(.hidden)');
+            let targetViewId = viewId;
+
+            // 1. Handle History Tracking for forward navigation
+            if (currentView && currentView.id !== viewId && viewId !== 'back') {
+                // Only push the current view to history if the user is not navigating back
+                if (viewHistory[viewHistory.length - 1] !== currentView.id) {
+                    viewHistory.push(currentView.id);
+                }
+            }
+
+            // 2. Handle 'Back' command
+            if (viewId === 'back') {
+                if (viewHistory.length > 0) {
+                    // Pop the last view and switch to it
+                    targetViewId = viewHistory.pop();
+                } else {
+                    // Default to home if history is empty
+                    targetViewId = 'home-view';
+                }
+            }
+
+            // 3. Update the display
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.add('hidden');
+            });
+            document.getElementById(targetViewId).classList.remove('hidden');
+            window.scrollTo(0, 0); // Scroll to top on navigation
+        }
+
+        // Initialize the app to show the Home View
+        window.onload = () => {
+            switchView('home-view');
+        };
+
+
+        // --- AI Generation Logic ---
+
+        document.getElementById("generate").addEventListener("click", async () => {
+            const prompt = document.getElementById("prompt").value;
+            const resultDiv = document.getElementById("result");
+
+            if (prompt.trim() === "") {
+                resultDiv.innerHTML = "<p class='text-red-500'>Please enter a testing idea or scenario before generating.</p>";
+                return;
+            }
+
+            resultDiv.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Generating smart test ideas for: "${prompt}"...`;
+
+            // Placeholder API Key (required by the system but will be empty)
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            // Define the System Instruction for the LLM
+            const systemPrompt = "You are an expert QA Engineer. Your task is to provide detailed, actionable test cases and boundary value analysis for the given user prompt. Respond clearly using Markdown formatting.";
+
+            // Define the User Query
+            const userQuery = `Generate test cases, boundary analysis, and negative testing scenarios for the following feature/scenario: ${prompt}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+
+            try {
+                // Implementing a retry mechanism (Exponential Backoff)
+                const maxRetries = 3;
+                let attempt = 0;
+                let response;
+
+                while (attempt < maxRetries) {
+                    try {
+                        response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (response.ok) {
+                            break; // Success! Exit the retry loop
+                        }
+
+                    } catch (fetchError) {
+                        // Log the fetch error locally if needed, but continue retry loop
+                        console.error(`Attempt ${attempt + 1} failed (Fetch Error):`, fetchError.message);
+                    }
+
+                    attempt++;
+                    if (attempt < maxRetries) {
+                        const delay = Math.pow(2, attempt) * 1000; // Wait 2s, 4s, 8s...
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                    }
+                }
+
+                if (!response || !response.ok) {
+                    throw new Error("Failed to get a successful response from the API after multiple retries.");
+                }
+
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (text) {
+                    // Replace Markdown headers/lists with simple HTML for better styling compatibility
+                    let formattedText = text
+                        .replace(/^###\s*(.*)$/gm, '<h3 class="text-xl font-semibold mt-4 mb-2 text-primary-blue-700">$1</h3>')
+                        .replace(/^##\s*(.*)$/gm, '<h2 class="text-2xl font-bold mt-6 mb-3 text-primary-blue-700">$1</h2>')
+                        .replace(/^- (.*)$/gm, '<li class="ml-4 list-disc">$1</li>');
+
+                    // Basic list wrapping
+                    if (formattedText.includes('<li')) {
+                        formattedText = `<ul>${formattedText}</ul>`;
+                        formattedText = formattedText.replace('<ul><li', '<li').replace('</li></ul>', '</li>'); // Remove wrap if only one item
+                    }
+
+                    resultDiv.innerHTML = formattedText;
+
+                } else {
+                    resultDiv.innerHTML = `<p class='text-orange-500'>Generation complete, but the response was empty or malformed.</p>`;
+                }
+
+            } catch (error) {
+                console.error("API Error:", error);
+                resultDiv.innerHTML = `<p class='text-red-500'>❌ Error communicating with the AI service: ${error.message}.</p>`;
+            }
+        });
+
+
+        // --- Placeholder Auth Logic (uses custom modal instead of forbidden alert()) ---
+        document.getElementById('auth-button').addEventListener('click', () => {
+            alertModal("Authentication Placeholder", "In a real application, this would initiate a secure sign-in process (e.g., using Firebase Auth).");
+        });
+
+        /**
+         * Simple Custom Modal Placeholder (since alert() is forbidden)
+         * @param {string} title - The title of the modal.
+         * @param {string} message - The content message of the modal.
+         */
+        function alertModal(title, message) {
+            // Check if modal already exists to prevent duplicates
+            if (document.getElementById('custom-modal')) return;
+
+            const modalHtml = `
+                <div id="custom-modal" class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-[1001] transition-opacity duration-300 opacity-0" onclick="if(event.target.id === 'custom-modal') document.getElementById('custom-modal').remove()">
+                    <div class="bg-white p-8 rounded-xl shadow-2xl w-96 transform scale-90 transition-transform duration-300">
+                        <h3 class="text-xl font-bold text-primary-blue-700 mb-4">${title}</h3>
+                        <p class="text-gray-700 mb-6">${message}</p>
+                        <button onclick="document.getElementById('custom-modal').remove()"
+                                class="bg-primary-blue-600 hover:bg-primary-blue-700 text-white font-semibold py-2 px-4 rounded-lg float-right transition duration-200">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+            // Animate in the modal
+            setTimeout(() => {
+                const modal = document.getElementById('custom-modal');
+                if (modal) {
+                    modal.classList.remove('opacity-0');
+                    modal.querySelector('div:last-child').classList.remove('scale-90');
+                }
+            }, 10);
+        }
+
+    </script>
+</body>
+</html>

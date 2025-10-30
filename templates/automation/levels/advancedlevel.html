@@ -1,0 +1,904 @@
+{% extends "base.html" %}
+
+{% block title %}Automation Testing Master Plan{% endblock %}
+
+{% block content %}
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Selenium Automation Reference</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+    /* Global Reset and Base Styles */
+    html {
+      scroll-behavior: smooth;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #000; /* Deep black background */
+      color: #e0e0e0; /* Light gray text for readability */
+      line-height: 1.6;
+    }
+
+    /* Layout Structure (Flex for Main + Sidebar) */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Main Content Area */
+    main {
+      flex-grow: 1;
+      overflow-y: auto;
+      background: #000;
+      padding: 2.5rem; /* Increased padding */
+      transition: all 0.3s ease-in-out;
+      margin-left: 0;
+      width: 100%; /* Default mobile width */
+    }
+
+    /* ===== Sidebar Styles (Navigation) ===== */
+    #sidebar {
+      background: #111827; /* Darker navy, complements black */
+      color: #fff;
+      width: 18rem; /* Wider sidebar for desktop */
+      padding: 1.5rem;
+      overflow-y: auto;
+      transition: transform 0.3s ease-in-out;
+      position: fixed;
+      height: 100%;
+      left: 0;
+      top: 0;
+      z-index: 40;
+    }
+
+    #sidebar a {
+      display: block;
+      padding: 0.75rem 1rem; /* Slightly larger targets */
+      border-radius: 0.5rem;
+      transition: background 0.2s;
+      color: #9ca3af;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    #sidebar a:hover {
+      background-color: #1f2937;
+      color: #ffffff;
+    }
+
+    /* Highlight active sidebar link */
+    #sidebar a.active {
+      background-color: #2563eb;
+      color: #ffffff;
+      font-weight: 700;
+      box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Responsive Sidebar (Mobile) */
+    #sidebar {
+      transform: translateX(-100%);
+    }
+
+    #sidebar.visible {
+      transform: translateX(0);
+      box-shadow: 2px 0 15px rgba(0,0,0,0.6);
+    }
+
+    .sidebar-toggle {
+      background: #111827;
+      color: #fff;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.65rem 1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 50;
+      position: sticky;
+      top: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-title {
+        color: #60a5fa; /* A brighter blue for primary headings */
+    }
+
+    /* Desktop View Adjustments */
+    @media (min-width: 1024px) {
+      #sidebar {
+        position: fixed;
+        transform: none !important;
+      }
+      main {
+        margin-left: 18rem; /* Match sidebar width */
+      }
+      .sidebar-toggle {
+        display: none;
+      }
+    }
+
+    /* ===== Content Cards and Code Styling (Reference Style) ===== */
+    .content-card {
+        background-color: #1a1a1a; /* Dark gray background */
+        border: 1px solid #374151; /* Subtle border */
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .hover-glow:hover {
+        border-color: #2563eb; /* Blue border on hover */
+        box-shadow: 0 15px 30px rgba(37, 99, 235, 0.2);
+        transform: translateY(-4px);
+    }
+
+    .code-block {
+        font-family: 'Consolas', 'Monaco', monospace;
+        background-color: #0f172a; /* Even darker, slate color for code */
+        color: #d1fa17; /* Vibrant lime green for code text */
+        border-radius: 0.5rem;
+        padding: 1.25rem;
+        overflow-x: auto;
+        font-size: 0.875rem;
+        line-height: 1.4;
+        border-left: 4px solid #3b82f6; /* Blue left marker */
+    }
+
+    .code-language {
+        color: #60a5fa;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        display: block;
+        border-bottom: 1px solid #374151;
+        padding-bottom: 0.5rem;
+    }
+
+    /* Fade-in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(15px);
+      transition: all 0.6s ease-out;
+    }
+
+    .fade-in.appear {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar">
+      <div class="mb-8">
+        <h1 class="text-3xl font-extrabold text-blue-400 tracking-tight">
+          Automation Reference
+        </h1>
+        <p class="text-sm text-gray-400 mt-1">Advanced Architecture & Concepts</p>
+      </div>
+
+      <nav class="space-y-2 text-sm">
+        <div class="text-xs font-bold uppercase text-gray-500 mb-2">Core Architectures</div>
+        <a href="#topic1">1. ⚙️ Selenium Grid</a>
+        <a href="#topic2">2. ☁️ Cloud Testing</a>
+        <a href="#topic3">3. 🧱 Hybrid Framework</a>
+        <a href="#topic4">4. 🧪 BDD (Gherkin)</a>
+
+        <div class="text-xs font-bold uppercase text-gray-500 mt-5 mb-2 border-t border-gray-700 pt-3">Enterprise Integration</div>
+        <a href="#topic5">5. 🧰 CI/CD with Jenkins</a>
+        <a href="#topic6">6. 🧩 Parallel Execution</a>
+        <a href="#topic7">7. 📊 Advanced Reporting</a>
+        <a href="#topic8">8. 📦 Docker for Grid</a>
+
+        <div class="text-xs font-bold uppercase text-gray-500 mt-5 mb-2 border-t border-gray-700 pt-3">Advanced Techniques</div>
+        <a href="#topic9">9. 🔒 Secure Data</a>
+        <a href="#topic10">10. 🧠 Exception Handling</a>
+        <a href="#topic11">11. 🔍 API & DB Integration</a>
+        <a href="#topic12">12. ⚡ Performance Testing</a>
+        <a href="#topic13">13. 🤖 AI/Visual Testing</a>
+        <a href="#topic14">14. 🧩 Best Practices</a>
+        <a href="#topic15">15. 🎯 Interview Topics</a>
+      </nav>
+
+      <div class="mt-12 border-t border-gray-700 pt-4 text-xs text-gray-500">
+        &copy; 2025 QA Smart Hub
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="main-content">
+
+      <!-- Mobile Sidebar Toggle -->
+      <button id="sidebarToggle" class="sidebar-toggle mb-8 lg:mb-12">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+        </svg>
+        Menu
+      </button>
+
+      <!-- Main Header -->
+      <header class="mb-12">
+        <h2 class="text-5xl font-extrabold text-blue-400 tracking-tight">Advanced Selenium Mastery</h2>
+        <p class="text-gray-400 mt-3 text-xl">
+          A deep dive into **scalable architecture**, performance, and enterprise-level testing.
+        </p>
+      </header>
+
+      <!-- Introduction Card -->
+      <section class="content-card rounded-xl shadow-2xl p-8 fade-in appear border-l-8 border-blue-600">
+        <h3 class="text-3xl font-bold mb-3 text-blue-400 flex items-center">
+          <span class="mr-3 text-blue-600">🚀</span> The Automation Architect's Guide
+        </h3>
+        <p class="text-gray-300 leading-relaxed">
+          Welcome to the advanced level. To excel as a **QA Automation Engineer** today, you must master more than just writing selectors. This guide focuses on **scalability**, **continuous integration**, **secure data handling**, and building highly **maintainable, resilient frameworks** capable of handling massive test suites and CI/CD pipelines.
+        </p>
+      </section>
+
+      <!-- TOPIC 1 -->
+      <article id="topic1" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">1. ⚙️ Selenium Grid – Distributed Execution</h3>
+        <p class="text-gray-300 mb-4">
+          **Selenium Grid** enables test distribution across multiple machines (**Nodes**) managed by a central **Hub**. This massively reduces test suite execution time by facilitating true parallel testing on different browsers and OS combinations.
+        </p>
+        <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
+          <li>Understanding the **Hub-Node Architecture**.</li>
+          <li>Configuring **Desired Capabilities** for remote execution.</li>
+          <li>Scaling tests efficiently using **Dockerized Grid**.</li>
+        </ul>
+
+        <div class="grid md:grid-cols-2 gap-4 mt-6">
+          <div class="code-block">
+            <span class="code-language">Python: Remote WebDriver Setup</span>
+<pre>
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+
+# Define options for the desired browser
+options = ChromeOptions()
+# You can add capabilities here, e.g., options.platform_name = "Windows 10"
+
+# Connect to the remote Hub endpoint
+driver = webdriver.Remote(
+    command_executor='http://localhost:4444/wd/hub',
+    options=options
+)
+driver.get("https://example.com")
+print(driver.title)
+driver.quit()
+</pre>
+          </div>
+          <div class="code-block">
+            <span class="code-language">Java: RemoteWebDriver Initialization</span>
+<pre>
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import java.net.URL;
+
+public class GridTest {
+    public static void main(String[] args) throws Exception {
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        // Optional: specify OS
+        caps.setPlatform(Platform.LINUX);
+
+        WebDriver driver = new RemoteWebDriver(
+            new URL("http://localhost:4444/wd/hub"),
+            caps
+        );
+        driver.get("https://example.com");
+        System.out.println(driver.getTitle());
+        driver.quit();
+    }
+}
+</pre>
+          </div>
+        </div>
+      </article>
+
+      <!-- TOPIC 2 -->
+      <article id="topic2" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">2. ☁️ Cloud-Based Testing (BrowserStack / Sauce Labs)</h3>
+        <p class="text-gray-300 mb-4">
+          Cloud platforms **externalize infrastructure maintenance** by providing instant access to a vast matrix of real browsers and mobile devices. This guarantees **cross-browser coverage** without managing your own grid.
+        </p>
+        <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
+          <li>Advantages over maintaining a local Grid.</li>
+          <li>Configuring capabilities for specific cloud providers (e.g., BrowserStack capabilities).</li>
+          <li>Using **Tunneling** for testing internal/staging environments.</li>
+        </ul>
+
+        <div class="code-block">
+            <span class="code-language">Example: BrowserStack Integration (Python)</span>
+<pre>
+from selenium import webdriver
+
+# NOTE: Replace USERNAME and ACCESS_KEY securely (e.g., from environment variables)
+BROWSERSTACK_URL = 'https://USERNAME:ACCESS_KEY@hub-cloud.browserstack.com/wd/hub'
+
+capabilities = {
+  'browserName': 'Firefox',
+  'browserVersion': 'latest',
+  'bstack:options': {
+      'os': 'OS X',
+      'osVersion': 'Monterey',
+      'projectName': 'Advanced Selenium Project',
+      'sessionName': 'Login Test'
+  }
+}
+
+driver = webdriver.Remote(
+  command_executor=BROWSERSTACK_URL,
+  desired_capabilities=capabilities
+)
+driver.get("https://example.com")
+driver.quit()
+</pre>
+        </div>
+      </article>
+
+      <!-- TOPIC 3 -->
+      <article id="topic3" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">3. 🧱 Hybrid Framework Development</h3>
+        <p class="text-gray-300 mb-4">
+          The **Hybrid Framework** is the industry-standard architecture, combining the best features of:
+          1.  **Page Object Model (POM):** For code structure and element abstraction.
+          2.  **Data-Driven Testing (DDT):** Separating test input from logic.
+          3.  **Keyword-Driven Testing (KDT):** Reusable action keywords.
+        </p>
+        <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
+          <li>Prioritizing **reusability** and **low maintenance cost**.</li>
+          <li>Centralizing configuration and reporting utilities.</li>
+        </ul>
+
+        <h4 class="font-bold text-gray-300 mt-6 mb-2">Ideal Framework Structure:</h4>
+        <pre class="code-block">
+automation_framework/
+├── config/            # Environment specific configurations (YAML, JSON)
+├── core/              # Base classes (BasePage, BaseTest, WebDriver Factory)
+├── pages/             # Page Object Model (POM) classes
+├── tests/             # Actual test case files
+├── data/              # Test data files (CSV, Excel)
+├── utils/             # Helper functions (Logging, Screenshots, File I/O)
+└── reports/           # Generated output (Allure, Extent, Logs)
+        </pre>
+      </article>
+
+      <!-- TOPIC 4 -->
+      <article id="topic4" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">4. 🧪 Behavior Driven Development (BDD)</h3>
+        <p class="text-gray-300 mb-4">
+          **BDD** (using tools like Behave, Cucumber, or SpecFlow) shifts focus from technical implementation to business value. Tests are written in the **Gherkin** language (Given-When-Then), fostering collaboration across product, QA, and development teams.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-4 mt-6">
+          <div class="code-block md:col-span-2">
+            <span class="code-language">Gherkin Feature File (Human Readable)</span>
+<pre>
+Feature: User Authentication Security
+  As a sensitive user,
+  I want to be logged out automatically
+  So that my session does not remain active unattended.
+
+  Scenario: Session Timeout Log Out
+    Given I am logged in as "admin"
+    And I wait for 30 minutes
+    When I attempt to click the dashboard button
+    Then I should be redirected to the login page
+</pre>
+          </div>
+          <div class="code-block">
+            <span class="code-language">Behave (Python Step Definition)</span>
+<pre>
+from behave import given, when, then
+
+@given('I am logged in as "{user}"')
+def step_logged_in(context, user):
+    context.page.login(user)
+
+@when('I wait for {minutes} minutes')
+def step_wait(context, minutes):
+    # Use time.sleep(minutes * 60) for simulation
+    pass
+</pre>
+          </div>
+          <div class="code-block">
+            <span class="code-language">Cucumber (Java Step Definition)</span>
+<pre>
+import io.cucumber.java.en.Then;
+import org.junit.Assert;
+
+@Then("^I should be redirected to the login page$")
+public void redirected_to_login() {
+    String currentUrl = driver.getCurrentUrl();
+    Assert.assertTrue("Not on login page", currentUrl.endsWith("/login"));
+}
+</pre>
+          </div>
+        </div>
+      </article>
+
+      <!-- TOPIC 5 -->
+      <article id="topic5" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">5. 🧰 Continuous Integration (CI/CD) with Jenkins</h3>
+        <p class="text-gray-300 mb-4">
+          **CI/CD** pipelines automate the testing process, triggering the Selenium suite automatically upon every code change. **Jenkins** (or GitLab CI, Azure DevOps) ensures rapid feedback, which is critical for **DevOps** practices.
+        </p>
+        <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
+          <li>Configuring **headless execution** for CI environments.</li>
+          <li>Setting up post-build actions to publish reports (e.g., Allure).</li>
+        </ul>
+
+        <div class="code-block">
+            <span class="code-language">Example: Jenkins Pipeline Script (Groovy)</span>
+<pre>
+pipeline {
+    agent any
+    stages {
+        stage('Pull Code') {
+            steps {
+                git credentialsId: 'github-creds', url: 'https://github.com/org/project.git'
+            }
+        }
+        stage('Setup Environment') {
+            steps {
+                sh 'pip install -r requirements.txt'
+            }
+        }
+        stage('Run Tests on Grid') {
+            steps {
+                # Execute tests in parallel using pytest-xdist
+                sh 'pytest tests/ -n auto --alluredir=allure-results'
+            }
+        }
+        stage('Publish Reports') {
+            steps {
+                allure([
+                    'includeProperties': false,
+                    'jdk': '',
+                    'properties': [],
+                    'reportBuildChart': true,
+                    'reportGenerationChart': true,
+                    'results': [['path': 'allure-results']]
+                ])
+            }
+        }
+    }
+}
+</pre>
+        </div>
+      </article>
+
+      <!-- TOPIC 6 -->
+      <article id="topic6" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">6. 🧩 Parallel Test Execution</h3>
+        <p class="text-gray-300 mb-4">
+          Beyond a standard Grid, efficient parallel execution requires framework integration:
+          1.  **Process-Based:** Uses tools like `pytest-xdist` to fork processes (Python).
+          2.  **Thread-Based:** Uses TestNG (Java) or Pytest fixtures for setup/teardown in parallel threads.
+          **Crucial:** Tests must be **independent** (not sharing data or state) to run in parallel.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-4 mt-6">
+            <div class="code-block">
+                <span class="code-language">Python: Pytest-xdist Command</span>
+<pre>
+# -n auto: Detects the number of CPUs and runs tests in that many parallel processes.
+# --dist loadscope: Ensures tests within the same module/scope run together (good practice).
+pytest -n auto --dist loadscope
+</pre>
+            </div>
+            <div class="code-block">
+                <span class="code-language">Java: TestNG XML Configuration</span>
+<pre>
+&lt;suite name="MyTestSuite" parallel="tests" thread-count="4"&gt;
+  &lt;test name="Sanity-Chrome"&gt;
+    &lt;parameter name="browser" value="chrome"/&gt;
+    &lt;classes&gt;
+      &lt;class name="tests.LoginTest"/&gt;
+    &lt;/classes&gt;
+  &lt;/test&gt;
+  &lt;test name="Smoke-Firefox"&gt;
+    &lt;parameter name="browser" value="firefox"/&gt;
+    &lt;classes&gt;
+      &lt;class name="tests.DashboardTest"/&gt;
+    &lt;/classes&gt;
+  &lt;/test&gt;
+&lt;/suite&gt;
+</pre>
+            </div>
+        </div>
+      </article>
+
+      <!-- TOPIC 7 -->
+      <article id="topic7" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">7. 📊 Advanced Reporting & Logging</h3>
+        <p class="text-gray-300 mb-4">
+          A professional report tells a story beyond pass/fail. **Allure Reports** (or Extent Reports) provides clear visualizations, execution trends, and crucial debug information (screenshots, logs, environment variables) directly tied to test steps.
+        </p>
+        <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
+          <li>Implementing **detailed step logging** (using Allure `@step`).</li>
+          <li>Configuring log levels (`DEBUG`, `INFO`, `ERROR`) strategically.</li>
+        </ul>
+
+        <div class="code-block">
+            <span class="code-language">Python Example: Logging and Allure Annotations</span>
+<pre>
+import logging
+import allure
+
+logger = logging.getLogger(__name__)
+
+@allure.step("Entering login credentials")
+def login(username, password):
+    logger.info(f"Attempting login for user: {username}")
+    try:
+        # WebDriver actions...
+        pass
+    except Exception as e:
+        # Attach screenshot to Allure report on failure
+        allure.attach(driver.get_screenshot_as_png(),
+                      name="Failure Screenshot",
+                      attachment_type=allure.attachment_type.PNG)
+        logger.error(f"Login failed: {e}")
+</pre>
+        </div>
+      </article>
+
+      <!-- TOPIC 8 -->
+      <article id="topic8" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">8. 📦 Docker for Selenium</h3>
+        <p class="text-gray-300 mb-4">
+          **Docker** is key to solving the **"works on my machine"** problem. It packages the entire execution environment (OS, browser, Grid) into portable containers, guaranteeing consistency from local development to CI/CD.
+        </p>
+        <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
+          <li>Creating a reproducible test environment with a **Dockerfile**.</li>
+          <li>Orchestrating the Hub and Nodes easily with **Docker Compose**.</li>
+        </ul>
+
+        <div class="code-block">
+            <span class="code-language">Example: docker-compose.yml for Grid</span>
+<pre>
+version: "3.7"
+services:
+  selenium-hub:
+    image: selenium/hub:4.0.0
+    container_name: selenium-hub
+    ports:
+      - "4444:4444"
+
+  chrome-node:
+    image: selenium/node-chrome:4.0.0
+    # Links the node to the hub service name
+    depends_on:
+      - selenium-hub
+    environment:
+      # Use the container name for the host connection
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    # Optional: share the host machine's resources
+    volumes:
+      - /dev/shm:/dev/shm
+</pre>
+        </div>
+      </article>
+
+      <!-- TOPIC 9 -->
+      <article id="topic9" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">9. 🔒 Secure Test Data Management</h3>
+        <p class="text-gray-300 mb-4">
+          Hardcoding sensitive data (passwords, tokens, API keys) is a major security flaw. Best practice dictates using:
+          1.  **Environment Variables:** Read in runtime from the shell or CI tool.
+          2.  **Secret Managers:** Jenkins Credentials, HashiCorp Vault, AWS Secrets Manager.
+        </p>
+        <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
+          <li>Using **parameterization** to mask sensitive output in logs.</li>
+          <li>Implementing **data masking** for database/log entries.</li>
+        </ul>
+
+        <div class="code-block">
+            <span class="code-language">Python Example: Reading Secure Credentials</span>
+<pre>
+import os
+
+# Read the sensitive values securely from environment variables
+# These variables should be injected by the CI/CD pipeline
+USERNAME = os.getenv("APP_USERNAME")
+PASSWORD = os.getenv("APP_PASSWORD")
+
+if not USERNAME or not PASSWORD:
+    raise ValueError("Authentication credentials are not set in environment.")
+
+# In the test, use the variables
+# driver.find_element(By.ID, "username").send_keys(USERNAME)
+# driver.find_element(By.ID, "password").send_keys(PASSWORD)
+</pre>
+        </div>
+      </article>
+
+      <!-- TOPIC 10 -->
+      <article id="topic10" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">10. 🧠 Advanced Exception Handling and Recovery Scenarios</h3>
+        <p class="text-gray-300 mb-4">
+          Resilient automation requires more than simple `try...catch` blocks. Implement **Test Recovery** to handle transient errors (e.g., StaleElementReferenceException) by refreshing the element or the page, and then retrying the operation.
+        </p>
+        <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
+          <li>Using **Custom Utility Functions** to wrap flaky operations.</li>
+          <li>Implementing test retry mechanisms (e.g., `@flaky` decorators or TestNG retries).</li>
+        </ul>
+
+        <div class="code-block">
+            <span class="code-language">Python Example: Recovery from Stale Element</span>
+<pre>
+from selenium.common.exceptions import StaleElementReferenceException
+
+def click_stale_safe(driver, locator, max_retries=3):
+    for attempt in range(max_retries):
+        try:
+            element = driver.find_element(*locator)
+            element.click()
+            return # Success
+        except StaleElementReferenceException:
+            if attempt < max_retries - 1:
+                # Refresh element reference or wait briefly
+                print(f"Stale element encountered. Retrying (Attempt {attempt + 2})...")
+                continue # Retry loop
+            else:
+                raise # Re-raise if all retries fail
+
+# Usage: click_stale_safe(driver, (By.ID, "submit_button"))
+</pre>
+        </div>
+      </article>
+
+      <!-- TOPIC 11 -->
+      <article id="topic11" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">11. 🔍 Integration with APIs and Databases</h3>
+        <p class="text-gray-300 mb-4">
+          **End-to-End (E2E)** validation means verifying the entire stack. Use APIs to **pre-condition** the test state (create a user, populate a cart) and use database queries to **post-verify** data integrity after UI actions.
+        </p>
+        <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
+          <li>Using the `requests` library (Python) for API validation.</li>
+          <li>SQL connections (e.g., `sqlite3` or `psycopg2`) for data verification.</li>
+        </ul>
+
+        <div class="code-block">
+            <span class="code-language">Python Example: Pre-Conditioning via API</span>
+<pre>
+import requests
+
+BASE_API = "http://api.staging.com"
+
+# 1. API Pre-Condition: Create a test user before UI login
+def create_test_user(data):
+    response = requests.post(f"{BASE_API}/users", json=data)
+    response.raise_for_status() # Check for HTTP errors
+    return response.json()['userId']
+
+# 2. UI Test starts with known user data...
+# 3. DB Post-Verification (example conceptual)
+# assert check_db_record(user_id, expected_status) == True
+</pre>
+        </div>
+      </article>
+
+      <!-- TOPIC 12 -->
+      <article id="topic12" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">12. ⚡ Performance and Load Testing (Intro)</h3>
+        <p class="text-gray-300 mb-4">
+          While Selenium tests one user, understanding performance is vital. Dedicated tools like **Locust** (Python), **JMeter** (Java), or **Gatling** (Scala) are used to simulate thousands of concurrent users by hitting APIs/endpoints directly.
+        </p>
+        <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
+          <li>Key performance indicators (KPIs): Latency, Throughput, Error Rate.</li>
+          <li>Using Locust to write lightweight, code-based load scripts.</li>
+        </ul>
+
+        <div class="code-block">
+            <span class="code-language">Example: Locustfile.py (Python Load Test)</span>
+<pre>
+from locust import HttpUser, task, between
+
+class APIUser(HttpUser):
+    # Simulate user think time between tasks
+    wait_time = between(1, 5)
+
+    @task(5) # 5 times higher probability of running this task
+    def load_homepage(self):
+        self.client.get("/", name="T01-Homepage Load")
+
+    @task(1)
+    def submit_form(self):
+        self.client.post("/submit",
+                         json={"data": "test"},
+                         name="T02-Form Submission")
+</pre>
+        </div>
+      </article>
+
+      <!-- TOPIC 13 -->
+      <article id="topic13" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">13. 🤖 AI-Powered and Visual Testing (Modern Tools)</h3>
+        <p class="text-gray-300 mb-4">
+          Modern testing extends beyond functional correctness to **visual integrity**. Tools like **Applitools Eyes** and **Percy.io** use advanced algorithms to detect visual regressions (layout shifts, misplaced elements) that functional tests often miss. They also introduce **self-healing locators** to reduce maintenance.
+        </p>
+        <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
+          <li>Visual Regression Testing (VRT): Pixel-by-pixel comparison.</li>
+          <li>AI-Driven maintenance (Testim, Mabl) automatically updating dynamic locators.</li>
+        </ul>
+      </article>
+
+      <!-- TOPIC 14 -->
+      <article id="topic14" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">14. 🧩 Best Practices for Large Projects</h3>
+        <p class="text-gray-300 mb-4">
+          Scalability depends on rigorous framework discipline:
+        </p>
+        <ul class="list-disc list-inside text-base text-gray-300 mb-4 ml-4 space-y-2">
+          <li>**WebDriver Factory Pattern:** Centralize driver initialization and teardown to ensure proper resource management in parallel runs.</li>
+          <li>**Explicit Waits Only:** Completely avoid `time.sleep()` (Python) or `Thread.sleep()` (Java) to prevent flaky tests.</li>
+          <li>**Atomic Tests:** Each test case must be independent and test one single piece of functionality.</li>
+          <li>**Locator Strategy:** Prioritize unique IDs, names, or custom `data-testid` attributes over brittle XPaths.</li>
+          <li>**DRY Principle:** Follow **Don't Repeat Yourself** by using shared utility functions and Page Objects.</li>
+        </ul>
+      </article>
+
+      <!-- TOPIC 15 -->
+      <article id="topic15" class="content-card rounded-xl p-6 mt-8 mb-12 fade-in hover-glow">
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">15. 🎯 Advanced Interview Topics</h3>
+        <p class="text-gray-300 mb-4">
+          Key topics that Senior QA Automation Engineers must articulate clearly in interviews.
+        </p>
+
+        <div class="overflow-x-auto mt-6 border border-gray-700 rounded-lg">
+          <table class="min-w-full divide-y divide-gray-700">
+            <thead class="bg-[#2a2a2a]">
+              <tr>
+                <th class="px-6 py-3 text-left text-sm font-bold text-gray-400 uppercase tracking-wider">Category</th>
+                <th class="px-6 py-3 text-left text-sm font-bold text-gray-400 uppercase tracking-wider">Core Concept</th>
+                <th class="px-6 py-3 text-left text-sm font-bold text-gray-400 uppercase tracking-wider">Value Proposition</th>
+              </tr>
+            </thead>
+            <tbody class="bg-[#1a1a1a] divide-y divide-gray-700 text-sm text-gray-300">
+              <tr><td class="px-6 py-4 whitespace-nowrap font-medium text-blue-500">Scalability</td><td>Selenium Grid / Cloud Providers</td><td>Enables parallel testing and fast CI/CD execution.</td></tr>
+              <tr><td class="px-6 py-4 whitespace-nowrap font-medium text-blue-500">Architecture</td><td>Hybrid Framework Design</td><td>Achieves high maintainability, reusability, and stability.</td></tr>
+              <tr><td class="px-6 py-4 whitespace-nowrap font-medium text-blue-500">Infrastructure</td><td>Docker / CI/CD Pipeline</td><td>Guarantees a consistent, clean, and reproducible test environment.</td></tr>
+              <tr><td class="px-6 py-4 whitespace-nowrap font-medium text-blue-500">Validation Scope</td><td>API & DB Integration</td><td>Verifies data integrity and application logic beyond the UI layer.</td></tr>
+              <tr><td class="px-6 py-4 whitespace-nowrap font-medium text-blue-500">Quality</td><td>Advanced Exception Handling / VRT</td><td>Increases test resilience, reducing flakiness and false failures.</td></tr>
+              <tr><td class="px-6 py-4 whitespace-nowrap font-medium text-blue-500">Collaboration</td><td>BDD (Gherkin)</td><td>Aligns technical tests with business requirements and user stories.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </main>
+  </div>
+
+  <!-- JavaScript for Sidebar and Scroll-Spy -->
+<script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('sidebarToggle');
+    const mainContent = document.getElementById('main-content');
+    const sections = document.querySelectorAll('article[id]');
+    const navLinks = document.querySelectorAll('#sidebar a');
+
+    // 1. Sidebar Visibility on Load (Desktop vs Mobile)
+    function checkSidebarVisibility() {
+        if (window.innerWidth >= 1024) {
+            sidebar.classList.remove('hidden');
+            sidebar.classList.add('visible');
+            document.body.style.overflow = 'auto';
+        } else {
+            if (!sidebar.classList.contains('visible')) {
+                sidebar.classList.remove('visible');
+                sidebar.classList.add('hidden');
+            }
+        }
+    }
+    window.addEventListener('load', checkSidebarVisibility);
+    window.addEventListener('resize', checkSidebarVisibility);
+
+
+    // 2. Sidebar Toggle Logic
+    toggleBtn.addEventListener('click', () => {
+      if (sidebar.classList.contains('visible')) {
+        sidebar.classList.remove('visible');
+        sidebar.classList.add('hidden');
+        document.body.style.overflow = 'auto'; // Unlock body scroll
+      } else {
+        sidebar.classList.remove('hidden');
+        sidebar.classList.add('visible');
+        document.body.style.overflow = 'hidden'; // Lock body scroll when sidebar is open
+      }
+    });
+
+    // 3. Close sidebar if a link is clicked on mobile
+    document.querySelectorAll('#sidebar a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth < 1024) {
+                sidebar.classList.remove('visible');
+                sidebar.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    });
+
+    // 4. Scroll Spy Logic (Highlight Active Link)
+    function updateActiveLink() {
+      let current = '';
+      const offset = 150; // Increased offset due to header and padding
+
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - offset;
+        if (mainContent.scrollTop >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    mainContent.addEventListener('scroll', updateActiveLink);
+    window.addEventListener('load', updateActiveLink);
+
+
+    // 5. Smooth Scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+          // Adjust for the sticky toggle button/padding
+          const offsetTop = targetElement.offsetTop;
+          mainContent.scrollTo({
+            top: offsetTop - 100,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+
+    // 6. Fade-in Animation on Scroll (Intersection Observer)
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = {
+      threshold: 0.1,
+      root: mainContent,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('appear');
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+
+    faders.forEach(fader => {
+      if (!fader.classList.contains('appear')) {
+        appearOnScroll.observe(fader);
+      }
+    });
+  </script>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,777 @@
+{% extends "base.html" %}
+{% block title %}Python for Beginners{% endblock %}
+{% block extra_head %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python for Beginners</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans">
+
+<!-- ======================
+    NAVIGATION SIDEBAR
+====================== -->
+<div class="flex">
+    <nav class="w-64 bg-gray-800 p-6 h-screen sticky top-0">
+        <h1 class="text-2xl font-bold text-blue-400 mb-6">Python Basics</h1>
+        <ul class="space-y-3 text-gray-300">
+            <li><a href="#introduction" class="hover:text-blue-400">Introduction to Python</a></li>
+            <li><a href="#setup" class="hover:text-blue-400">Setting Up Environment</a></li>
+            <li><a href="#syntax" class="hover:text-blue-400">Python Syntax</a></li>
+            <li><a href="#variables" class="hover:text-blue-400">Variables</a></li>
+            <li><a href="#datatypes" class="hover:text-blue-400">Data Types</a></li>
+            <li><a href="#typecasting" class="hover:text-blue-400">Type Casting</a></li>
+            <li><a href="#operators" class="hover:text-blue-400">Operators</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+{% block content %}
+    <main class="flex-1 p-10 overflow-y-auto">
+
+        <!-- ======================
+             INTRODUCTION TO PYTHON
+        ====================== -->
+        <section id="introduction" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Introduction to Python</h2>
+            <p class="text-gray-300 mb-4">
+                Python is a high-level, interpreted programming language known for its simplicity and readability.
+                It’s widely used in web development, data science, automation, artificial intelligence, and more.
+            </p>
+            <ul class="list-disc pl-6 text-gray-300 mb-4">
+                <li>Easy to learn and write.</li>
+                <li>Interpreted — no need to compile.</li>
+                <li>Supports multiple paradigms (OOP, functional, procedural).</li>
+                <li>Has a large standard library and third-party ecosystem.</li>
+            </ul>
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# First Python Program
+print("Hello, World!")
+            </code></pre>
+        </section>
+
+        <!-- ======================
+             SETTING UP ENVIRONMENT
+        ====================== -->
+        <section id="setup" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Setting Up Python Environment</h2>
+            <p class="text-gray-300 mb-4">
+                You can install Python from the official website <a href="https://www.python.org/downloads/" class="text-blue-400 underline" target="_blank">python.org</a>.
+                After installation, verify it using your terminal or command prompt:
+            </p>
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Check Python Version
+python --version
+
+# Open Python Interactive Shell
+python
+            </code></pre>
+            <p class="text-gray-300">
+                You can also use an IDE like <b>PyCharm</b>, <b>VS Code</b>, or <b>Jupyter Notebook</b> for development.
+            </p>
+        </section>
+
+        <!-- ======================
+             PYTHON SYNTAX
+        ====================== -->
+        <section id="syntax" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Python Syntax</h2>
+            <p class="text-gray-300 mb-4">
+                Python uses indentation (spaces or tabs) to define code blocks instead of braces <code>{}</code>.
+                The indentation level is critical — incorrect spacing causes errors.
+            </p>
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Example of correct indentation
+if 5 > 2:
+    print("Five is greater than two!")
+
+# Incorrect indentation will raise an error
+# if 5 > 2:
+# print("Error!")  # ❌ Missing indentation
+            </code></pre>
+            <p class="text-gray-400">
+                ✅ Always use 4 spaces for indentation (recommended).<br>
+                ✅ Python statements end with a newline — no semicolons needed (optional though).
+            </p>
+        </section>
+
+        <!-- ======================
+             VARIABLES
+        ====================== -->
+        <section id="variables" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Variables in Python</h2>
+            <p class="text-gray-300 mb-4">
+                Variables store data in memory. You don’t need to declare their type — Python infers it automatically.
+            </p>
+
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Variable Examples
+name = "John"
+age = 25
+is_student = True
+
+print("Name:", name)
+print("Age:", age)
+print("Student:", is_student)
+            </code></pre>
+
+            <p class="text-gray-400">
+                ✅ Variable names must start with a letter or underscore.<br>
+                ✅ Cannot start with a number.<br>
+                ✅ Are case-sensitive (<code>Age</code> ≠ <code>age</code>).
+            </p>
+        </section>
+
+        <!-- ======================
+             DATA TYPES
+        ====================== -->
+        <section id="datatypes" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Python Data Types</h2>
+            <p class="text-gray-300 mb-4">
+                Python supports several built-in data types:
+            </p>
+
+            <ul class="list-disc pl-6 text-gray-300 mb-4">
+                <li><b>int</b> — integers (whole numbers)</li>
+                <li><b>float</b> — decimal numbers</li>
+                <li><b>str</b> — string of text</li>
+                <li><b>bool</b> — True or False</li>
+                <li><b>list</b> — ordered, changeable collection</li>
+                <li><b>tuple</b> — ordered, unchangeable collection</li>
+                <li><b>dict</b> — key-value pairs</li>
+            </ul>
+
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Example of data types
+x = 10           # int
+y = 3.14         # float
+name = "Alice"   # str
+is_active = True # bool
+
+print(type(x))
+print(type(y))
+print(type(name))
+print(type(is_active))
+            </code></pre>
+        </section>
+
+        <!-- ======================
+             TYPE CASTING
+        ====================== -->
+        <section id="typecasting" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Type Casting</h2>
+            <p class="text-gray-300 mb-4">
+                Type casting means converting one data type into another using built-in functions.
+            </p>
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Converting between data types
+x = 10        # int
+y = float(x)  # int → float
+z = str(x)    # int → string
+
+print(x, type(x))
+print(y, type(y))
+print(z, type(z))
+            </code></pre>
+        </section>
+
+        <!-- ======================
+             OPERATORS
+        ====================== -->
+        <section id="operators" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Operators in Python</h2>
+            <p class="text-gray-300 mb-4">
+                Operators are symbols used to perform operations on variables and values.
+            </p>
+
+            <h3 class="text-xl text-blue-300 mb-2">1️⃣ Arithmetic Operators</h3>
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+a = 10
+b = 3
+
+print("Addition:", a + b)
+print("Subtraction:", a - b)
+print("Multiplication:", a * b)
+print("Division:", a / b)
+print("Floor Division:", a // b)
+print("Modulus:", a % b)
+print("Exponent:", a ** b)
+            </code></pre>
+
+            <h3 class="text-xl text-blue-300 mb-2">2️⃣ Comparison Operators</h3>
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+a = 5
+b = 10
+
+print(a == b)
+print(a != b)
+print(a > b)
+print(a < b)
+print(a >= b)
+print(a <= b)
+            </code></pre>
+
+            <h3 class="text-xl text-blue-300 mb-2">3️⃣ Logical Operators</h3>
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+x = True
+y = False
+
+print(x and y)  # AND
+print(x or y)   # OR
+print(not x)    # NOT
+            </code></pre>
+
+            <h3 class="text-xl text-blue-300 mb-2">4️⃣ Assignment Operators</h3>
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+x = 10
+x += 5   # x = x + 5
+x *= 2   # x = x * 2
+print(x)
+            </code></pre>
+        </section>
+
+
+                <!-- ======================
+             CONTROL FLOW (if, elif, else)
+        ====================== -->
+        <section id="control-flow" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Control Flow (if, elif, else)</h2>
+            <p class="text-gray-300 mb-4">
+                Control flow allows your program to make decisions. Python’s <code>if</code>,
+                <code>elif</code>, and <code>else</code> statements decide which code block should execute.
+            </p>
+
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Example: Grade Evaluation
+marks = 85
+
+if marks >= 90:
+    print("Grade: A")
+elif marks >= 75:
+    print("Grade: B")
+elif marks >= 60:
+    print("Grade: C")
+else:
+    print("Grade: D")
+            </code></pre>
+
+            <p class="text-gray-400">
+                ✅ The <code>if</code> statement checks the first condition.<br>
+                ✅ <code>elif</code> checks additional conditions if the previous ones are false.<br>
+                ✅ <code>else</code> executes only when none of the above are true.
+            </p>
+        </section>
+
+        <!-- ======================
+             LOOPS (for, while)
+        ====================== -->
+        <section id="loops" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Loops in Python</h2>
+            <p class="text-gray-300 mb-4">
+                Loops are used to repeat a block of code multiple times. Python supports <b>for</b> and <b>while</b> loops.
+            </p>
+
+            <h3 class="text-xl text-blue-300 mb-2">1️⃣ For Loop</h3>
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Example: Using for loop
+for i in range(1, 6):
+    print("Number:", i)
+            </code></pre>
+
+            <h3 class="text-xl text-blue-300 mb-2">2️⃣ While Loop</h3>
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Example: Using while loop
+count = 0
+while count < 5:
+    print("Count is:", count)
+    count += 1
+            </code></pre>
+
+            <p class="text-gray-400">
+                ✅ Use <code>break</code> to exit a loop early.<br>
+                ✅ Use <code>continue</code> to skip the current iteration and move to the next one.
+            </p>
+        </section>
+
+        <!-- ======================
+             FUNCTIONS
+        ====================== -->
+        <section id="functions" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Functions in Python</h2>
+            <p class="text-gray-300 mb-4">
+                Functions group reusable code blocks. Define them using the <code>def</code> keyword.
+            </p>
+
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Function with parameters
+def greet(name):
+    print("Hello,", name)
+
+greet("Sreenivas")
+greet("Ravi")
+            </code></pre>
+
+            <h3 class="text-xl text-blue-300 mb-2">Function with Return Value</h3>
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Function returning a value
+def add(a, b):
+    return a + b
+
+result = add(10, 20)
+print("Sum is:", result)
+            </code></pre>
+
+            <p class="text-gray-400">
+                ✅ Use <code>return</code> to send a value back to the caller.<br>
+                ✅ Functions make code modular and easier to debug.
+            </p>
+        </section>
+
+        <!-- ======================
+             LISTS
+        ====================== -->
+        <section id="lists" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Lists in Python</h2>
+            <p class="text-gray-300 mb-4">
+                Lists store multiple items in a single variable. Lists are mutable (can be changed).
+            </p>
+
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Example: Working with lists
+fruits = ["apple", "banana", "cherry"]
+print(fruits[0])          # Access first element
+fruits.append("orange")   # Add element
+fruits.remove("banana")   # Remove element
+
+for fruit in fruits:
+    print(fruit)
+            </code></pre>
+
+            <p class="text-gray-400">
+                ✅ Lists use square brackets <code>[]</code>.<br>
+                ✅ Common methods: <code>append()</code>, <code>insert()</code>, <code>remove()</code>, <code>sort()</code>, <code>reverse()</code>.
+            </p>
+        </section>
+
+        <!-- ======================
+             TUPLES
+        ====================== -->
+        <section id="tuples" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Tuples in Python</h2>
+            <p class="text-gray-300 mb-4">
+                Tuples are ordered, immutable collections. Once defined, their values cannot be modified.
+            </p>
+
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Example: Tuple operations
+coordinates = (10, 20, 30)
+
+print(coordinates[0])
+print(len(coordinates))
+# coordinates[1] = 40  ❌ This will cause an error (tuples are immutable)
+            </code></pre>
+
+            <p class="text-gray-400">
+                ✅ Tuples use parentheses <code>()</code>.<br>
+                ✅ Tuples are faster than lists and great for fixed data.
+            </p>
+        </section>
+
+        <!-- ======================
+             DICTIONARIES
+        ====================== -->
+        <section id="dictionaries" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Dictionaries in Python</h2>
+            <p class="text-gray-300 mb-4">
+                Dictionaries store data as key-value pairs. Each key must be unique.
+            </p>
+
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Example: Dictionary operations
+student = {
+    "name": "John",
+    "age": 21,
+    "course": "Python"
+}
+
+print(student["name"])
+student["age"] = 22
+student["city"] = "Hyderabad"
+
+for key, value in student.items():
+    print(key, ":", value)
+            </code></pre>
+
+            <p class="text-gray-400">
+                ✅ Use <code>{}</code> to define dictionaries.<br>
+                ✅ Access values with <code>dict["key"]</code>.<br>
+                ✅ Useful methods: <code>keys()</code>, <code>values()</code>, <code>items()</code>.
+            </p>
+        </section>
+
+        <!-- ======================
+             STRINGS
+        ====================== -->
+        <section id="strings" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Strings in Python</h2>
+            <p class="text-gray-300 mb-4">
+                Strings represent text enclosed in single or double quotes. They are immutable.
+            </p>
+
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Example: String operations
+text = "Python Programming"
+
+print(text.lower())
+print(text.upper())
+print(text.replace("Python", "Java"))
+print("Length:", len(text))
+print("First 6 chars:", text[:6])
+            </code></pre>
+
+            <p class="text-gray-400">
+                ✅ Strings are iterable (you can loop through them).<br>
+                ✅ Use slicing (<code>text[start:end]</code>) to extract parts.<br>
+                ✅ Common methods: <code>lower()</code>, <code>upper()</code>, <code>replace()</code>, <code>split()</code>, <code>strip()</code>.
+            </p>
+        </section>
+
+        <!-- ======================
+             SETS
+        ====================== -->
+        <section id="sets" class="mb-12">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4">Sets in Python</h2>
+            <p class="text-gray-300 mb-4">
+                Sets are unordered collections of unique items. They are useful for removing duplicates.
+            </p>
+
+            <pre class="bg-gray-800 text-gray-200 p-4 rounded-lg overflow-x-auto"><code>
+# Example: Working with sets
+numbers = {1, 2, 3, 4, 4, 5}
+print(numbers)  # Duplicate 4 is automatically removed
+
+numbers.add(6)
+numbers.remove(3)
+print("Updated set:", numbers)
+
+setA = {1, 2, 3}
+setB = {3, 4, 5}
+print("Union:", setA | setB)
+print("Intersection:", setA & setB)
+print("Difference:", setA - setB)
+            </code></pre>
+
+            <p class="text-gray-400">
+                ✅ Sets use curly braces <code>{}</code>.<br>
+                ✅ Unordered — items have no index.<br>
+                ✅ Support mathematical operations like union, intersection, and difference.
+            </p>
+        </section>
+
+
+        <!-- ============================= -->
+<!--          Loops in Python      -->
+<!-- ============================= -->
+<section id="loops" class="mt-12">
+    <h2 class="text-3xl font-bold mb-4 text-blue-400">Loops in Python</h2>
+    <p class="mb-4">
+        Loops are used to execute a block of code repeatedly until a specific condition is met.
+        Python mainly supports two types of loops: <strong>for</strong> loop and <strong>while</strong> loop.
+    </p>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">For Loop</h3>
+    <p class="mb-3">The <code>for</code> loop is used to iterate over a sequence (like a list, tuple, dictionary, or string).</p>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Using for loop
+for i in range(5):
+    print("Iteration:", i)
+    </code></pre>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">While Loop</h3>
+    <p class="mb-3">The <code>while</code> loop continues running as long as the condition remains <code>True</code>.</p>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Using while loop
+count = 0
+while count < 5:
+    print("Count is:", count)
+    count += 1
+    </code></pre>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">Break and Continue</h3>
+    <p class="mb-3">
+        <strong>break</strong> stops the loop immediately, while <strong>continue</strong> skips the current iteration and moves to the next.
+    </p>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example of break and continue
+for i in range(10):
+    if i == 5:
+        break  # stop the loop when i = 5
+    if i % 2 == 0:
+        continue  # skip even numbers
+    print("Odd number:", i)
+    </code></pre>
+</section>
+
+<!-- ============================= -->
+<!--         Functions in Python   -->
+<!-- ============================= -->
+<section id="functions" class="mt-12">
+    <h2 class="text-3xl font-bold mb-4 text-blue-400">Functions in Python</h2>
+    <p class="mb-4">
+        Functions are reusable blocks of code designed to perform a specific task. You define them with the
+        <code>def</code> keyword, and they can take arguments and return values.
+    </p>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">Defining and Calling a Function</h3>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Basic function
+def greet():
+    print("Hello, welcome to Python learning!")
+
+greet()
+    </code></pre>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">Function with Parameters</h3>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Function with parameters
+def add_numbers(a, b):
+    return a + b
+
+result = add_numbers(10, 5)
+print("Sum is:", result)
+    </code></pre>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">Default and Keyword Arguments</h3>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Default argument
+def greet_user(name="Guest"):
+    print("Hello,", name)
+
+greet_user()       # uses default
+greet_user("Alice")  # custom name
+
+# Example: Keyword arguments
+def user_info(name, age):
+    print(f"Name: {name}, Age: {age}")
+
+user_info(age=25, name="John")
+    </code></pre>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">Return Values</h3>
+    <p class="mb-3">
+        A function can return data to the caller using the <code>return</code> statement.
+    </p>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Returning values
+def multiply(a, b):
+    return a * b
+
+product = multiply(4, 6)
+print("Product:", product)
+    </code></pre>
+</section>
+
+<!-- ============================= -->
+<!--      Data Structures Basics   -->
+<!-- ============================= -->
+<section id="data-structures" class="mt-12">
+    <h2 class="text-3xl font-bold mb-4 text-blue-400">Python Data Structures</h2>
+    <p class="mb-4">
+        Data structures are used to store and organize data efficiently.
+        The main built-in data structures in Python are <strong>Lists, Tuples, Sets</strong>, and <strong>Dictionaries</strong>.
+    </p>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">Lists</h3>
+    <p class="mb-3">Lists are ordered, mutable collections. They can store different data types.</p>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Working with lists
+fruits = ["apple", "banana", "cherry"]
+fruits.append("orange")
+print(fruits)
+print("First fruit:", fruits[0])
+    </code></pre>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">Tuples</h3>
+    <p class="mb-3">Tuples are ordered and immutable — once created, their values cannot change.</p>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Tuple
+coordinates = (10, 20)
+print("X:", coordinates[0])
+print("Y:", coordinates[1])
+    </code></pre>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">Sets</h3>
+    <p class="mb-3">Sets are unordered collections of unique items.</p>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Set
+colors = {"red", "blue", "green", "red"}
+print(colors)  # 'red' appears only once
+colors.add("yellow")
+print(colors)
+    </code></pre>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">Dictionaries</h3>
+    <p class="mb-3">
+        Dictionaries store data in key-value pairs. They are mutable and unordered (in Python &lt; 3.7).
+    </p>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Dictionary
+person = {"name": "Alice", "age": 25, "city": "New York"}
+print("Name:", person["name"])
+person["age"] = 26
+print(person)
+    </code></pre>
+</section>
+        <!-- ============================= -->
+<!--         Strings in Python     -->
+<!-- ============================= -->
+<section id="strings" class="mt-12">
+    <h2 class="text-3xl font-bold mb-4 text-blue-400">Strings in Python</h2>
+    <p class="mb-4">
+        Strings are sequences of characters enclosed in quotes.
+        Python allows both single (<code>' '</code>) and double (<code>" "</code>) quotes to define strings.
+    </p>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">String Creation and Access</h3>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Creating strings
+name = "Python Programming"
+print(name)
+
+# Accessing characters
+print("First character:", name[0])
+print("Last character:", name[-1])
+    </code></pre>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">String Slicing</h3>
+    <p class="mb-3">
+        Slicing lets you extract parts of a string using the format <code>string[start:end]</code>.
+    </p>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: String slicing
+text = "Learning Python"
+print(text[0:8])   # 'Learning'
+print(text[9:])    # 'Python'
+    </code></pre>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">String Methods</h3>
+    <p class="mb-3">Python provides many built-in methods to work with strings.</p>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: String methods
+message = " hello world "
+print(message.upper())      # HELLO WORLD
+print(message.lower())      # hello world
+print(message.strip())      # removes extra spaces
+print(message.replace("world", "Python"))  # hello Python
+print("Does message start with 'h'? ->", message.startswith("h"))
+    </code></pre>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">String Formatting</h3>
+    <p class="mb-3">
+        String formatting helps to create dynamic messages. Python supports
+        <strong>f-strings</strong>, <code>format()</code>, and concatenation.
+    </p>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+name = "Alice"
+age = 25
+
+# Using f-string
+print(f"My name is {name} and I am {age} years old.")
+
+# Using format()
+print("My name is {} and I am {} years old.".format(name, age))
+    </code></pre>
+</section>
+
+<!-- ============================= -->
+<!--      Input and Output         -->
+<!-- ============================= -->
+<section id="input-output" class="mt-12">
+    <h2 class="text-3xl font-bold mb-4 text-blue-400">User Input and Output</h2>
+    <p class="mb-4">
+        Python uses the <code>input()</code> function to take user input and <code>print()</code> to display output.
+        The input is always taken as a string unless explicitly converted.
+    </p>
+
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Taking user input
+name = input("Enter your name: ")
+print("Welcome,", name)
+
+# Taking numeric input
+num1 = int(input("Enter first number: "))
+num2 = int(input("Enter second number: "))
+print("Sum:", num1 + num2)
+    </code></pre>
+
+    <p class="mb-3">
+        You can also customize the output with multiple values or separators.
+    </p>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Customized print
+print("Python", "is", "fun", sep=" - ", end="!\n")
+    </code></pre>
+</section>
+
+<!-- ============================= -->
+<!--     Exception Handling        -->
+<!-- ============================= -->
+<section id="exceptions" class="mt-12">
+    <h2 class="text-3xl font-bold mb-4 text-blue-400">Basic Exception Handling</h2>
+    <p class="mb-4">
+        Errors can occur at runtime, and Python provides <strong>try-except</strong> blocks to handle them gracefully,
+        preventing the program from crashing.
+    </p>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">Try-Except Block</h3>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Basic exception handling
+try:
+    number = int(input("Enter a number: "))
+    print("You entered:", number)
+except ValueError:
+    print("That's not a valid number!")
+    </code></pre>
+
+    <h3 class="text-2xl font-semibold text-green-400 mb-2">Try-Except-Else-Finally</h3>
+    <p class="mb-3">
+        You can add optional <strong>else</strong> (runs if no error occurs)
+        and <strong>finally</strong> (always runs) blocks.
+    </p>
+    <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Full exception handling
+try:
+    num = int(input("Enter a number: "))
+except ValueError:
+    print("Invalid input! Please enter a number.")
+else:
+    print("Valid input! Number is:", num)
+finally:
+    print("Execution completed.")
+    </code></pre>
+</section>
+
+<!-- ============================= -->
+<!--       Conclusion Section      -->
+<!-- ============================= -->
+<section id="conclusion" class="mt-12 mb-20">
+    <h2 class="text-3xl font-bold mb-4 text-blue-400">🎉 Congratulations!</h2>
+    <p class="mb-4">
+        You've successfully learned all the <strong>Python Beginner</strong> concepts — including variables,
+        data types, operators, conditionals, loops, functions, strings, and exception handling.
+    </p>
+    <p class="mb-4">
+        You are now ready to move on to the <strong>Intermediate Level</strong>,
+        where you'll explore file handling, modules, OOP, and more!
+    </p>
+</section>
+        <!-- NEXT CONTINUATION: Will include Constructors, Inheritance, Polymorphism, Encapsulation, and Abstraction -->
+    </main>
+
+    <footer class="bg-gray-800 text-center py-4 mt-10 text-gray-400 text-sm">
+        © 2025 QA Smart Hub | Java Learning Series
+    </footer>
+</body>
+{% endblock %}
+
+

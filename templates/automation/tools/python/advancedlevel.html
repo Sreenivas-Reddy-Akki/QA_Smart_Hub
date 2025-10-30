@@ -1,0 +1,679 @@
+{% extends "base.html" %}
+{% block title %}Python Advanced Concepts{% endblock %}
+
+{% block extra_head %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Advanced Concepts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex">
+
+    <!-- Sidebar Navigation -->
+    <nav class="w-64 bg-gray-800 border-r border-gray-700 p-6 sticky top-0 h-screen">
+        <h1 class="text-2xl font-bold text-green-400 mb-8">Python Advanced</h1>
+        <ul class="space-y-4 text-gray-300">
+            <li><a href="#advanced-oop" class="hover:text-green-400">Advanced OOP</a></li>
+            <li><a href="#advanced-ds" class="hover:text-green-400">Advanced Data Structures</a></li>
+            <li><a href="#multithreading" class="hover:text-green-400">Multithreading</a></li>
+            <li><a href="#multiprocessing" class="hover:text-green-400">Multiprocessing</a></li>
+            <li><a href="#asyncio" class="hover:text-green-400">AsyncIO</a></li>
+            <li><a href="#context-managers" class="hover:text-green-400">Context Managers</a></li>
+            <li><a href="#memory" class="hover:text-green-400">Memory Management</a></li>
+            <li><a href="#api" class="hover:text-green-400">Working with APIs</a></li>
+            <li><a href="#testing" class="hover:text-green-400">Unit Testing</a></li>
+            <li><a href="#performance" class="hover:text-green-400">Performance & Best Practices</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+{% block content %}
+    <!-- Main Content -->
+    <main class="flex-1 p-10 space-y-20 overflow-y-auto">
+
+        <!-- ======================================== -->
+        <!-- ADVANCED OOP -->
+        <!-- ======================================== -->
+
+        <section id="advanced-oop" class="mb-16">
+            <h2 class="text-4xl font-bold text-green-400 mb-6 border-b border-gray-700 pb-3">Advanced Object-Oriented Programming</h2>
+            <p class="text-gray-300 mb-6 leading-relaxed">
+                Advanced OOP concepts enhance code modularity and reusability.
+                Python supports <strong>abstract classes</strong>, <strong>multiple inheritance</strong>, and <strong>method overriding</strong>.
+            </p>
+
+            <!-- Abstract Classes -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+                <h3 class="text-2xl text-yellow-300 mb-4">Abstract Classes</h3>
+                <p class="text-gray-300 mb-4">
+                    Abstract classes serve as blueprints for other classes.
+                    They contain one or more abstract methods, which must be implemented by derived classes.
+                </p>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+    def area(self):
+        return 3.14 * self.radius ** 2
+
+circle = Circle(5)
+print("Area:", circle.area())
+</pre>
+            </div>
+
+            <!-- Multiple Inheritance -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+                <h3 class="text-2xl text-yellow-300 mb-4">Multiple Inheritance</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+class Flyer:
+    def fly(self):
+        print("I can fly!")
+
+class Swimmer:
+    def swim(self):
+        print("I can swim!")
+
+class Duck(Flyer, Swimmer):
+    def sound(self):
+        print("Quack Quack!")
+
+duck = Duck()
+duck.fly()
+duck.swim()
+duck.sound()
+</pre>
+                <p class="text-gray-300 mt-4">
+                    Python supports multiple inheritance; the <code>super()</code> function follows Method Resolution Order (MRO) to decide which parent class method to call first.
+                </p>
+            </div>
+        </section>
+
+        <!-- ======================================== -->
+        <!-- ADVANCED DATA STRUCTURES -->
+        <!-- ======================================== -->
+
+        <section id="advanced-ds" class="mb-16">
+            <h2 class="text-4xl font-bold text-green-400 mb-6 border-b border-gray-700 pb-3">
+                Advanced Data Structures (collections module)
+            </h2>
+            <p class="text-gray-300 mb-6 leading-relaxed">
+                Python's <code>collections</code> module includes high-performance data structures like
+                <strong>deque</strong>, <strong>Counter</strong>, <strong>defaultdict</strong>, and <strong>namedtuple</strong>.
+            </p>
+
+            <!-- deque -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+                <h3 class="text-2xl text-yellow-300 mb-4">deque (Double-Ended Queue)</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+from collections import deque
+
+dq = deque([1, 2, 3])
+dq.appendleft(0)
+dq.append(4)
+print("Deque:", dq)
+dq.pop()
+dq.popleft()
+print("After pops:", dq)
+</pre>
+            </div>
+
+            <!-- Counter -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+                <h3 class="text-2xl text-yellow-300 mb-4">Counter</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+from collections import Counter
+
+fruits = ["apple", "banana", "apple", "orange", "banana", "apple"]
+count = Counter(fruits)
+print(count)
+print(count.most_common(1))
+</pre>
+            </div>
+
+            <!-- defaultdict -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+                <h3 class="text-2xl text-yellow-300 mb-4">defaultdict</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+from collections import defaultdict
+
+grades = defaultdict(list)
+grades["John"].append(90)
+grades["Alice"].append(85)
+grades["Bob"].append(78)
+print(grades)
+</pre>
+            </div>
+
+            <!-- namedtuple -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+                <h3 class="text-2xl text-yellow-300 mb-4">namedtuple</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+from collections import namedtuple
+
+Point = namedtuple("Point", "x y")
+p1 = Point(10, 20)
+print(p1.x, p1.y)
+</pre>
+            </div>
+        </section>
+
+
+        <!-- ===============================
+     PART 2: ADVANCED PYTHON TOPICS
+     =============================== -->
+
+<section id="multithreading" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Multithreading in Python</h2>
+  <p class="text-gray-300 mb-4">
+    Multithreading allows you to run multiple threads (smaller units of a process) simultaneously. It helps improve performance
+    in I/O-bound programs (like file or network operations).
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+import threading
+import time
+
+def print_numbers():
+    for i in range(5):
+        print(f"Number: {i}")
+        time.sleep(1)
+
+def print_letters():
+    for letter in 'ABCDE':
+        print(f"Letter: {letter}")
+        time.sleep(1)
+
+# Create threads
+t1 = threading.Thread(target=print_numbers)
+t2 = threading.Thread(target=print_letters)
+
+# Start threads
+t1.start()
+t2.start()
+
+# Wait for both threads to complete
+t1.join()
+t2.join()
+
+print("Both threads have finished execution.")
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ Threads share the same memory space, so you must handle race conditions carefully using locks or synchronization methods.
+  </p>
+</section>
+
+<section id="generators" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Generators and Iterators</h2>
+  <p class="text-gray-300 mb-4">
+    Generators are a simpler way to create iterators using the <code>yield</code> keyword. They allow you to generate values on the fly
+    instead of storing them all in memory.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+# A simple generator function
+def count_up_to(n):
+    count = 1
+    while count <= n:
+        yield count
+        count += 1
+
+# Using the generator
+for num in count_up_to(5):
+    print(num)
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ Generators are memory-efficient and ideal for reading large datasets or streams of data.
+  </p>
+</section>
+
+<section id="decorators" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Decorators in Python</h2>
+  <p class="text-gray-300 mb-4">
+    A decorator is a function that takes another function and extends its behavior without explicitly modifying it.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+def decorator_function(original_function):
+    def wrapper_function():
+        print("Before the function runs.")
+        original_function()
+        print("After the function runs.")
+    return wrapper_function
+
+@decorator_function
+def say_hello():
+    print("Hello, World!")
+
+say_hello()
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ The <code>@decorator_function</code> syntax is shorthand for <code>say_hello = decorator_function(say_hello)</code>.
+  </p>
+</section>
+
+<section id="context-managers" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Context Managers</h2>
+  <p class="text-gray-300 mb-4">
+    Context managers handle resource setup and cleanup automatically using the <code>with</code> statement (e.g., for files or network connections).
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+# Using a context manager with files
+with open("sample.txt", "w") as file:
+    file.write("This text is written using a context manager.")
+
+print("File has been written safely.")
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ The <code>with</code> block ensures the file is closed even if an error occurs.
+  </p>
+</section>
+
+<section id="regex" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Regular Expressions (Regex)</h2>
+  <p class="text-gray-300 mb-4">
+    Regular expressions are used for matching and manipulating text patterns efficiently using the <code>re</code> module.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+import re
+
+pattern = r"\b[A-Za-z]+\b"
+text = "Python is powerful and easy to learn."
+
+# Find all words
+matches = re.findall(pattern, text)
+print(matches)
+
+# Search for a word
+match = re.search(r"powerful", text)
+if match:
+    print("Word found at position:", match.start())
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ Use regex for validating inputs, parsing strings, or extracting patterns.
+  </p>
+</section>
+
+<!-- Continue to next part: Modules, Packages, Exception Handling, Logging, etc. -->
+<!-- ===============================
+     PART 3: ADVANCED PYTHON (continued)
+     =============================== -->
+
+<section id="modules" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Python Modules</h2>
+  <p class="text-gray-300 mb-4">
+    A <strong>module</strong> is a file containing Python code (functions, variables, or classes). Modules help organize code into reusable components.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+# --- math_operations.py ---
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+
+# --- main.py ---
+import math_operations
+
+result = math_operations.add(10, 5)
+print("Addition:", result)
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ You can import specific items using <code>from math_operations import add</code>.
+  </p>
+</section>
+
+<section id="packages" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Python Packages</h2>
+  <p class="text-gray-300 mb-4">
+    A <strong>package</strong> is a collection of modules in a directory with an <code>__init__.py</code> file. It helps structure large applications.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+# Folder structure:
+# mypackage/
+# ├── __init__.py
+# ├── module1.py
+# └── module2.py
+
+# --- module1.py ---
+def greet(name):
+    return f"Hello, {name}!"
+
+# --- main.py ---
+from mypackage import module1
+
+print(module1.greet("Alice"))
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ The <code>__init__.py</code> file marks the folder as a Python package.
+  </p>
+</section>
+
+<section id="exception-handling" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Exception Handling</h2>
+  <p class="text-gray-300 mb-4">
+    Python uses <code>try</code>, <code>except</code>, <code>else</code>, and <code>finally</code> blocks to handle errors gracefully without crashing the program.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+try:
+    num = int(input("Enter a number: "))
+    result = 10 / num
+except ValueError:
+    print("Invalid input! Please enter a valid number.")
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+else:
+    print("Result:", result)
+finally:
+    print("Execution completed.")
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ Always use exception handling to make your programs more robust and user-friendly.
+  </p>
+</section>
+
+<section id="logging" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Logging in Python</h2>
+  <p class="text-gray-300 mb-4">
+    Logging allows you to track events and debug efficiently. You can record information about errors, warnings, and program flow.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+import logging
+
+# Configure the logging system
+logging.basicConfig(
+    filename="app.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+logging.info("Program started.")
+try:
+    x = 10 / 0
+except ZeroDivisionError:
+    logging.error("Division by zero occurred!", exc_info=True)
+
+logging.info("Program finished.")
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ Logs can be written to files for debugging and monitoring production systems.
+  </p>
+</section>
+
+<section id="json-handling" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Working with JSON</h2>
+  <p class="text-gray-300 mb-4">
+    JSON (JavaScript Object Notation) is a popular format for exchanging data between applications. Python provides the <code>json</code> module for parsing and generating JSON.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+import json
+
+# Convert Python dictionary to JSON
+person = {"name": "Alice", "age": 25, "city": "New York"}
+json_string = json.dumps(person, indent=4)
+print(json_string)
+
+# Convert JSON back to Python dictionary
+data = json.loads(json_string)
+print(data["name"])
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ Use <code>json.dump()</code> and <code>json.load()</code> for reading/writing directly to files.
+  </p>
+</section>
+
+<section id="unit-testing" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Unit Testing</h2>
+  <p class="text-gray-300 mb-4">
+    Unit testing ensures individual parts of your code (functions, classes) work as expected using Python’s built-in <code>unittest</code> framework.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+import unittest
+
+def add(a, b):
+    return a + b
+
+class TestMathFunctions(unittest.TestCase):
+    def test_add(self):
+        self.assertEqual(add(2, 3), 5)
+        self.assertEqual(add(-1, 1), 0)
+
+if __name__ == "__main__":
+    unittest.main()
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ Run the test file using <code>python -m unittest test_file.py</code>.
+  </p>
+</section>
+
+<section id="virtualenv" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Virtual Environments</h2>
+  <p class="text-gray-300 mb-4">
+    Virtual environments help isolate project dependencies so multiple Python projects can use different package versions without conflicts.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+# Create a virtual environment
+python -m venv myenv
+
+# Activate it
+# On Windows:
+myenv\Scripts\activate
+# On macOS/Linux:
+source myenv/bin/activate
+
+# Install packages inside the environment
+pip install requests
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ Deactivate using <code>deactivate</code>. This keeps your global environment clean.
+  </p>
+</section>
+
+<!-- Continue to Part 4: Async Programming, APIs, Databases, Web Frameworks, and Performance Optimization -->
+<!-- ===============================
+     PART 4: ADVANCED PYTHON (continued)
+     =============================== -->
+
+<section id="async-programming" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Asynchronous Programming (async/await)</h2>
+  <p class="text-gray-300 mb-4">
+    Asynchronous programming lets your code handle multiple tasks concurrently — especially useful for network I/O operations.
+    Python’s <code>asyncio</code> library enables writing asynchronous code with <code>async</code> and <code>await</code> keywords.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+import asyncio
+
+async def task_one():
+    print("Task 1 started")
+    await asyncio.sleep(2)
+    print("Task 1 done")
+
+async def task_two():
+    print("Task 2 started")
+    await asyncio.sleep(1)
+    print("Task 2 done")
+
+async def main():
+    await asyncio.gather(task_one(), task_two())
+
+asyncio.run(main())
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ Both tasks run concurrently — total time ≈ 2 seconds instead of 3.
+  </p>
+</section>
+
+<section id="rest-apis" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Building REST APIs with Flask</h2>
+  <p class="text-gray-300 mb-4">
+    Flask is a lightweight web framework for creating APIs and web apps. Here’s how to build a simple REST API that handles JSON data.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+users = []
+
+@app.route("/users", methods=["GET"])
+def get_users():
+    return jsonify(users)
+
+@app.route("/users", methods=["POST"])
+def add_user():
+    data = request.get_json()
+    users.append(data)
+    return jsonify({"message": "User added successfully"}), 201
+
+if __name__ == "__main__":
+    app.run(debug=True)
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ Test with <code>curl -X POST -H "Content-Type: application/json" -d '{"name":"Alice"}' http://127.0.0.1:5000/users</code>.
+  </p>
+</section>
+
+<section id="database-handling" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Database Handling with SQLite</h2>
+  <p class="text-gray-300 mb-4">
+    Python provides the <code>sqlite3</code> module for working with SQLite databases — no external server required.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+import sqlite3
+
+# Connect to database (or create if it doesn't exist)
+conn = sqlite3.connect("students.db")
+cursor = conn.cursor()
+
+# Create table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS students (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    grade REAL
+)
+""")
+
+# Insert data
+cursor.execute("INSERT INTO students (name, grade) VALUES (?, ?)", ("Alice", 88.5))
+conn.commit()
+
+# Read data
+cursor.execute("SELECT * FROM students")
+print(cursor.fetchall())
+
+conn.close()
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ SQLite is ideal for small projects or testing — for larger apps use PostgreSQL or MySQL.
+  </p>
+</section>
+
+<section id="django-framework" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Web Development with Django</h2>
+  <p class="text-gray-300 mb-4">
+    Django is a high-level web framework that follows the Model-View-Template (MVT) architecture and includes ORM, authentication, and admin features by default.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+# Install Django
+# pip install django
+
+# Create a new project
+# django-admin startproject myproject
+
+# Start a new app
+# python manage.py startapp myapp
+
+# --- myapp/views.py ---
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Welcome to Django App")
+
+# --- myproject/urls.py ---
+from django.contrib import admin
+from django.urls import path
+from myapp import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', views.home),
+]
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ Run with <code>python manage.py runserver</code> and visit <code>http://127.0.0.1:8000/</code>.
+  </p>
+</section>
+
+<section id="performance-optimization" class="mb-16">
+  <h2 class="text-3xl font-bold text-indigo-400 mb-4">Performance Optimization Techniques</h2>
+  <p class="text-gray-300 mb-4">
+    Optimize Python programs by profiling, using built-in tools, and writing efficient code. Key techniques include list comprehensions, caching, and concurrent execution.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto"><code>
+from functools import lru_cache
+import time
+
+@lru_cache(maxsize=None)
+def fib(n):
+    if n < 2:
+        return n
+    return fib(n - 1) + fib(n - 2)
+
+start = time.time()
+print(fib(35))
+print("Execution time:", time.time() - start)
+  </code></pre>
+
+  <p class="text-gray-400">
+    ➤ <code>@lru_cache</code> caches function results to speed up repeated computations.
+  </p>
+</section>
+
+<section id="conclusion" class="mb-16">
+  <h2 class="text-3xl font-bold text-green-400 mb-4">🎯 Congratulations!</h2>
+  <p class="text-gray-300">
+    You’ve now completed Python from Beginners to Advanced Level.
+    Keep practicing by building real-world projects — like APIs, automation scripts, and web apps — to master these concepts in depth.
+  </p>
+</section>
+</main>
+</body>
+
+{% endblock %}

@@ -1,0 +1,495 @@
+{% extends "base.html" %}
+{% block title %}Java Intermediate Concepts{% endblock %}
+
+{% block extra_head %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Intermediate Concepts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex">
+
+<!-- Sidebar Navigation -->
+<aside class="w-64 bg-gray-800 p-4 space-y-3 sticky top-0 h-screen">
+    <h2 class="text-2xl font-bold text-center mb-6 border-b border-gray-600 pb-3">Java Intermediate</h2>
+    <nav class="space-y-2">
+        <a href="#oop" class="block text-gray-300 hover:text-white">1. Advanced OOP Concepts</a>
+        <a href="#exceptions" class="block text-gray-300 hover:text-white">2. Exception Handling</a>
+        <a href="#packages" class="block text-gray-300 hover:text-white">3. Packages & Access Modifiers</a>
+        <a href="#innerclasses" class="block text-gray-300 hover:text-white">4. Inner Classes</a>
+        <a href="#wrappers" class="block text-gray-300 hover:text-white">5. Wrapper Classes</a>
+        <a href="#collections" class="block text-gray-300 hover:text-white">6. Collections Framework</a>
+        <a href="#generics" class="block text-gray-300 hover:text-white">7. Generics</a>
+        <a href="#filehandling" class="block text-gray-300 hover:text-white">8. File Handling</a>
+        <a href="#java8" class="block text-gray-300 hover:text-white">9. Java 8 Features</a>
+    </nav>
+</aside>
+{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<main class="flex-1 p-6 space-y-10 overflow-y-auto">
+
+    <section id="oop">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">1. Advanced OOP Concepts</h1>
+        <p class="text-gray-300 mb-4">Object-Oriented Programming in Java is the core principle where programs are organized around objects rather than actions. Let's explore advanced topics like inheritance, polymorphism, abstraction, and interfaces.</p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Inheritance</h2>
+        <p class="mb-3">Inheritance allows one class to acquire the properties and behaviors of another class using the <code>extends</code> keyword. This promotes code reuse.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+class Vehicle {
+    void start() {
+        System.out.println("Vehicle is starting...");
+    }
+}
+
+class Car extends Vehicle {
+    void honk() {
+        System.out.println("Car is honking!");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Car myCar = new Car();
+        myCar.start(); // inherited method
+        myCar.honk();  // subclass method
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Method Overriding</h2>
+        <p class="mb-3">When a subclass defines a method that already exists in the parent class with the same signature, it's called overriding. The subclass method is executed at runtime.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+class Animal {
+    void sound() {
+        System.out.println("Animal makes sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal a = new Dog();
+        a.sound(); // Output: Dog barks
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Abstraction</h2>
+        <p class="mb-3">Abstraction is the process of hiding implementation details and showing only functionality. This is achieved using abstract classes and interfaces.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+abstract class Shape {
+    abstract void draw(); // abstract method
+}
+
+class Circle extends Shape {
+    void draw() {
+        System.out.println("Drawing a Circle");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Shape s = new Circle();
+        s.draw(); // Output: Drawing a Circle
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Interfaces</h2>
+        <p class="mb-3">An interface defines a contract that classes must implement. It can contain abstract methods and constants. A class can implement multiple interfaces.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+interface Flyable {
+    void fly();
+}
+
+interface Swimmable {
+    void swim();
+}
+
+class Duck implements Flyable, Swimmable {
+    public void fly() {
+        System.out.println("Duck is flying");
+    }
+    public void swim() {
+        System.out.println("Duck is swimming");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Duck d = new Duck();
+        d.fly();
+        d.swim();
+    }
+}
+</code></pre>
+    </section>
+
+        <section id="exceptions">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">2. Exception Handling</h1>
+        <p class="text-gray-300 mb-4">Exceptions are runtime errors that disrupt normal program execution. Java provides a structured way to handle exceptions using <code>try</code>, <code>catch</code>, <code>throw</code>, <code>throws</code>, and <code>finally</code>.</p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Try–Catch–Finally</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+public class Main {
+    public static void main(String[] args) {
+        try {
+            int result = 10 / 0;  // ArithmeticException
+        } catch (ArithmeticException e) {
+            System.out.println("Cannot divide by zero!");
+        } finally {
+            System.out.println("Finally block always executes.");
+        }
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Multiple Catch Blocks</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+try {
+    int[] nums = {1, 2};
+    System.out.println(nums[3]);
+} catch (ArrayIndexOutOfBoundsException e) {
+    System.out.println("Index error: " + e.getMessage());
+} catch (Exception e) {
+    System.out.println("General exception caught.");
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Throw and Throws</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+class AgeCheck {
+    static void verifyAge(int age) throws Exception {
+        if (age < 18)
+            throw new Exception("Underage not allowed!");
+        else
+            System.out.println("Access granted.");
+    }
+
+    public static void main(String[] args) {
+        try {
+            verifyAge(15);
+        } catch (Exception e) {
+            System.out.println("Caught: " + e.getMessage());
+        }
+    }
+}
+</code></pre>
+    </section>
+
+    <section id="packages">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">3. Packages & Access Modifiers</h1>
+        <p class="text-gray-300 mb-4">Packages group related classes and interfaces, preventing naming conflicts. Access modifiers control visibility across classes and packages.</p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Creating Packages</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+// File: mypack/Message.java
+package mypack;
+
+public class Message {
+    public void greet() {
+        System.out.println("Hello from package!");
+    }
+}
+
+// File: Main.java
+import mypack.Message;
+
+public class Main {
+    public static void main(String[] args) {
+        Message m = new Message();
+        m.greet();
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Access Modifiers</h2>
+        <p class="mb-3">Java provides 4 levels of access control: <code>public</code>, <code>protected</code>, <code>default</code> (no keyword), and <code>private</code>.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+public class Example {
+    public int a = 10;
+    protected int b = 20;
+    int c = 30;         // default
+    private int d = 40;
+
+    public void show() {
+        System.out.println("a = " + a + ", b = " + b + ", c = " + c + ", d = " + d);
+    }
+}
+</code></pre>
+    </section>
+
+    <section id="innerclasses">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">4. Inner Classes</h1>
+        <p class="text-gray-300 mb-4">Inner classes are defined within another class to logically group classes that are only used in one place.</p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Member Inner Class</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+class Outer {
+    private String message = "Hello from Inner Class";
+
+    class Inner {
+        void display() {
+            System.out.println(message);
+        }
+    }
+
+    public static void main(String[] args) {
+        Outer outer = new Outer();
+        Outer.Inner inner = outer.new Inner();
+        inner.display();
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Static Nested Class</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+class Outer {
+    static class StaticNested {
+        void message() {
+            System.out.println("Inside static nested class");
+        }
+    }
+
+    public static void main(String[] args) {
+        Outer.StaticNested obj = new Outer.StaticNested();
+        obj.message();
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Anonymous Inner Class</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+abstract class Greeting {
+    abstract void sayHello();
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Greeting g = new Greeting() {
+            void sayHello() {
+                System.out.println("Hello from Anonymous Class");
+            }
+        };
+        g.sayHello();
+    }
+}
+</code></pre>
+    </section>
+
+
+        <section id="wrappers">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">5. Wrapper Classes</h1>
+        <p class="text-gray-300 mb-4">
+            Wrapper classes convert primitive data types into objects. They are useful when working with collections that store objects instead of primitives.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Autoboxing and Unboxing</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+public class Main {
+    public static void main(String[] args) {
+        int a = 10;
+        Integer obj = a;  // Autoboxing
+        int b = obj;      // Unboxing
+        System.out.println("Value: " + b);
+    }
+}
+</code></pre>
+    </section>
+
+    <section id="collections">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">6. Collections Framework</h1>
+        <p class="text-gray-300 mb-4">
+            The Java Collections Framework provides classes and interfaces to store and manipulate groups of objects efficiently.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 List (ArrayList Example)</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List&lt;String&gt; list = new ArrayList&lt;&gt;();
+        list.add("Java");
+        list.add("Python");
+        list.add("C++");
+
+        for (String lang : list) {
+            System.out.println(lang);
+        }
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Set (HashSet Example)</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Set&lt;Integer&gt; numbers = new HashSet&lt;&gt;();
+        numbers.add(10);
+        numbers.add(20);
+        numbers.add(10); // duplicates ignored
+
+        System.out.println(numbers);
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Map (HashMap Example)</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        map.put("Alice", 25);
+        map.put("Bob", 30);
+        map.put("Charlie", 28);
+
+        for (String key : map.keySet()) {
+            System.out.println(key + " : " + map.get(key));
+        }
+    }
+}
+</code></pre>
+    </section>
+
+    <section id="generics">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">7. Generics</h1>
+        <p class="text-gray-300 mb-4">
+            Generics enable types (classes and interfaces) to be parameters when defining classes, interfaces, and methods, increasing type safety and reusability.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Generic Class</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+class Box&lt;T&gt; {
+    private T value;
+
+    public void set(T value) {
+        this.value = value;
+    }
+
+    public T get() {
+        return value;
+    }
+
+    public static void main(String[] args) {
+        Box&lt;Integer&gt; intBox = new Box&lt;&gt;();
+        intBox.set(123);
+        System.out.println(intBox.get());
+
+        Box&lt;String&gt; strBox = new Box&lt;&gt;();
+        strBox.set("Java");
+        System.out.println(strBox.get());
+    }
+}
+</code></pre>
+    </section>
+
+    <section id="filehandling">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">8. File Handling</h1>
+        <p class="text-gray-300 mb-4">
+            Java provides the <code>java.io</code> package for reading and writing files. File handling allows programs to persist data.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Writing to a File</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class WriteFile {
+    public static void main(String[] args) {
+        try {
+            FileWriter writer = new FileWriter("output.txt");
+            writer.write("Hello, Java File Handling!");
+            writer.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Reading from a File</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class ReadFile {
+    public static void main(String[] args) {
+        try {
+            File file = new File("output.txt");
+            Scanner reader = new Scanner(file);
+            while (reader.hasNextLine()) {
+                System.out.println(reader.nextLine());
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
+        }
+    }
+}
+</code></pre>
+    </section>
+
+    <section id="java8">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">9. Java 8 Features (Introduction)</h1>
+        <p class="text-gray-300 mb-4">
+            Java 8 introduced major enhancements like Lambda Expressions, Functional Interfaces, and Streams that simplified functional-style programming.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Lambda Expressions</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+interface Greeting {
+    void sayHello(String name);
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Greeting g = (name) -> System.out.println("Hello " + name);
+        g.sayHello("World");
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Stream API Basics</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.util.*;
+import java.util.stream.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List&lt;String&gt; names = Arrays.asList("Alice", "Bob", "Charlie", "David");
+
+        names.stream()
+             .filter(name -&gt; name.startsWith("C"))
+             .map(String::toUpperCase)
+             .forEach(System.out::println);
+    }
+}
+</code></pre>
+    </section>
+
+</main>
+</body>
+{% endblock %}
+
+

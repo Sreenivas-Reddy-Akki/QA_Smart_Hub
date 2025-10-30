@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}The Modern QA Hub{% endblock %}
+
+{% block content %}
+<div class="p-6 sm:p-12 space-y-24 max-w-7xl mx-auto bg-gray-900 min-h-screen">
+
+    <!-- Hero Section: Professional and Authoritative Look -->
+    <section class="text-center py-20 md:py-32 bg-gradient-to-r from-indigo-900 to-indigo-700 rounded-3xl shadow-2xl shadow-indigo-900/50 border border-indigo-700 mx-auto">
+        <h1 class="text-5xl md:text-6xl font-extrabold text-indigo-300 mb-6 leading-tight">
+            Empowering QA Engineers with <span class="text-cyan-400">Knowledge & AI Innovation</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-indigo-200 max-w-3xl mx-auto mb-12">
+            Learn core QA concepts, master automation tools, and leverage cutting-edge AI to instantly generate test cases and improve your workflow.
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-6">
+            <a href="{{ url_for('manual') }}" class="inline-flex items-center justify-center px-8 py-4 rounded-full bg-cyan-400 text-gray-900 font-bold text-lg shadow-xl shadow-cyan-400/30 hover:scale-[1.03] transform transition duration-300 ease-in-out">
+                Start Learning
+            </a>
+            <a href="{{ url_for('ai_tools') }}" class="inline-flex items-center justify-center px-8 py-4 rounded-full border-2 border-cyan-400 bg-transparent text-white font-semibold text-lg shadow-lg hover:bg-cyan-400/10 hover:text-cyan-400 transform transition duration-300 ease-in-out">
+                Try AI Test Generator
+            </a>
+        </div>
+    </section>
+
+    <!-- QA Path Section: Clear, organized card layout -->
+    <section>
+        <h2 class="text-4xl font-bold text-center text-blue-400 mb-12">Your Path to QA Excellence</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+            <!-- Manual Testing Card -->
+            <a href="{{ url_for('manual') }}" class="block bg-gray-800 p-6 rounded-2xl shadow-xl hover:shadow-cyan-400/50 transition duration-300 transform hover:translate-y-[-4px] border border-gray-700 group">
+                <div class="flex items-center justify-center w-14 h-14 rounded-full bg-cyan-400/20 text-cyan-400 mb-4">
+                    <!-- Icon for Manual Testing (Document/Checklist) -->
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M18 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                </div>
+                <h3 class="text-2xl font-semibold text-blue-300 group-hover:text-cyan-400 mb-2">Learn Manual Testing</h3>
+                <p class="text-blue-200">Master foundational techniques: exploratory testing, test case design, and defect lifecycle management.</p>
+            </a>
+
+            <!-- Automation Card -->
+            <a href="{{ url_for('automation_home') }}" class="block bg-gray-800 p-6 rounded-2xl shadow-xl hover:shadow-cyan-400/50 transition duration-300 transform hover:translate-y-[-4px] border border-gray-700 group">
+                <div class="flex items-center justify-center w-14 h-14 rounded-full bg-cyan-400/20 text-cyan-400 mb-4">
+                    <!-- Icon for Automation (Code) -->
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                </div>
+                <h3 class="text-2xl font-semibold text-blue-300 group-hover:text-cyan-400 mb-2">Master Automation</h3>
+                <p class="text-blue-200">Explore modern frameworks like Selenium and Playwright, plus API and performance testing strategies.</p>
+            </a>
+
+            <!-- AI Test Generation Card -->
+            <a href="{{ url_for('ai_tools') }}" class="block bg-gray-800 p-6 rounded-2xl shadow-xl hover:shadow-cyan-400/50 transition duration-300 transform hover:translate-y-[-4px] border border-gray-700 group">
+                <div class="flex items-center justify-center w-14 h-14 rounded-full bg-cyan-400/20 text-cyan-400 mb-4">
+                    <!-- Icon for AI (Brain/Chip) -->
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L13.5 13.25M13.5 13.25L17.25 9.5M13.5 13.25L10 10l3.5-3.25M13.5 13.25L17 17M10 7L6.5 10.5M6.5 10.5L3 14M6.5 10.5L10 14m0-4.5L13.5 6.25"></path></svg>
+                </div>
+                <h3 class="text-2xl font-semibold text-blue-300 group-hover:text-cyan-400 mb-2">AI Test Generation</h3>
+                <p class="text-blue-200">Discover how AI revolutionizes test design, helping you create and refine test cases faster than ever.</p>
+            </a>
+
+            <!-- Interview Prep Card -->
+            <a href="{{ url_for('interview') }}" class="block bg-gray-800 p-6 rounded-2xl shadow-xl hover:shadow-cyan-400/50 transition duration-300 transform hover:translate-y-[-4px] border border-gray-700 group">
+                <div class="flex items-center justify-center w-14 h-14 rounded-full bg-cyan-400/20 text-cyan-400 mb-4">
+                    <!-- Icon for Interview Prep (Conversation/Head) -->
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 12V4a4 4 0 00-8 0v8m8 0l2 3m-4-3l-2 3"></path></svg>
+                </div>
+                <h3 class="text-2xl font-semibold text-blue-300 group-hover:text-cyan-400 mb-2">Interview Preparation</h3>
+                <p class="text-blue-200">Practice common behavioral, technical, and system design questions to land your next QA role.</p>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- AI & Utility Tools Section: Clean, minimal cards -->
+    <section class="mt-24">
+        <h2 class="text-4xl font-bold text-center text-blue-400 mb-12">Featured AI & Utility Tools</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <!-- AI Test Generator -->
+            <a href="{{ url_for('ai_tools') }}" class="block bg-gray-800 p-6 rounded-2xl shadow-xl hover:shadow-cyan-400/50 transition duration-300 transform hover:translate-y-[-4px] border border-gray-700 group">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-blue-300 group-hover:text-cyan-400">AI Test Case Generator</h3>
+                    <span class="text-xs font-medium text-cyan-400 bg-cyan-400/20 rounded-full px-3 py-1">AI</span>
+                </div>
+                <p class="text-blue-200 mb-4">Instantly generate comprehensive test cases from requirements or user stories.</p>
+                <span class="text-cyan-400 font-medium flex items-center">
+                    Try Now
+                    <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </span>
+            </a>
+
+            <!-- Bug Report Improver -->
+            <a href="{{ url_for('ai_tools') }}" class="block bg-gray-800 p-6 rounded-2xl shadow-xl hover:shadow-cyan-400/50 transition duration-300 transform hover:translate-y-[-4px] border border-gray-700 group">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-blue-300 group-hover:text-cyan-400">Bug Report Improver</h3>
+                    <span class="text-xs font-medium text-cyan-400 bg-cyan-400/20 rounded-full px-3 py-1">Utility</span>
+                </div>
+                <p class="text-blue-200 mb-4">Refine your bug descriptions to be clear, concise, and developer-ready.</p>
+                <span class="text-cyan-400 font-medium flex items-center">
+                    Use Tool
+                    <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </span>
+            </a>
+
+            <!-- Test Data Generator -->
+            <a href="{{ url_for('ai_tools') }}" class="block bg-gray-800 p-6 rounded-2xl shadow-xl hover:shadow-cyan-400/50 transition duration-300 transform hover:translate-y-[-4px] border border-gray-700 group">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold text-blue-300 group-hover:text-cyan-400">Test Data Generator</h3>
+                    <span class="text-xs font-medium text-cyan-400 bg-cyan-400/20 rounded-full px-3 py-1">Utility</span>
+                </div>
+                <p class="text-blue-200 mb-4">Quickly generate realistic mock data for various testing scenarios (users, products, etc.).</p>
+                <span class="text-cyan-400 font-medium flex items-center">
+                    Generate
+                    <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </span>
+            </a>
+
+        </div>
+    </section>
+
+</div>
+{% endblock %}

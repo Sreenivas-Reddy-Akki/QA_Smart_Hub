@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+
+{% block title %}QA Interview Prep - Complete Guide{% endblock %}
+
+{% block content %}
+<div class="flex flex-col lg:flex-row max-w-7xl mx-auto p-6 sm:p-12 gap-8">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-full lg:w-64 bg-gray-900 rounded-2xl p-6 shadow-2xl border border-gray-700 sticky top-6 self-start h-max">
+        <h2 class="text-2xl font-bold text-indigo-400 mb-6 border-b border-gray-700 pb-3">Topics Navigation</h2>
+        <ul class="space-y-3 text-gray-200">
+            <li><a href="#manual" class="hover:text-indigo-400 transition duration-200 flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944c3.048 0 5.618 1.547 6.182 4.041M12 20.056c-3.048 0-5.618-1.547-6.182-4.041m0 0a1 1 0 011.732 0h-1.732z"></path></svg>Manual & Principles</a></li>
+            <li><a href="#automation" class="hover:text-indigo-400 transition duration-200 flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>Automation Testing</a></li>
+            <li><a href="#selenium" class="hover:text-indigo-400 transition duration-200 flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9h-3M12 21a9 9 0 01-9-9m9 9v-3M3 12h3M12 3v3"></path></svg>Selenium & WebDriver</a></li>
+            <li><a href="#python" class="hover:text-indigo-400 transition duration-200 flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>Python Scripting</a></li>
+            <li><a href="#java" class="hover:text-indigo-400 transition duration-200 flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9.75 6.75A.75.75 0 0110.5 6h2.25a.75.75 0 01.75.75V17m-3-10V5m0 2V5"></path></svg>Java & OOP</a></li>
+            <li><a href="#api" class="hover:text-indigo-400 transition duration-200 flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>API & Web Services</a></li>
+            <li><a href="#sql" class="hover:text-indigo-400 transition duration-200 flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10m-2 2h4v2h-4v-4zm6-2h8m2 2h4v2h-4v-4z"></path></svg>SQL & Database</a></li>
+            <li><a href="#performance" class="hover:text-indigo-400 transition duration-200 flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>Performance Testing</a></li>
+            <li><a href="#security" class="hover:text-indigo-400 transition duration-200 flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>Security Testing</a></li>
+            <li><a href="#devops" class="hover:text-indigo-400 transition duration-200 flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 11a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2zM4 17a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2z"></path></svg>CI/CD & DevOps</a></li>
+            <li><a href="#behavioral" class="hover:text-indigo-400 transition duration-200 flex items-center"><svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>Behavioral & Strategy</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 space-y-12">
+
+        <!-- Page Header -->
+        <section class="text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">The Ultimate QA Interview Preparation Hub</h1>
+            <p class="text-lg text-indigo-400 mb-10 border-b border-gray-700 pb-4">
+                Master the full spectrum of Software Quality Assurance interviews, from core manual concepts to advanced SDET, CI/CD, and system design strategies.
+            </p>
+        </section>
+
+        <!-- Mock Data Definition (For realistic display) -->
+        {% set manual_q = [
+            'Explain the difference between verification and validation.',
+            'What is the role of an Acceptance Test-Driven Development (ATDD) methodology?',
+            'Describe the severity vs. priority model for defect classification.',
+            'When is exploratory testing most effective, and how do you document it?'
+        ] %}
+        {% set automation_q = [
+            'Design a test automation framework from scratch and justify your architecture choices (e.g., POM, Data-Driven).',
+            'Explain the Test Automation Pyramid and why its ratio is critical for fast feedback.',
+            'How do you manage flaky tests in a CI/CD pipeline?',
+            'Compare and contrast Selenium, Playwright, and Cypress.'
+        ] %}
+        {% set selenium_q = [
+            'Write a robust XPath for an element with dynamic attributes.',
+            'Explain the various types of waits in Selenium and when to use each one.',
+            'How do you handle authentication pop-ups and browser alerts?',
+            'Describe how to set up a Selenium Grid for parallel testing.'
+        ] %}
+        {% set python_q = [
+            'Write a Python function to read test data from a CSV file.',
+            'Implement a simple Page Object Model class in Python.',
+            'Explain the use of `yield` fixtures in PyTest for setup and teardown.',
+            'How do you handle exceptions specific to Selenium in Python?'
+        ] %}
+        {% set java_q = [
+            'Explain OOP concepts (Abstraction, Encapsulation) with respect to a Page Object Model.',
+            'How do you use annotations like `@BeforeMethod` and `@DataProvider` in TestNG?',
+            'Write a Java method to iterate over a JSON array in an API response.',
+            'What is the purpose of the Singleton pattern in a Selenium framework?'
+        ] %}
+        {% set api_q = [
+            'Explain REST and SOAP. Which one is better for modern microservices and why?',
+            'How do you test authorization (OAuth 2.0/JWT) in an API test?',
+            'Describe the process for testing a stateful workflow using API calls (e.g., Create -> Read -> Update -> Delete).',
+            'What are common HTTP status codes you would assert in your API tests?'
+        ] %}
+        {% set sql_q = [
+            'Write an SQL query to find duplicate records in a table.',
+            'Explain the difference between `INNER JOIN` and `LEFT JOIN`.',
+            'How would you use a database query to validate a UI operation (e.g., a new user registration)?',
+            'What is database normalization and why is it important?'
+        ] %}
+        {% set performance_q = [
+            'What are the key differences between load testing, stress testing, and endurance testing?',
+            'Which metrics are critical to monitor on the server-side during performance testing?',
+            'Explain how you would simulate 1000 concurrent users using a tool like JMeter or LoadRunner.'
+        ] %}
+        {% set security_q = [
+            'What is the OWASP Top 10, and how do you test for SQL Injection?',
+            'Describe Cross-Site Scripting (XSS) and Cross-Site Request Forgery (CSRF).',
+            'How is penetration testing different from security testing by QA engineers?',
+            'Explain the concept of Session Management testing.'
+        ] %}
+        {% set devops_q = [
+            'Explain the role of a QA engineer in a DevOps pipeline and how you implement "Shift-Left".',
+            'How do you configure a Jenkins pipeline stage to run only the smoke tests?',
+            'Describe how you use Docker containers to ensure environment consistency for tests.',
+            'What are quality gates, and where should they be placed in the CI/CD pipeline?'
+        ] %}
+        {% set behavioral_q = [
+            'Describe a time you received critical feedback and how you responded.',
+            'Tell me about a complex bug you found and how you communicated it.',
+            'How do you handle a situation where a developer disagrees with your bug report?',
+            'Where do you see yourself in 5 years, specifically in the QA field?'
+        ] %}
+        {% set system_q = [
+            'Design a testing strategy for a microservices architecture.',
+            'How would you approach testing a payment gateway integration?',
+            'What is the strategy for maintaining test data in an environment with frequent database resets?',
+            'Explain how you would monitor the quality of a feature once it is released to production (Observability).'
+        ] %}
+
+        <!-- Manual Testing Section -->
+        <a id="manual-details" class="block group">
+            <section id="manual" class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:shadow-indigo-400/50 transition duration-300 transform hover:scale-105 cursor-pointer">
+                <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944c3.048 0 5.618 1.547 6.182 4.041M12 20.056c-3.048 0-5.618-1.547-6.182-4.041m0 0a1 1 0 011.732 0h-1.732z"></path></svg>Manual Testing & Core Principles</h2>
+                <p class="text-gray-300 mb-4">Master the foundational knowledge of software testing, quality assurance principles, methodologies, and defect lifecycle management.</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-200 ml-4">
+                    {% for q in manual_q %}
+                        <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </a>
+
+        <!-- Automation Testing Section -->
+        <a id="automation-details" class="block group">
+            <section id="automation" class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:shadow-indigo-400/50 transition duration-300 transform hover:scale-105 cursor-pointer">
+                <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>Automation Testing Strategy</h2>
+                <p class="text-gray-300 mb-4">Questions covering framework design, test execution strategies, managing technical debt in scripts, and optimizing test suites for speed and maintainability.</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-200 ml-4">
+                    {% for q in automation_q %}
+                        <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </a>
+
+        <!-- Selenium Section -->
+        <a id="selenium-details" class="block group">
+            <section id="selenium" class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:shadow-indigo-400/50 transition duration-300 transform hover:scale-105 cursor-pointer">
+                <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9h-3M12 21a9 9 0 01-9-9m9 9v-3M3 12h3M12 3v3"></path></svg>Selenium WebDriver Deep Dive</h2>
+                <p class="text-gray-300 mb-4">In-depth knowledge of browser interactions, locator strategies, advanced WebDriver features, and debugging complex synchronization issues.</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-200 ml-4">
+                    {% for q in selenium_q %}
+                        <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </a>
+
+        <!-- Python Section -->
+        <a id="python-details" class="block group">
+            <section id="python" class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:shadow-indigo-400/50 transition duration-300 transform hover:scale-105 cursor-pointer">
+                <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>Python Scripting for QA/SDET</h2>
+                <p class="text-gray-300 mb-4">Core Python programming concepts, PyTest framework, data handling, and utility scripting relevant to the automation and CI/CD workflow.</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-200 ml-4">
+                    {% for q in python_q %}
+                        <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </a>
+
+        <!-- Java Section -->
+        <a id="java-details" class="block group">
+            <section id="java" class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:shadow-indigo-400/50 transition duration-300 transform hover:scale-105 cursor-pointer">
+                <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9.75 6.75A.75.75 0 0110.5 6h2.25a.75.75 0 01.75.75V17m-3-10V5m0 2V5"></path></svg>Java & OOP for Enterprise QA</h2>
+                <p class="text-gray-300 mb-4">Focus on Object-Oriented Programming (OOP), collections, TestNG/JUnit, and building scalable, maintainable Java-based automation frameworks.</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-200 ml-4">
+                    {% for q in java_q %}
+                        <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </a>
+
+        <!-- API Testing Section -->
+        <a id="api-details" class="block group">
+            <section id="api" class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:shadow-indigo-400/50 transition duration-300 transform hover:scale-105 cursor-pointer">
+                <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>API Testing & Web Services</h2>
+                <p class="text-gray-300 mb-4">Comprehensive coverage of API testing methodologies (Postman/Rest Assured), validating JSON/XML responses, authentication, and service virtualization.</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-200 ml-4">
+                    {% for q in api_q %}
+                        <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </a>
+
+        <!-- SQL & Database Section -->
+        <a id="sql-details" class="block group">
+            <section id="sql" class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:shadow-indigo-400/50 transition duration-300 transform hover:scale-105 cursor-pointer">
+                <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10m-2 2h4v2h-4v-4zm6-2h8m2 2h4v2h-4v-4z"></path></svg>SQL & Database Validation</h2>
+                <p class="text-gray-300 mb-4">Essential SQL commands, advanced joins, database testing types, and strategies for validating data integrity between the front-end, API, and back-end.</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-200 ml-4">
+                    {% for q in sql_q %}
+                        <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </a>
+
+        <!-- Performance Testing Section -->
+        <a id="performance-details" class="block group">
+            <section id="performance" class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:shadow-indigo-400/50 transition duration-300 transform hover:scale-105 cursor-pointer">
+                <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>Performance Testing (Load & Stress)</h2>
+                <p class="text-gray-300 mb-4">Questions on performance goals, test types (Load, Stress, Soak), using tools like JMeter/Gatling, and interpreting key metrics (Latency, Throughput, Error Rate).</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-200 ml-4">
+                    {% for q in performance_q %}
+                        <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </a>
+
+        <!-- Security Testing Section -->
+        <a id="security-details" class="block group">
+            <section id="security" class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:shadow-indigo-400/50 transition duration-300 transform hover:scale-105 cursor-pointer">
+                <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>Security Testing Fundamentals</h2>
+                <p class="text-gray-300 mb-4">Understanding common web vulnerabilities (OWASP Top 10), authorization testing, and integrating basic security checks into automation efforts.</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-200 ml-4">
+                    {% for q in security_q %}
+                        <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </a>
+
+        <!-- NEW SECTION: CI/CD & DevOps Strategy -->
+        <a id="devops-details" class="block group">
+            <section id="devops" class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:shadow-indigo-400/50 transition duration-300 transform hover:scale-105 cursor-pointer">
+                <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 11a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2zM4 17a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2z"></path></svg>CI/CD, Cloud & DevOps Strategy</h2>
+                <p class="text-gray-300 mb-4">Focus on integrating quality throughout the development lifecycle, utilizing tools like Docker, Kubernetes, Jenkins/GitLab CI, and modern cloud testing environments.</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-200 ml-4">
+                    {% for q in devops_q %}
+                        <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </a>
+
+        <!-- Behavioral Questions Section -->
+        <a id="behavioral-details" class="block group">
+            <section id="behavioral" class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:shadow-indigo-400/50 transition duration-300 transform hover:scale-105 cursor-pointer">
+                <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>Behavioral & Soft Skills</h2>
+                <p class="text-gray-300 mb-4">The critical non-technical side: master storytelling using the STAR method, handling conflict, managing priorities, and demonstrating leadership.</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-200 ml-4">
+                    {% for q in behavioral_q %}
+                        <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </a>
+
+        <!-- System Design Section -->
+        <a id="system-details" class="block group">
+            <section id="system" class="bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:shadow-indigo-400/50 transition duration-300 transform hover:scale-105 cursor-pointer">
+                <h2 class="text-3xl font-bold text-indigo-400 mb-4 flex items-center"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>System Design & Test Strategy</h2>
+                <p class="text-gray-300 mb-4">Focuses on designing comprehensive test plans for complex applications (e.g., e-commerce, banking), CI/CD integration, and quality gates.</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-200 ml-4">
+                    {% for q in system_q %}
+                        <li>{{ q }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </a>
+
+        <!-- Additional Resources -->
+        <!-- Additional Resources -->
+        <section class="bg-gray-900 p-6 rounded-2xl shadow-2xl border border-gray-700 mt-8">
+            <h2 class="text-3xl font-bold text-indigo-400 mb-4">Additional Resources & Practice</h2>
+            <ul class="list-disc list-inside space-y-2 text-gray-200 ml-4">
+                <li><a href="https://www.geeksforgeeks.org/software-testing/manual-testing-interview-questions/" target="_blank" class="text-indigo-400 hover:text-white transition duration-200 hover:underline">Manual Testing Interview Questions & Practice</a></li>
+                <li><a href="#" class="text-indigo-400 hover:text-white transition duration-200 hover:underline">Download: Top 500 QA Interview Questions (PDF)</a></li>
+                <li><a href="#" class="text-indigo-400 hover:text-white transition duration-200 hover:underline">Live Practice: Automation Coding Challenges</a></li>
+                <li><a href="#" class="text-indigo-400 hover:text-white transition duration-200 hover:underline">Guide: Advanced CI/CD Integration with Jenkins/GitHub Actions</a></li>
+                <li><a href="#" class="text-indigo-400 hover:text-white transition duration-200 hover:underline">Deep Dive: Data-Driven Testing Strategies using Excel/JSON</a></li>
+            </ul>
+        </section>
+
+
+    </main>
+</div>
+{% endblock %}

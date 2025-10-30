@@ -1,0 +1,578 @@
+{% extends "base.html" %}
+{% block title %}Advanced Selenium Concepts{% endblock %}
+{% block content %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Selenium Concepts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for clean code blocks */
+        .code-block {
+            background-color: #1e293b; /* Slate-800 */
+            color: #e2e8f0; /* Slate-200 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.875rem; /* sm text size */
+            margin-top: 0.75rem;
+        }
+        /* Custom font for the page */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+        }
+        /* Style for the language labels */
+        .lang-label {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-black text-gray-100">
+
+    <!-- Main Content Area -->
+    <!-- Removed fixed header and reset top padding -->
+    <main class="max-w-7xl mx-auto p-4 sm:p-8">
+
+        <!-- Custom Page Title and Navigation (Now integrated into the main flow) -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-6 tracking-tight">
+                Advanced Selenium Concepts
+            </h1>
+            <!-- Navigators (Now part of the main page flow) -->
+            <nav class="flex flex-wrap justify-center space-x-3 sm:space-x-4 text-sm font-medium py-3 border-y border-gray-700">
+                <a href="#grid" class="text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">Grid</a>
+                <a href="#headless" class="text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">Headless</a>
+                <a href="#ci" class="text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">CI/CD</a>
+                <a href="#docker" class="text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">Docker</a>
+                <a href="#reporting" class="text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">Reports</a>
+                <a href="#hybrid" class="text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">Hybrid</a>
+                <a href="#db" class="text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">Database</a>
+                <a href="#waits" class="text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">Waits</a>
+                <a href="#cloud" class="text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">Cloud</a>
+                <a href="#bdd" class="text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">BDD</a>
+            </nav>
+        </div>
+
+        <!-- Content Grid (Now a nested div) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            <!-- 1. Selenium Grid & Parallel Execution -->
+            <div id="grid" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                <h2 class="text-2xl font-bold text-indigo-400 mb-4">1. Selenium Grid & Parallel Execution</h2>
+                <div class="text-gray-300 mb-6">
+                    <p>
+                        <span class="font-bold">Selenium Grid</span> allows you to run tests in <span class="font-bold">parallel</span> across <span class="font-bold">multiple browsers, operating systems, and machines</span>. It’s especially useful for <span class="font-bold">cross-browser testing</span> and <span class="font-bold">speeding up execution</span>.
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <span class="lang-label bg-yellow-500 text-yellow-900">Python Example</span>
+                    <pre class="code-block"><code>from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+driver = webdriver.Remote(
+    command_executor='http://localhost:4444/wd/hub',
+    desired_capabilities=DesiredCapabilities.CHROME
+)
+
+driver.get("https://www.google.com")
+print(driver.title)
+driver.quit()</code></pre>
+                </div>
+
+                <div>
+                    <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                    <pre class="code-block"><code>import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import java.net.URL;
+
+public class SeleniumGridTest {
+    public static void main(String[] args) throws Exception {
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), caps);
+
+        driver.get("https://www.google.com");
+        System.out.println(driver.getTitle());
+        driver.quit();
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- 2. Headless Browser Testing -->
+            <div id="headless" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                <h2 class="text-2xl font-bold text-indigo-400 mb-4">2. Headless Browser Testing</h2>
+                <div class="text-gray-300 mb-6">
+                    <p>
+                        <span class="font-bold">Headless testing</span> runs browsers <span class="font-bold">without a GUI</span>, making tests <span class="font-bold">faster</span> and suitable for <span class="font-bold">CI pipelines</span>.
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <span class="lang-label bg-yellow-500 text-yellow-900">Python Example</span>
+                    <pre class="code-block"><code>from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.add_argument("--headless")
+driver = webdriver.Chrome(options=options)
+
+driver.get("https://example.com")
+print(driver.title)
+driver.quit()</code></pre>
+                </div>
+
+                <div>
+                    <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                    <pre class="code-block"><code>import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+public class HeadlessMode {
+    public static void main(String[] args) {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+
+        WebDriver driver = new ChromeDriver(options);
+        driver.get("https://example.com");
+        System.out.println(driver.getTitle());
+        driver.quit();
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- 3. Continuous Integration (CI) with Jenkins -->
+            <div id="ci" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                <h2 class="text-2xl font-bold text-indigo-400 mb-4">3. Continuous Integration (CI) with Jenkins</h2>
+                <div class="text-gray-300 mb-6">
+                    <p>
+                        <span class="font-bold">Selenium</span> can be integrated with <span class="font-bold">Jenkins</span> or other <span class="font-bold">CI tools</span> to <span class="font-bold">automate test execution</span> after every build. It helps detect issues <span class="font-bold">early</span> in the <span class="font-bold">deployment pipeline</span>.
+                    </p>
+                    <p class="mt-2 text-sm text-gray-400">
+                        <span class="font-bold">Steps:</span> Install Jenkins, configure project, add test suite as build step, use plugins (JUnit/Allure) for reports.
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <span class="lang-label bg-yellow-500 text-yellow-900">Python Example (pytest + Jenkinsfile)</span>
+                    <pre class="code-block"><code># Jenkins executes this command
+pytest tests/ --html=report.html --self-contained-html</code></pre>
+                </div>
+
+                <div>
+                    <span class="lang-label bg-blue-500 text-blue-900">Java Example (TestNG + Jenkins)</span>
+                    <pre class="code-block"><code>&lt;!-- testng.xml --&gt;
+&lt;suite name="CI Suite"&gt;
+  &lt;test name="Regression"&gt;
+    &lt;classes&gt;
+      &lt;class name="tests.GoogleTest"/&gt;
+    &lt;/classes&gt;
+  &lt;/test&gt;
+&lt;/suite&gt;
+
+# Run this via Jenkins build step:
+mvn test -DsuiteXmlFile=testng.xml</code></pre>
+                </div>
+            </div>
+
+            <!-- 4. Integration with Docker -->
+            <div id="docker" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                <h2 class="text-2xl font-bold text-indigo-400 mb-4">4. Integration with Docker</h2>
+                <div class="text-gray-300 mb-6">
+                    <p>
+                        <span class="font-bold">Selenium</span> supports <span class="font-bold">Dockerized Grid setups</span> via <span class="font-bold">selenium/standalone-chrome</span> and <span class="font-bold">selenium/hub-node containers</span>. This allows <span class="font-bold">scalable</span> and <span class="font-bold">isolated test environments</span>.
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <span class="lang-label bg-yellow-500 text-yellow-900">Python Example (Referencing Docker Setup)</span>
+                    <pre class="code-block"><code># Docker Compose file example (setup)
+version: "3"
+services:
+  selenium-hub:
+    image: selenium/hub:latest
+    ports:
+      - "4444:4444"
+  chrome:
+    image: selenium/node-chrome:latest
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+
+# Python connection code
+from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+driver = webdriver.Remote(
+    command_executor='http://localhost:4444/wd/hub',
+    desired_capabilities=DesiredCapabilities.CHROME
+)
+driver.get("https://example.com")
+print(driver.title)
+driver.quit()</code></pre>
+                </div>
+
+                <div>
+                    <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                    <pre class="code-block"><code>WebDriver driver = new RemoteWebDriver(
+    new URL("http://localhost:4444/wd/hub"),
+    DesiredCapabilities.chrome()
+);
+driver.get("https://example.com");
+System.out.println(driver.getTitle());
+driver.quit();</code></pre>
+                </div>
+            </div>
+
+            <!-- 5. Advanced Reporting (Allure / Extent Reports) -->
+            <div id="reporting" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                <h2 class="text-2xl font-bold text-indigo-400 mb-4">5. Advanced Reporting (Allure / Extent Reports)</h2>
+                <div class="text-gray-300 mb-6">
+                    <p>
+                        <span class="font-bold">Advanced reports</span> (<span class="font-bold">Allure</span> / <span class="font-bold">Extent Reports</span>) provide <span class="font-bold">visuals</span> for <span class="font-bold">pass/fail results</span>, <span class="font-bold">screenshots</span>, and <span class="font-bold">logs</span>. They’re <span class="font-bold">essential</span> for <span class="font-bold">CI/CD integration</span> and <span class="font-bold">management visibility</span>.
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <span class="lang-label bg-yellow-500 text-yellow-900">Python Example (Allure)</span>
+                    <pre class="code-block"><code># Running tests and generating report data
+pytest --alluredir=reports/
+
+# Serving the report locally
+allure serve reports/
+
+# Simple test example
+import pytest
+def test_login():
+    assert True</code></pre>
+                </div>
+
+                <div>
+                    <span class="lang-label bg-blue-500 text-blue-900">Java Example (Extent Reports)</span>
+                    <pre class="code-block"><code>import com.aventstack.extentreports.*;
+import org.testng.annotations.*;
+
+public class ReportExample {
+    ExtentReports report;
+    ExtentTest test;
+
+    @BeforeTest
+    public void setup() {
+        report = new ExtentReports();
+        ExtentSparkReporter spark = new ExtentSparkReporter("report.html");
+        report.attachReporter(spark);
+    }
+
+    @Test
+    public void sampleTest() {
+        test = report.createTest("Google Test");
+        test.pass("Test executed successfully");
+    }
+
+    @AfterTest
+    public void tearDown() {
+        report.flush();
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- 6. Integration with APIs (UI + API Hybrid Testing) -->
+            <div id="hybrid" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                <h2 class="text-2xl font-bold text-indigo-400 mb-4">6. Integration with APIs (UI + API Hybrid Testing)</h2>
+                <div class="text-gray-300 mb-6">
+                    <p>
+                        Automation frameworks combine <span class="font-bold">UI testing (Selenium)</span> and <span class="font-bold">API testing (Requests / RestAssured)</span> for <span class="font-bold">end-to-end coverage</span>.
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <span class="lang-label bg-yellow-500 text-yellow-900">Python Example</span>
+                    <pre class="code-block"><code>import requests
+from selenium import webdriver
+
+# API Test
+response = requests.get("https://jsonplaceholder.typicode.com/users/1")
+assert response.status_code == 200
+
+# UI Test
+driver = webdriver.Chrome()
+driver.get("https://example.com")
+print(driver.title)
+driver.quit()</code></pre>
+                </div>
+
+                <div>
+                    <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                    <pre class="code-block"><code>import io.restassured.RestAssured;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class HybridTest {
+    public static void main(String[] args) {
+        // API Test
+        RestAssured.get("https://jsonplaceholder.typicode.com/users/1").then().statusCode(200);
+
+        // UI Test
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://example.com");
+        driver.quit();
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- 7. Database Validation with Selenium -->
+            <div id="db" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                <h2 class="text-2xl font-bold text-indigo-400 mb-4">7. Database Validation with Selenium</h2>
+                <div class="text-gray-300 mb-6">
+                    <p>
+                        <span class="font-bold">Selenium</span> can be combined with <span class="font-bold">database connectors</span> to <span class="font-bold">validate backend data</span> after <span class="font-bold">UI actions</span>.
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <span class="lang-label bg-yellow-500 text-yellow-900">Python Example</span>
+                    <pre class="code-block"><code>import mysql.connector
+
+connection = mysql.connector.connect(
+    host="localhost", user="root", password="1234", database="testdb"
+)
+cursor = connection.cursor()
+cursor.execute("SELECT * FROM users WHERE username='admin'")
+result = cursor.fetchone()
+print(result)
+connection.close()</code></pre>
+                </div>
+
+                <div>
+                    <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                    <pre class="code-block"><code>import java.sql.*;
+
+public class DBValidation {
+    public static void main(String[] args) throws Exception {
+        Connection con = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/testdb", "root", "1234");
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE username='admin'");
+        while (rs.next()) {
+            System.out.println(rs.getString("username"));
+        }
+        con.close();
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- 8. Custom Waits and Fluent Waits -->
+            <div id="waits" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                <h2 class="text-2xl font-bold text-indigo-400 mb-4">8. Custom Waits and Fluent Waits</h2>
+                <div class="text-gray-300 mb-6">
+                    <p>
+                        <span class="font-bold">FluentWait</span> provides a <span class="font-bold">customizable waiting strategy</span> that <span class="font-bold">polls</span> for conditions <span class="font-bold">periodically</span>, ignoring specific exceptions.
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <span class="lang-label bg-yellow-500 text-yellow-900">Python Example (WebDriverWait/FluentWait)</span>
+                    <pre class="code-block"><code>from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+driver = webdriver.Chrome()
+# FluentWait functionality achieved by poll_frequency in WebDriverWait
+wait = WebDriverWait(driver, 15, poll_frequency=2)
+driver.get("https://example.com")
+
+element = wait.until(EC.presence_of_element_located((By.ID, "username")))
+element.send_keys("Admin")
+driver.quit()</code></pre>
+                </div>
+
+                <div>
+                    <span class="lang-label bg-blue-500 text-blue-900">Java Example (FluentWait)</span>
+                    <pre class="code-block"><code>import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.*;
+import java.time.Duration;
+
+public class FluentWaitExample {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://example.com");
+
+        Wait&lt;WebDriver&gt; wait = new FluentWait&lt;&gt;(driver)
+            .withTimeout(Duration.ofSeconds(15))
+            .pollingEvery(Duration.ofSeconds(2))
+            .ignoring(NoSuchElementException.class);
+
+        WebElement element = wait.until(d -> d.findElement(By.id("username")));
+        element.sendKeys("Admin");
+        driver.quit();
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- 9. Running Selenium Tests in Cloud Platforms -->
+            <div id="cloud" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                <h2 class="text-2xl font-bold text-indigo-400 mb-4">9. Running Selenium Tests in Cloud Platforms</h2>
+                <div class="text-gray-300 mb-6">
+                    <p>
+                        Tools like <span class="font-bold">BrowserStack</span>, <span class="font-bold">LambdaTest</span>, and <span class="font-bold">Sauce Labs</span> allow <span class="font-bold">remote execution</span> on <span class="font-bold">cloud-hosted browsers</span> and <span class="font-bold">devices</span>.
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <span class="lang-label bg-yellow-500 text-yellow-900">Python Example (BrowserStack)</span>
+                    <pre class="code-block"><code>from selenium import webdriver
+
+capabilities = {
+    "browserName": "Chrome",
+    "browserVersion": "latest",
+    "os": "Windows 11",
+}
+
+driver = webdriver.Remote(
+    command_executor='https://username:accesskey@hub-cloud.browserstack.com/wd/hub',
+    desired_capabilities=capabilities
+)
+
+driver.get("https://example.com")
+print(driver.title)
+driver.quit()</code></pre>
+                </div>
+
+                <div>
+                    <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                    <pre class="code-block"><code>import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import java.net.URL;
+
+public class CloudExecution {
+    public static void main(String[] args) throws Exception {
+        DesiredCapabilities caps = new DesiredCapabilities();
+        caps.setCapability("browserName", "Chrome");
+        caps.setCapability("browserVersion", "latest");
+        caps.setCapability("os", "Windows 11");
+
+        WebDriver driver = new RemoteWebDriver(
+            new URL("https://username:accesskey@hub-cloud.browserstack.com/wd/hub"),
+            caps
+        );
+
+        driver.get("https://example.com");
+        System.out.println(driver.getTitle());
+        driver.quit();
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- 10. BDD Framework Integration (Cucumber / Behave) -->
+            <div id="bdd" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                <h2 class="text-2xl font-bold text-indigo-400 mb-4">10. BDD Framework Integration (Cucumber / Behave)</h2>
+                <div class="text-gray-300 mb-6">
+                    <p>
+                        <span class="font-bold">Behavior Driven Development (BDD)</span> allows writing test cases in <span class="font-bold">plain English</span> using <span class="font-bold">Gherkin syntax</span>, promoting <span class="font-bold">collaboration</span> between QA, Dev, and BA.
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                    <span class="lang-label bg-yellow-500 text-yellow-900">Python Example (Behave - steps.py)</span>
+                    <pre class="code-block"><code># feature file content:
+# Feature: Google Search
+#   Scenario: Searching for Selenium
+#     Given I am on Google
+#     When I search for "Selenium"
+#     Then I see results related to Selenium
+
+from behave import given, when, then
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+@given('I am on Google')
+def step_impl(context):
+    context.driver = webdriver.Chrome()
+    context.driver.get("https://www.google.com")
+
+@when('I search for "{text}"')
+def step_impl(context, text):
+    box = context.driver.find_element(By.NAME, "q")
+    box.send_keys(text)
+    box.submit()
+
+@then('I see results related to Selenium')
+def step_impl(context):
+    assert "Selenium" in context.driver.title
+    context.driver.quit()</code></pre>
+                </div>
+
+                <div>
+                    <span class="lang-label bg-blue-500 text-blue-900">Java Example (Cucumber - Step Definitions)</span>
+                    <pre class="code-block"><code>// feature file content:
+// Feature: Google Search
+//   Scenario: Searching for Selenium
+//     Given user is on Google page
+//     When user searches for "Selenium"
+//     Then page title should contain "Selenium"
+
+import io.cucumber.java.en.*;
+import org.openqa.selenium.*;
+
+public class GoogleSteps {
+    WebDriver driver = new ChromeDriver();
+
+    @Given("user is on Google page")
+    public void open_google() {
+        driver.get("https://www.google.com");
+    }
+
+    @When("user searches for {string}")
+    public void search(String term) {
+        driver.findElement(By.name("q")).sendKeys(term + Keys.ENTER);
+    }
+
+    @Then("page title should contain {string}")
+    public void verify_title(String term) {
+        assert driver.getTitle().contains(term);
+        driver.quit();
+    }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-7xl mx-auto mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 p-4 sm:p-8">
+        <p>&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+    </footer>
+
+</body>
+</html>
+{% endblock %}

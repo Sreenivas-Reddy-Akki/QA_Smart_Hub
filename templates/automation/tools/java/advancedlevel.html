@@ -1,0 +1,674 @@
+{% extends "base.html" %}
+{% block title %}Java Advanced Concepts{% endblock %}
+{% block extra_head %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Advanced Concepts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex">
+
+<!-- Sidebar Navigation -->
+<aside class="w-64 bg-gray-800 p-4 space-y-3 sticky top-0 h-screen">
+    <h2 class="text-2xl font-bold text-center mb-6 border-b border-gray-600 pb-3">Java Advanced</h2>
+    <nav class="space-y-2">
+        <a href="#multithreading" class="block text-gray-300 hover:text-white">1. Multithreading</a>
+        <a href="#java8plus" class="block text-gray-300 hover:text-white">2. Java 8+ Advanced Features</a>
+        <a href="#jdbc" class="block text-gray-300 hover:text-white">3. JDBC (Database Connectivity)</a>
+        <a href="#reflection" class="block text-gray-300 hover:text-white">4. Reflection API</a>
+        <a href="#annotations" class="block text-gray-300 hover:text-white">5. Annotations</a>
+        <a href="#networking" class="block text-gray-300 hover:text-white">6. Java Networking</a>
+        <a href="#nio" class="block text-gray-300 hover:text-white">7. Java I/O (NIO)</a>
+        <a href="#designpatterns" class="block text-gray-300 hover:text-white">8. Design Patterns</a>
+        <a href="#jvminternals" class="block text-gray-300 hover:text-white">9. JVM Internals</a>
+        <a href="#bestpractices" class="block text-gray-300 hover:text-white">10. Best Practices</a>
+    </nav>
+</aside>
+{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<main class="flex-1 p-6 space-y-10 overflow-y-auto">
+
+    <section id="multithreading">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">1. Multithreading and Concurrency</h1>
+        <p class="text-gray-300 mb-4">
+            Multithreading allows Java programs to perform multiple tasks simultaneously, improving performance and responsiveness.
+            A thread is a lightweight process managed by the JVM.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Creating Threads using <code>Thread</code> class</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+class MyThread extends Thread {
+    public void run() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println(Thread.currentThread().getName() + " : " + i);
+        }
+    }
+
+    public static void main(String[] args) {
+        MyThread t1 = new MyThread();
+        MyThread t2 = new MyThread();
+        t1.start();
+        t2.start();
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Implementing <code>Runnable</code> Interface</h2>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+class MyRunnable implements Runnable {
+    public void run() {
+        for (int i = 1; i <= 3; i++) {
+            System.out.println(Thread.currentThread().getName() + " running " + i);
+        }
+    }
+
+    public static void main(String[] args) {
+        Thread t1 = new Thread(new MyRunnable(), "Thread-1");
+        Thread t2 = new Thread(new MyRunnable(), "Thread-2");
+        t1.start();
+        t2.start();
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Thread Synchronization</h2>
+        <p class="mb-3">Synchronization prevents multiple threads from accessing shared resources simultaneously, avoiding data inconsistency.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+class Counter {
+    int count;
+
+    synchronized void increment() {
+        count++;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        Counter c = new Counter();
+
+        Thread t1 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) c.increment();
+        });
+
+        Thread t2 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) c.increment();
+        });
+
+        t1.start();
+        t2.start();
+        t1.join();
+        t2.join();
+
+        System.out.println("Final Count: " + c.count);
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Executors Framework</h2>
+        <p class="mb-3">The Executors framework provides thread pools for managing large numbers of concurrent tasks efficiently.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        for (int i = 1; i <= 5; i++) {
+            int taskId = i;
+            executor.submit(() -> {
+                System.out.println("Running task " + taskId + " by " + Thread.currentThread().getName());
+            });
+        }
+
+        executor.shutdown();
+    }
+}
+</code></pre>
+    </section>
+
+
+        <section id="java8plus">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">2. Java 8+ Advanced Features</h1>
+        <p class="text-gray-300 mb-4">
+            Java 8 introduced several powerful features like Lambda Expressions, Streams API, Optional, and Method References,
+            making Java more functional and concise.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Lambda Expressions</h2>
+        <p class="mb-3">Lambda expressions enable functional-style programming and reduce boilerplate code.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+@FunctionalInterface
+interface Greeting {
+    void sayHello(String name);
+}
+
+public class LambdaDemo {
+    public static void main(String[] args) {
+        Greeting greet = (name) -> System.out.println("Hello " + name + "!");
+        greet.sayHello("Selenium Learner");
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Streams API</h2>
+        <p class="mb-3">Streams simplify processing collections using filter-map-reduce operations.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.util.Arrays;
+import java.util.List;
+
+public class StreamExample {
+    public static void main(String[] args) {
+        List&lt;Integer&gt; numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
+
+        int sum = numbers.stream()
+                         .filter(n -> n % 2 == 0)
+                         .mapToInt(n -> n * n)
+                         .sum();
+
+        System.out.println("Sum of squares of even numbers: " + sum);
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Optional Class</h2>
+        <p class="mb-3">Optional helps avoid <code>NullPointerException</code> by providing a container for optional values.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.util.Optional;
+
+public class OptionalDemo {
+    public static void main(String[] args) {
+        Optional&lt;String&gt; name = Optional.ofNullable(null);
+
+        System.out.println(name.orElse("Default User"));
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Method References</h2>
+        <p class="mb-3">Method references are shorthand for calling existing methods using the <code>::</code> operator.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.util.Arrays;
+
+public class MethodRefExample {
+    public static void main(String[] args) {
+        String[] names = {"Ravi", "Sita", "Amit"};
+        Arrays.sort(names, String::compareToIgnoreCase);
+        Arrays.stream(names).forEach(System.out::println);
+    }
+}
+</code></pre>
+    </section>
+
+    <section id="jdbc">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">3. JDBC (Java Database Connectivity)</h1>
+        <p class="text-gray-300 mb-4">
+            JDBC allows Java programs to connect and interact with databases using SQL queries.
+            It provides methods for connecting, executing queries, and handling results.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 JDBC Workflow</h2>
+        <ul class="list-disc pl-6 mb-4 text-gray-300">
+            <li>1️⃣ Load JDBC Driver</li>
+            <li>2️⃣ Establish Connection</li>
+            <li>3️⃣ Create Statement</li>
+            <li>4️⃣ Execute Query</li>
+            <li>5️⃣ Process Results</li>
+            <li>6️⃣ Close Connection</li>
+        </ul>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class JDBCDemo {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/testdb";
+        String user = "root";
+        String password = "password";
+
+        try {
+            // 1. Load Driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // 2. Establish Connection
+            Connection con = DriverManager.getConnection(url, user, password);
+
+            // 3. Create Statement
+            Statement stmt = con.createStatement();
+
+            // 4. Execute Query
+            ResultSet rs = stmt.executeQuery("SELECT * FROM employees");
+
+            // 5. Process Results
+            while (rs.next()) {
+                System.out.println(rs.getInt("id") + " - " + rs.getString("name"));
+            }
+
+            // 6. Close Connection
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+    </section>
+
+
+        <section id="reflection">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">4. Reflection API</h1>
+        <p class="text-gray-300 mb-4">
+            The Reflection API lets you inspect or modify classes, fields, methods, and constructors at runtime.
+            It’s often used in frameworks, testing tools, and IDEs.
+        </p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.lang.reflect.Method;
+
+class Sample {
+    public void display() {
+        System.out.println("Hello from Reflection!");
+    }
+}
+
+public class ReflectionDemo {
+    public static void main(String[] args) throws Exception {
+        // Load the class dynamically
+        Class&lt;?&gt; cls = Class.forName("Sample");
+
+        // Create an object
+        Object obj = cls.getDeclaredConstructor().newInstance();
+
+        // Get all methods
+        Method[] methods = cls.getDeclaredMethods();
+
+        for (Method m : methods) {
+            System.out.println("Method: " + m.getName());
+        }
+
+        // Invoke a method dynamically
+        Method method = cls.getMethod("display");
+        method.invoke(obj);
+    }
+}
+</code></pre>
+    </section>
+
+    <section id="annotations">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">5. Annotations</h1>
+        <p class="text-gray-300 mb-4">
+            Annotations provide metadata about the code.
+            They’re widely used in frameworks like Spring and JUnit.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Built-in Annotations</h2>
+        <ul class="list-disc pl-6 text-gray-300 mb-4">
+            <li><code>@Override</code> — ensures a method overrides a superclass method.</li>
+            <li><code>@Deprecated</code> — marks a method as obsolete.</li>
+            <li><code>@SuppressWarnings</code> — hides specific compiler warnings.</li>
+        </ul>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+class Parent {
+    void show() {
+        System.out.println("Parent method");
+    }
+}
+
+class Child extends Parent {
+    @Override
+    void show() {
+        System.out.println("Overridden in Child");
+    }
+
+    @Deprecated
+    void oldMethod() {
+        System.out.println("Deprecated method");
+    }
+}
+
+public class AnnotationDemo {
+    public static void main(String[] args) {
+        new Child().show();
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Custom Annotations</h2>
+        <p class="mb-3">
+            You can define your own annotations for specific use cases such as validation or documentation.
+        </p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.lang.annotation.*;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+@interface MyAnnotation {
+    String value() default "Learning Java";
+}
+
+public class CustomAnnotationExample {
+    @MyAnnotation(value = "Hello Annotation")
+    public void display() {
+        System.out.println("Using Custom Annotation");
+    }
+
+    public static void main(String[] args) throws Exception {
+        MyAnnotation ann = CustomAnnotationExample.class
+                .getMethod("display")
+                .getAnnotation(MyAnnotation.class);
+        System.out.println("Value: " + ann.value());
+    }
+}
+</code></pre>
+    </section>
+
+    <section id="networking">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">6. Java Networking</h1>
+        <p class="text-gray-300 mb-4">
+            Java Networking API enables communication between computers over a network using sockets and URLs.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Socket Programming (Example)</h2>
+        <p class="mb-3">Below is a simple client–server example using sockets.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+// Server.java
+import java.io.*;
+import java.net.*;
+
+public class Server {
+    public static void main(String[] args) throws IOException {
+        ServerSocket ss = new ServerSocket(5000);
+        Socket s = ss.accept();
+
+        DataInputStream dis = new DataInputStream(s.getInputStream());
+        String message = dis.readUTF();
+        System.out.println("Client says: " + message);
+
+        ss.close();
+    }
+}
+</code></pre>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+// Client.java
+import java.io.*;
+import java.net.*;
+
+public class Client {
+    public static void main(String[] args) throws IOException {
+        Socket s = new Socket("localhost", 5000);
+        DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+        dos.writeUTF("Hello from Client!");
+        s.close();
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Working with URL</h2>
+        <p class="mb-3">Use the <code>java.net.URL</code> class to read data from a webpage.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.net.*;
+import java.io.*;
+
+public class URLExample {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://example.com");
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(url.openStream()));
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+    </section>
+
+
+        <section id="nio">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">7. Java NIO (New Input/Output)</h1>
+        <p class="text-gray-300 mb-4">
+            Java NIO (Non-blocking I/O) introduced channels, buffers, and selectors for high-performance I/O operations.
+            It provides faster file and network handling compared to traditional streams.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Reading File Using NIO</h2>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.nio.file.*;
+import java.io.IOException;
+
+public class ReadFileNIO {
+    public static void main(String[] args) {
+        try {
+            Path path = Paths.get("sample.txt");
+            String content = Files.readString(path);
+            System.out.println(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Writing File Using NIO</h2>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.nio.file.*;
+import java.io.IOException;
+
+public class WriteFileNIO {
+    public static void main(String[] args) {
+        try {
+            Path path = Paths.get("output.txt");
+            Files.writeString(path, "Hello, Java NIO!");
+            System.out.println("File written successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+    </section>
+
+    <section id="design-patterns">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">8. Design Patterns (Core Java)</h1>
+        <p class="text-gray-300 mb-4">
+            Design Patterns are reusable solutions to common software design problems.
+            They improve flexibility, maintainability, and scalability of applications.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Singleton Pattern</h2>
+        <p class="mb-3">Ensures only one instance of a class exists throughout the program.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+public class Singleton {
+    private static Singleton instance;
+
+    private Singleton() {} // Private constructor
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+
+    public void showMessage() {
+        System.out.println("Singleton Instance Active!");
+    }
+
+    public static void main(String[] args) {
+        Singleton obj = Singleton.getInstance();
+        obj.showMessage();
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Factory Pattern</h2>
+        <p class="mb-3">Used to create objects without exposing the creation logic to the client.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+interface Shape {
+    void draw();
+}
+
+class Circle implements Shape {
+    public void draw() { System.out.println("Drawing Circle"); }
+}
+
+class Square implements Shape {
+    public void draw() { System.out.println("Drawing Square"); }
+}
+
+class ShapeFactory {
+    public Shape getShape(String type) {
+        if (type.equalsIgnoreCase("circle")) return new Circle();
+        if (type.equalsIgnoreCase("square")) return new Square();
+        return null;
+    }
+}
+
+public class FactoryPatternDemo {
+    public static void main(String[] args) {
+        ShapeFactory factory = new ShapeFactory();
+        Shape shape1 = factory.getShape("circle");
+        shape1.draw();
+    }
+}
+</code></pre>
+
+        <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Observer Pattern</h2>
+        <p class="mb-3">Defines a one-to-many relationship where when one object changes state, dependents are notified.</p>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+import java.util.*;
+
+interface Observer {
+    void update(String message);
+}
+
+class Subscriber implements Observer {
+    private String name;
+    public Subscriber(String name) { this.name = name; }
+    public void update(String message) {
+        System.out.println(name + " received: " + message);
+    }
+}
+
+class Channel {
+    private List&lt;Observer&gt; subscribers = new ArrayList&lt;&gt;();
+    public void subscribe(Observer o) { subscribers.add(o); }
+    public void notifyObservers(String message) {
+        for (Observer o : subscribers) {
+            o.update(message);
+        }
+    }
+}
+
+public class ObserverPatternDemo {
+    public static void main(String[] args) {
+        Channel channel = new Channel();
+        Observer s1 = new Subscriber("User1");
+        Observer s2 = new Subscriber("User2");
+
+        channel.subscribe(s1);
+        channel.subscribe(s2);
+
+        channel.notifyObservers("New Video Uploaded!");
+    }
+}
+</code></pre>
+    </section>
+
+    <section id="jvm-internals">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">9. JVM Internals</h1>
+        <p class="text-gray-300 mb-4">
+            The JVM (Java Virtual Machine) is the engine that runs Java bytecode.
+            It manages memory, loads classes, and performs Just-In-Time (JIT) compilation.
+        </p>
+
+        <ul class="list-disc pl-6 text-gray-300 mb-4">
+            <li><strong>Class Loader:</strong> Loads .class files into JVM memory.</li>
+            <li><strong>Memory Areas:</strong> Heap, Stack, Metaspace, and PC Register.</li>
+            <li><strong>Execution Engine:</strong> Executes bytecode using JIT Compiler.</li>
+            <li><strong>Garbage Collector:</strong> Frees unused memory automatically.</li>
+        </ul>
+
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+// Example: JVM Garbage Collection
+public class GCExample {
+    public static void main(String[] args) {
+        GCExample obj = new GCExample();
+        obj = null; // Object eligible for GC
+        System.gc(); // Suggest garbage collection
+        System.out.println("Garbage Collection Requested");
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        System.out.println("Object is being garbage collected!");
+    }
+}
+</code></pre>
+    </section>
+
+    <section id="best-practices">
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">10. Java Best Practices</h1>
+        <ul class="list-disc pl-6 text-gray-300 mb-4">
+            <li>✅ Follow consistent naming conventions for classes and variables.</li>
+            <li>✅ Use proper exception handling — avoid empty catch blocks.</li>
+            <li>✅ Prefer composition over inheritance.</li>
+            <li>✅ Always close database and file connections.</li>
+            <li>✅ Use meaningful log messages and avoid System.out in production.</li>
+            <li>✅ Optimize Streams and avoid unnecessary loops.</li>
+        </ul>
+<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+// Example of proper resource handling
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class TryWithResourcesExample {
+    public static void main(String[] args) {
+        try (BufferedReader br = new BufferedReader(new FileReader("data.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+    </section>
+
+</main>
+
+</body>
+{% endblock %}
+
+
+

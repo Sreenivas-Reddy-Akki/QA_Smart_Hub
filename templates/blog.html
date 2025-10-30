@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}Blog & Articles{% endblock %}
+
+{% block content %}
+<style>
+    /* Styling for the subscribe button to match primary color */
+    #subscribe-btn {
+        transition: all 0.2s;
+    }
+    #subscribe-btn:hover {
+        background-color: #3730a3; /* Indigo-700 */
+        transform: translateY(-1px);
+    }
+    /* Active filter state for dark mode */
+    .filter-active-dark {
+        background-color: #4f46e5;
+        color: #ffffff !important;
+        font-weight: 600;
+    }
+    /* Active filter state for light mode */
+    .light-theme .filter-active-light {
+        background-color: #4f46e5;
+        color: #ffffff !important;
+        font-weight: 600;
+    }
+</style>
+
+<div class="space-y-10">
+
+    <!-- Hero Section -->
+    <header class="text-center py-10 bg-secondary rounded-xl shadow-2xl">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-text-light mb-3">
+            The QA Smart Hub Blog
+        </h1>
+        <p class="text-xl text-text-muted max-w-2xl mx-auto">
+            Insights, best practices, and deep dives into the world of Software Quality Assurance, Automation, and AI.
+        </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- Sidebar: Filters and Categories -->
+        <aside class="lg:col-span-1">
+            <div class="sticky top-20 p-6 bg-secondary rounded-xl shadow-lg space-y-6">
+                <h3 class="text-2xl font-semibold text-text-light mb-4 border-b border-gray-700 pb-2">Filter by Category</h3>
+
+                <ul id="category-filters" class="space-y-2">
+                    <!-- All button is active by default -->
+                    <li>
+                        <button data-filter="all" class="filter-btn w-full text-left p-3 rounded-lg text-text-light hover:bg-gray-700 transition duration-150 filter-active-dark filter-active-light">
+                            All Articles
+                        </button>
+                    </li>
+                    <li>
+                        <button data-filter="Automation" class="filter-btn w-full text-left p-3 rounded-lg text-text-muted hover:bg-gray-700 hover:text-text-light transition duration-150">
+                            Automation (2)
+                        </button>
+                    </li>
+                    <li>
+                        <button data-filter="AI" class="filter-btn w-full text-left p-3 rounded-lg text-text-muted hover:bg-gray-700 hover:text-text-light transition duration-150">
+                            AI in Testing (1)
+                        </button>
+                    </li>
+                    <li>
+                        <button data-filter="Manual" class="filter-btn w-full text-left p-3 rounded-lg text-text-muted hover:bg-gray-700 hover:text-text-light transition duration-150">
+                            Manual Testing (2)
+                        </button>
+                    </li>
+                    <li>
+                        <button data-filter="General" class="filter-btn w-full text-left p-3 rounded-lg text-text-muted hover:bg-gray-700 hover:text-text-light transition duration-150">
+                            General Insights (1)
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content: Article Grid -->
+        <section id="article-grid" class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Article Cards will be dynamically injected here by JavaScript -->
+        </section>
+
+    </div>
+
+    <!-- Newsletter Subscription Section -->
+    <section class="mt-12 p-8 bg-secondary rounded-xl shadow-2xl border-t-4 border-primary">
+        <div class="md:flex md:justify-between md:items-center">
+            <div class="mb-6 md:mb-0">
+                <h3 class="text-3xl font-bold text-primary mb-2">Stay Ahead of the Curve</h3>
+                <p class="text-text-muted">Subscribe to our newsletter for weekly QA tips, tool reviews, and AI news.</p>
+            </div>
+            <form id="subscribe-form" class="flex flex-col sm:flex-row gap-3 w-full max-w-md">
+                <input type="email" id="email-input" placeholder="Enter your email" required
+                       class="flex-grow p-3 rounded-lg bg-background border border-gray-700 text-text-light focus:ring-primary focus:border-primary">
+                <button type="submit" id="subscribe-btn"
+                        class="px-6 py-3 rounded-lg font-semibold text-white bg-primary shadow-md">
+                    Subscribe
+                </button>
+            </form>
+        </div>
+        <div id="subscribe-message" class="mt-4 text-center hidden"></div>
+    </section>
+
+</div>
+
+<script>
+    const MOCK_POSTS = [
+        { title: "How AI is Changing Software Testing", category: "AI", date: "Oct 15, 2025", summary: "A deep dive into how large language models and machine learning are revolutionizing test case generation and defect prediction." },
+        { title: "Top 10 Automation Testing Tools in 2025", category: "Automation", date: "Sep 28, 2025", summary: "A comprehensive review of the best frameworks and tools, including Cypress, Playwright, and Selenium." },
+        { title: "Manual to Automation – My Journey", category: "General", date: "Sep 10, 2025", summary: "Sharing personal insights and lessons learned transitioning from a manual QA role to an automation specialist." },
+        { title: "Common QA Mistakes and How to Avoid Them", category: "Manual", date: "Aug 20, 2025", summary: "A list of frequent errors in testing workflows and practical tips to improve quality assurance processes." },
+        { title: "How to Write Better Bug Reports", category: "Manual", date: "Jul 5, 2025", summary: "Master the art of creating concise, reproducible, and impactful bug reports that developers love." },
+        { title: "The Future of Low-Code Test Automation", category: "Automation", date: "Oct 20, 2025", summary: "Exploring platforms that enable non-developers to build robust and scalable test suites quickly." },
+    ];
+
+    const grid = document.getElementById('article-grid');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const body = document.body;
+
+    // Helper to get color class based on category
+    function getCategoryClass(category) {
+        switch (category) {
+            case 'Automation': return 'bg-indigo-600 text-white';
+            case 'AI': return 'bg-purple-600 text-white';
+            case 'Manual': return 'bg-green-600 text-white';
+            case 'General': return 'bg-gray-600 text-white';
+            default: return 'bg-gray-500 text-white';
+        }
+    }
+
+    // Function to render posts
+    function renderPosts(posts) {
+        grid.innerHTML = ''; // Clear existing posts
+
+        if (posts.length === 0) {
+            grid.innerHTML = `
+                <div class="col-span-full p-8 text-center bg-secondary rounded-lg text-text-muted">
+                    No articles found in this category.
+                </div>
+            `;
+            return;
+        }
+
+        posts.forEach(post => {
+            const categoryClass = getCategoryClass(post.category);
+            const postHtml = `
+                <div data-category="${post.category}" class="post-card bg-secondary p-6 rounded-xl shadow-xl border border-gray-700 hover:border-primary card-hover-effect">
+                    <span class="inline-block px-3 py-1 text-xs font-semibold uppercase rounded-full ${categoryClass} mb-3">
+                        ${post.category}
+                    </span>
+                    <h2 class="text-xl font-bold text-text-light mb-2">${post.title}</h2>
+                    <p class="text-text-muted mb-4">${post.summary}</p>
+                    <div class="flex justify-between items-center text-sm text-text-muted pt-2 border-t border-gray-800 light-theme:border-gray-300">
+                        <span>${post.date}</span>
+                        <a href="#" class="text-primary hover:text-indigo-400 font-medium transition duration-150">Read More &rarr;</a>
+                    </div>
+                </div>
+            `;
+            grid.insertAdjacentHTML('beforeend', postHtml);
+        });
+    }
+
+    // Function to handle filtering
+    function filterPosts(category) {
+        const filteredPosts = category === 'all'
+            ? MOCK_POSTS
+            : MOCK_POSTS.filter(post => post.category === category);
+
+        renderPosts(filteredPosts);
+
+        // Update active class on buttons
+        filterButtons.forEach(btn => {
+            btn.classList.remove('filter-active-dark', 'filter-active-light');
+            if (btn.dataset.filter === category) {
+                // Apply the correct active class based on the current theme
+                if (body.classList.contains('light-theme')) {
+                    btn.classList.add('filter-active-light');
+                } else {
+                    btn.classList.add('filter-active-dark');
+                }
+            }
+        });
+    }
+
+    // Event listeners for filter buttons
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const category = button.dataset.filter;
+            filterPosts(category);
+        });
+    });
+
+    // Handle newsletter subscription form submission
+    document.getElementById('subscribe-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const emailInput = document.getElementById('email-input');
+        const messageDiv = document.getElementById('subscribe-message');
+
+        // Simple client-side validation
+        if (!emailInput.value || !emailInput.value.includes('@')) {
+            messageDiv.textContent = 'Please enter a valid email address.';
+            messageDiv.className = 'mt-4 text-center text-red-400';
+            messageDiv.classList.remove('hidden');
+            return;
+        }
+
+        // Simulate API call for subscription
+        setTimeout(() => {
+            messageDiv.textContent = `Thank you for subscribing, ${emailInput.value}! You'll receive our next QA newsletter soon.`;
+            messageDiv.className = 'mt-4 text-center text-green-400';
+            messageDiv.classList.remove('hidden');
+            emailInput.value = ''; // Clear input
+        }, 500);
+
+         // Hide message after a few seconds
+         setTimeout(() => {
+            messageDiv.classList.add('hidden');
+         }, 5000);
+    });
+
+    // Initial render on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        renderPosts(MOCK_POSTS);
+    });
+
+    // Rerun filter styling if theme changes (only if you had a live theme switch)
+    // For this single-file setup, we rely on the CSS rules and the initial load.
+    // However, if the theme toggle function in base.html was accessible, we'd add a listener.
+</script>
+{% endblock %}

@@ -1,0 +1,287 @@
+
+{% extends "base.html" %}
+
+{% block title %}Selenium Learning Guide: Beginner to Advanced{% endblock %}
+
+{% block content %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selenium Learning Guide: Beginner to Advanced</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font import for aesthetics */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style for code blocks to ensure readability */
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'body-black': '#000000',           /* Requested Deep Black Background */
+                        'template-grey': '#1f2937',        /* Requested Dark Grey Section Template (Tailwind gray-800) */
+                        'header-blue': '#1e40af',          /* Deep Blue (no longer used for header/footer background) */
+                        'headline-blue': '#3b82f6',        /* Bright Blue for H2 Headlines (Tailwind blue-500) */
+                        'code-black': '#0f172a',           /* Very dark slate for code blocks (Tailwind slate-900) */
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-body-black min-h-screen text-gray-200"> <!-- Body is Black, text is Light Gray -->
+
+    <!-- Header Section (Pure Black) -->
+    <header class="bg-black text-white shadow-2xl">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                Selenium Learning Guide
+            </h1>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pb-12">
+
+        <!-- 1. Introduction to Selenium (Dark Grey Template) -->
+        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">1. Introduction to Selenium</h2>
+            
+            <h3 class="text-xl font-semibold text-white mt-4 mb-2">What is Selenium?</h3>
+            <p class="mb-4 text-gray-300">
+                Selenium is an open-source framework for automating web browsers. It supports multiple programming languages (Java, Python, C#, etc.) and browsers (Chrome, Firefox, Edge, etc.). Selenium is widely used for:
+            </p>
+            <ul class="list-disc list-inside space-y-1 ml-4 text-gray-400">
+                <li>Web application testing</li>
+                <li>Web scraping</li>
+                <li>Automating repetitive tasks</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-white mt-6 mb-2">Why Learn Selenium?</h3>
+            <ul class="list-disc list-inside space-y-1 ml-4 text-gray-400">
+                <li>High demand in QA and automation roles</li>
+                <li>Works with multiple programming languages</li>
+                <li>Supports cross-browser testing</li>
+                <li>Integrates with CI/CD pipelines</li>
+            </ul>
+        </section>
+
+        <!-- 2. Prerequisites for Selenium (Dark Grey Template) -->
+        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">2. Prerequisites for Selenium</h2>
+            
+            <h3 class="text-xl font-semibold text-white mt-4 mb-2">Programming Language</h3>
+            <p class="mb-4 text-gray-300">Basic knowledge of <strong>Java</strong>, <strong>Python</strong>, or <strong>C#</strong> (Python is recommended for beginners).</p>
+
+            <h3 class="text-xl font-semibold text-white mt-6 mb-2">Web Technologies</h3>
+            <p class="mb-4 text-gray-300">Understanding of <strong>HTML</strong>, <strong>CSS</strong>, and <strong>JavaScript</strong> (to locate elements on a webpage).</p>
+
+            <h3 class="text-xl font-semibold text-white mt-6 mb-2">Development Environment</h3>
+            <p class="mb-4 text-gray-300">Install an IDE (e.g., <strong>PyCharm</strong>, <strong>VS Code</strong>, or <strong>Eclipse</strong>).</p>
+
+            <h3 class="text-xl font-semibold text-white mt-6 mb-2">Web Browsers</h3>
+            <p class="text-gray-300">Install the latest versions of <strong>Chrome</strong>, <strong>Firefox</strong>, or <strong>Edge</strong>.</p>
+        </section>
+
+        <!-- 3. Selenium Installation Process (Dark Grey Template) -->
+        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">3. Selenium Installation Process</h2>
+            
+            <h3 class="text-xl font-semibold text-white mt-4 mb-2">Step 1: Install Python</h3>
+            <p class="text-gray-300">Download and install Python from <a href="https://www.python.org/downloads/" target="_blank" class="text-headline-blue hover:underline">python.org</a>.</p>
+            <p class="mt-2 text-gray-300">Verify installation:</p>
+            <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>python --version</code></pre>
+
+            <h3 class="text-xl font-semibold text-white mt-6 mb-2">Step 2: Install Selenium Library</h3>
+            <p class="text-gray-300">Use <code class="bg-gray-700 text-white px-1 rounded">pip</code> to install Selenium:</p>
+            <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>pip install selenium</code></pre>
+
+            <h3 class="text-xl font-semibold text-white mt-6 mb-2">Step 3: Download WebDriver</h3>
+            <p class="text-gray-300">Download the appropriate WebDriver for your browser:</p>
+            <ul class="list-disc list-inside space-y-1 ml-4 text-gray-400">
+                <li><a href="https://sites.google.com/chromium.org/driver/" target="_blank" class="text-headline-blue hover:underline">ChromeDriver</a></li>
+                <li><a href="https://github.com/mozilla/geckodriver/releases" target="_blank" class="text-headline-blue hover:underline">GeckoDriver (Firefox)</a></li>
+                <li><a href="https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/" target="_blank" class="text-headline-blue hover:underline">EdgeDriver</a></li>
+            </ul>
+            <p class="mt-2 text-gray-300">Place the WebDriver in a known directory or add it to your system's PATH.</p>
+        </section>
+
+        <!-- 4. Selenium Basics (Dark Grey Template) -->
+        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">4. Selenium Basics</h2>
+            
+            <h3 class="text-xl font-semibold text-white mt-4 mb-2">Launching a Browser</h3>
+            <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>from selenium import webdriver
+
+# Launch Chrome
+driver = webdriver.Chrome(executable_path="path/to/chromedriver")
+
+# Open a website
+driver.get("https://www.google.com")</code></pre>
+
+            <h3 class="text-xl font-semibold text-white mt-6 mb-2">Locating Elements</h3>
+            <p class="text-gray-300">Selenium provides methods to locate elements using:</p>
+            <ul class="list-disc list-inside space-y-1 ml-4 text-gray-400">
+                <li><strong>ID</strong></li>
+                <li><strong>Name</strong></li>
+                <li><strong>Class Name</strong></li>
+                <li><strong>CSS Selector</strong></li>
+                <li><strong>XPath</strong></li>
+            </ul>
+            <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>search_box = driver.find_element("name", "q")
+search_box.send_keys("Selenium")
+search_box.submit()</code></pre>
+        </section>
+
+        <!-- 5. Intermediate Selenium Topics (Dark Grey Template) -->
+        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">5. Intermediate Selenium Topics</h2>
+            
+            <h3 class="text-xl font-semibold text-white mt-4 mb-2">Handling Waits</h3>
+            <ul class="list-disc list-inside space-y-1 ml-4 text-gray-400">
+                <li><strong>Implicit Wait:</strong> Waits for a specified time before throwing an exception.</li>
+                <li><strong>Explicit Wait:</strong> Waits for a specific condition.</li>
+            </ul>
+            <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+element = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.ID, "element_id"))
+)</code></pre>
+
+            <h3 class="text-xl font-semibold text-white mt-6 mb-2">Handling Alerts and Popups</h3>
+            <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>alert = driver.switch_to.alert
+alert.accept()  # Clicks "OK"
+alert.dismiss() # Clicks "Cancel"</code></pre>
+
+            <h3 class="text-xl font-semibold text-white mt-6 mb-2">Working with Frames</h3>
+            <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>driver.switch_to.frame("frame_name")  # Switch to frame
+driver.switch_to.default_content()    # Switch back to main page</code></pre>
+        </section>
+
+        <!-- 6. Advanced Selenium Topics (Dark Grey Template) -->
+        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">6. Advanced Selenium Topics</h2>
+            
+            <h3 class="text-xl font-semibold text-white mt-4 mb-2">Page Object Model (POM)</h3>
+            <p class="text-gray-300">A design pattern to create an object repository for web elements.</p>
+            <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>class LoginPage:
+    def __init__(self, driver):
+        self.driver = driver
+        self.username_field = (By.ID, "username")
+        self.password_field = (By.ID, "password")
+        self.login_button = (By.ID, "login")
+
+    def login(self, username, password):
+        self.driver.find_element(*self.username_field).send_keys(username)
+        self.driver.find_element(*self.password_field).send_keys(password)
+        self.driver.find_element(*self.login_button).click()</code></pre>
+
+            <h3 class="text-xl font-semibold text-white mt-6 mb-2">Headless Browsing</h3>
+            <p class="text-gray-300">Run tests without opening a browser window.</p>
+            <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.add_argument("--headless")
+driver = webdriver.Chrome(options=options)</code></pre>
+
+            <h3 class="text-xl font-semibold text-white mt-6 mb-2">Cross-Browser Testing</h3>
+            <p class="text-gray-300">Run the same test on multiple browsers.</p>
+            <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>browsers = ["chrome", "firefox", "edge"]
+for browser in browsers:
+    if browser == "chrome":
+        driver = webdriver.Chrome()
+    elif browser == "firefox":
+        driver = webdriver.Firefox()
+    elif browser == "edge":
+        driver = webdriver.Edge()
+    driver.get("https://www.google.com")
+    print(f"Title in {browser}: {driver.title}")
+    driver.quit()</code></pre>
+        </section>
+
+        <!-- 7. Selenium with Test Frameworks (Dark Grey Template) -->
+        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">7. Selenium with Test Frameworks</h2>
+            
+            <h3 class="text-xl font-semibold text-white mt-4 mb-2">UnitTest (Python)</h3>
+            <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>import unittest
+from selenium import webdriver
+
+class TestGoogleSearch(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+
+    def test_search(self):
+        self.driver.get("https://www.google.com")
+        search_box = self.driver.find_element("name", "q")
+        search_box.send_keys("Selenium")
+        search_box.submit()
+        assert "Selenium" in self.driver.title
+
+    def tearDown(self):
+        self.driver.quit()
+
+if __name__ == "__main__":
+    unittest.main()</code></pre>
+
+            <h3 class="text-xl font-semibold text-white mt-6 mb-2">Pytest</h3>
+            <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>import pytest
+from selenium import webdriver
+
+@pytest.fixture
+def driver():
+    driver = webdriver.Chrome()
+    yield driver
+    driver.quit()
+
+def test_google_search(driver):
+    driver.get("https://www.google.com")
+    search_box = driver.find_element("name", "q")
+    search_box.send_keys("Selenium")
+    search_box.submit()
+    assert "Selenium" in driver.title</code></pre>
+        </section>
+
+        <!-- 8. Best Practices (Dark Grey Template) -->
+        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">8. Best Practices</h2>
+            <ul class="list-disc list-inside space-y-2 ml-4 text-gray-400">
+                <li>Use <strong>Page Object Model (POM)</strong> for maintainability.</li>
+                <li>Implement <strong>waits</strong> to handle dynamic elements.</li>
+                <li>Run tests in <strong>headless mode</strong> for faster execution.</li>
+                <li>Use <strong>CI/CD integration</strong> (e.g., Jenkins, GitHub Actions) for automated testing.</li>
+            </ul>
+        </section>
+
+        <!-- 9. Resources (Dark Grey Template) -->
+        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">9. Resources</h2>
+            <ul class="list-disc list-inside space-y-2 ml-4 text-gray-400">
+                <li><a href="https://www.selenium.dev/documentation/" target="_blank" class="text-headline-blue hover:underline">Selenium Official Documentation</a></li>
+                <li><a href="https://selenium-python.readthedocs.io/" target="_blank" class="text-headline-blue hover:underline">Selenium with Python</a></li>
+                <li><a href="https://github.com/SeleniumHQ/selenium" target="_blank" class="text-headline-blue hover:underline">GitHub: Selenium Examples</a></li>
+            </ul>
+        </section>
+
+    </div>
+
+    <!-- Footer Section (Pure Black) -->
+    <footer class="bg-black text-white p-4 text-center">
+        <p class="text-sm">&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+    </footer>
+
+</body>
+{% endblock %}

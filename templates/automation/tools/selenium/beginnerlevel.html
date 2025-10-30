@@ -1,0 +1,581 @@
+{% extends "base.html" %}
+{% block title %}Selenium Complete Concepts for Beginners{% endblock %}
+{% block content %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selenium Complete Concepts for Beginners</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure custom colors and fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#38bdf8', // A vibrant sky blue for headings
+                        'code-bg': '#1f2937', // Dark gray for code blocks
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Apply smooth scrolling for navigation links */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Style the code blocks for readability */
+        pre {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        /* Fix the navigation bar */
+        #navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50; /* Higher than content */
+        }
+        /* Offset the anchor links to account for the fixed navbar height */
+        section::before {
+            content: "";
+            display: block;
+            height: 5rem; /* Height of the fixed navbar */
+            margin-top: -5rem;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        /* Table styling for better visibility on black background */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            border: 1px solid #4b5563; /* Darker border */
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #1f2937; /* Dark header row */
+            color: #ffffff;
+            font-weight: 600;
+        }
+        /* Styling for bold keywords within tables */
+        .keyword-bold b {
+            font-weight: 700 !important;
+        }
+    </style>
+    <!-- Use Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-black text-gray-100 font-sans">
+
+    <!-- Fixed Navigation Bar -->
+    <nav id="navbar" class="bg-gray-900 shadow-lg border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Updated Navigation Title Link -->
+                <a href="https://www.selenium.dev/" target="_blank" class="text-xl font-bold text-primary-blue hover:text-white transition duration-300">Selenium Guide <span class="text-sm font-normal text-gray-400"> (Official Site)</span></a>
+                <div class="hidden lg:flex lg:ml-6 space-x-4 overflow-x-auto py-2">
+                    <!-- Navigation links to concepts -->
+                    <a href="#concept-1" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Intro</a>
+                    <a href="#concept-4" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Locators</a>
+                    <a href="#concept-5" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Commands</a>
+                    <a href="#concept-7" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Waits</a>
+                    <a href="#concept-9" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Frames</a>
+                    <a href="#concept-10" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Actions</a>
+                    <a href="#concept-14" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">POM</a>
+                    <a href="#concept-15" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Frameworks</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="max-w-4xl mx-auto px-4 py-8 pt-24">
+
+        <h1 class="text-4xl font-extrabold text-primary-blue mb-10 text-center">Selenium Complete Concepts for Beginners</h1>
+
+        <!-- 1. Introduction to Selenium -->
+        <section id="concept-1" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">1. Introduction to Selenium</h2>
+            <p class="text-gray-300 mb-4">
+                Selenium is an <b class="font-bold">open-source tool</b> for automating web browsers. For more details, you can visit the <a href="https://www.selenium.dev/" target="_blank" class="text-primary-blue hover:text-white underline font-semibold">official Selenium website</a>. It supports multiple programming languages (like <b class="font-bold">Java</b>, <b class="font-bold">Python</b>, <b class="font-bold">C#</b>, etc.) and browsers (<b class="font-bold">Chrome</b>, <b class="font-bold">Firefox</b>, <b class="font-bold">Edge</b>, <b class="font-bold">Safari</b>).
+            </p>
+            <h3 class="text-xl font-semibold text-gray-200 mb-2">Key Features:</h3>
+            <ul class="list-disc list-inside ml-4 text-gray-300 mb-4 space-y-1">
+                <li>Automates browsers, not desktop apps.</li>
+                <li>Supports multiple browsers and platforms.</li>
+                <li>Integrates with CI/CD tools and frameworks.</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Python Example:</h3>
+            <pre class="bg-code-bg text-green-300 text-sm">
+from selenium import webdriver
+
+driver = webdriver.Chrome()
+driver.get("https://www.google.com")
+print(driver.title)
+driver.quit()
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Java Example:</h3>
+            <pre class="bg-code-bg text-yellow-300 text-sm">
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class FirstTest {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.google.com");
+        System.out.println(driver.getTitle());
+        driver.quit();
+    }
+}
+            </pre>
+        </section>
+
+        <!-- 2. Selenium Components -->
+        <section id="concept-2" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">2. Selenium Components</h2>
+            <p class="text-gray-300 mb-4">
+                Selenium consists of four main components:
+            </p>
+            <table class="text-gray-300 text-sm">
+                <thead>
+                    <tr>
+                        <th class="keyword-bold">Component</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="keyword-bold"><b class="font-bold">Selenium IDE</b></td>
+                        <td>Record and playback tool for quick test creation.</td>
+                    </tr>
+                    <tr>
+                        <td class="keyword-bold"><b class="font-bold">Selenium RC</b> (Deprecated)</td>
+                        <td>Older version of Selenium, replaced by WebDriver.</td>
+                    </tr>
+                    <tr>
+                        <td class="keyword-bold"><b class="font-bold">Selenium WebDriver</b></td>
+                        <td><b class="font-bold">Core component</b> to control browsers programmatically.</td>
+                    </tr>
+                    <tr>
+                        <td class="keyword-bold"><b class="font-bold">Selenium Grid</b></td>
+                        <td>Run tests in <b class="font-bold">parallel</b> on multiple machines.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 3. Setting Up Selenium Environment -->
+        <section id="concept-3" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">3. Setting Up Selenium Environment</h2>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Python Setup:</h3>
+            <pre class="bg-code-bg text-green-300 text-sm">
+pip install selenium
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Java Setup:</h3>
+            <p class="text-gray-300 mb-2">
+                Add <b class="font-bold">Selenium dependency</b> in <b class="font-bold">pom.xml</b> (if using Maven):
+            </p>
+            <pre class="bg-code-bg text-yellow-300 text-sm">
+&lt;dependency&gt;
+  &lt;groupId&gt;org.seleniumhq.selenium&lt;/groupId&gt;
+  &lt;artifactId&gt;selenium-java&lt;/artifactId&gt;
+  &lt;version&gt;4.25.0&lt;/version&gt;
+&lt;/dependency&gt;
+            </pre>
+        </section>
+
+        <!-- 4. Locators in Selenium -->
+        <section id="concept-4" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">4. Locators in Selenium</h2>
+            <p class="text-gray-300 mb-4">
+                <b class="font-bold">Locators</b> are used to identify web elements.
+            </p>
+            <h3 class="text-xl font-semibold text-gray-200 mb-2">Types of Locators:</h3>
+            <ul class="list-disc list-inside ml-4 text-gray-300 mb-4 space-y-1 keyword-bold">
+                <li><b class="font-bold">ID</b></li>
+                <li><b class="font-bold">Name</b></li>
+                <li><b class="font-bold">Class Name</b></li>
+                <li><b class="font-bold">Tag Name</b></li>
+                <li><b class="font-bold">Link Text</b></li>
+                <li><b class="font-bold">Partial Link Text</b></li>
+                <li><b class="font-bold">CSS Selector</b></li>
+                <li><b class="font-bold">XPath</b></li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Python Example:</h3>
+            <pre class="bg-code-bg text-green-300 text-sm">
+driver.find_element("id", "username").send_keys("admin")
+driver.find_element("name", "password").send_keys("pass123")
+driver.find_element("xpath", "//button[@type='submit']").click()
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Java Example:</h3>
+            <pre class="bg-code-bg text-yellow-300 text-sm">
+driver.findElement(By.id("username")).sendKeys("admin");
+driver.findElement(By.name("password")).sendKeys("pass123");
+driver.findElement(By.xpath("//button[@type='submit']")).click();
+            </pre>
+        </section>
+
+        <!-- 5. WebDriver Commands -->
+        <section id="concept-5" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">5. WebDriver Commands</h2>
+            <p class="text-gray-300 mb-4">
+                Basic commands to interact with the browser.
+            </p>
+            <table class="text-gray-300 text-sm">
+                <thead>
+                    <tr>
+                        <th class="keyword-bold">Command</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="keyword-bold"><b class="font-bold">get()</b></td>
+                        <td>Opens a URL</td>
+                    </tr>
+                    <tr>
+                        <td class="keyword-bold"><b class="font-bold">getTitle()</b></td>
+                        <td>Gets page title</td>
+                    </tr>
+                    <tr>
+                        <td class="keyword-bold"><b class="font-bold">getCurrentUrl()</b></td>
+                        <td>Gets current URL</td>
+                    </tr>
+                    <tr>
+                        <td class="keyword-bold"><b class="font-bold">close()</b></td>
+                        <td>Closes current tab</td>
+                    </tr>
+                    <tr>
+                        <td class="keyword-bold"><b class="font-bold">quit()</b></td>
+                        <td>Closes browser completely</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Python Example:</h3>
+            <pre class="bg-code-bg text-green-300 text-sm">
+driver.get("https://example.com")
+print(driver.title)
+print(driver.current_url)
+driver.close()
+driver.quit()
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Java Example:</h3>
+            <pre class="bg-code-bg text-yellow-300 text-sm">
+driver.get("https://example.com");
+System.out.println(driver.getTitle());
+System.out.println(driver.getCurrentUrl());
+driver.close();
+driver.quit();
+            </pre>
+        </section>
+
+        <!-- 6. Handling Web Elements -->
+        <section id="concept-6" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">6. Handling Web Elements</h2>
+            <p class="text-gray-300 mb-4">
+                Interacting with input boxes, buttons, checkboxes, dropdowns, etc. using commands like <b class="font-bold">sendKeys()</b> and the <b class="font-bold">Select</b> class.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Python Example:</h3>
+            <pre class="bg-code-bg text-green-300 text-sm">
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
+
+driver.find_element(By.ID, "username").send_keys("user")
+driver.find_element(By.ID, "login").click()
+select = Select(driver.find_element(By.ID, "country"))
+select.select_by_visible_text("India")
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Java Example:</h3>
+            <pre class="bg-code-bg text-yellow-300 text-sm">
+WebElement username = driver.findElement(By.id("username"));
+username.sendKeys("user");
+driver.findElement(By.id("login")).click();
+Select country = new Select(driver.findElement(By.id("country")));
+country.selectByVisibleText("India");
+            </pre>
+        </section>
+
+        <!-- 7. Waits in Selenium -->
+        <section id="concept-7" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">7. Waits in Selenium</h2>
+            <p class="text-gray-300 mb-4">
+                Used to <b class="font-bold">synchronize</b> test execution with the web page loading.
+            </p>
+            <h3 class="text-xl font-semibold text-gray-200 mb-2">Types of Waits:</h3>
+            <ul class="list-disc list-inside ml-4 text-gray-300 mb-4 space-y-1 keyword-bold">
+                <li><b class="font-bold">Implicit Wait</b></li>
+                <li><b class="font-bold">Explicit Wait</b></li>
+                <li><b class="font-bold">Fluent Wait</b></li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Python Example:</h3>
+            <pre class="bg-code-bg text-green-300 text-sm">
+# Implicit Wait
+driver.implicitly_wait(10)
+
+# Explicit Wait
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+wait = WebDriverWait(driver, 10)
+element = wait.until(EC.visibility_of_element_located((By.ID, "welcome")))
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Java Example:</h3>
+            <pre class="bg-code-bg text-yellow-300 text-sm">
+// Implicit Wait
+driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+// Explicit Wait
+WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("welcome")));
+            </pre>
+        </section>
+
+        <!-- 8. Handling Alerts -->
+        <section id="concept-8" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">8. Handling Alerts</h2>
+            <p class="text-gray-300 mb-4">
+                Alerts are <b class="font-bold">popup messages</b> on the browser. You must <b class="font-bold">switch to</b> them to interact.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Python Example:</h3>
+            <pre class="bg-code-bg text-green-300 text-sm">
+alert = driver.switch_to.alert
+print(alert.text)
+alert.accept()  # or alert.dismiss()
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Java Example:</h3>
+            <pre class="bg-code-bg text-yellow-300 text-sm">
+Alert alert = driver.switchTo().alert();
+System.out.println(alert.getText());
+alert.accept(); // or alert.dismiss();
+            </pre>
+        </section>
+
+        <!-- 9. Handling Frames and Windows -->
+        <section id="concept-9" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">9. Handling Frames and Windows</h2>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Python Example:</h3>
+            <pre class="bg-code-bg text-green-300 text-sm">
+# Switch to frame by name
+driver.switch_to.frame("frameName")
+driver.switch_to.default_content() # Go back to main page
+
+# Switch to window
+handles = driver.window_handles
+driver.switch_to.window(handles[1])
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Java Example:</h3>
+            <pre class="bg-code-bg text-yellow-300 text-sm">
+driver.switchTo().frame("frameName");
+driver.switchTo().defaultContent();
+
+Set&lt;String&gt; handles = driver.getWindowHandles();
+for (String handle : handles) {
+    driver.switchTo().window(handle);
+}
+            </pre>
+        </section>
+
+        <!-- 10. Handling Mouse and Keyboard Actions -->
+        <section id="concept-10" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">10. Handling Mouse and Keyboard Actions</h2>
+            <p class="text-gray-300 mb-4">
+                The <b class="font-bold">ActionChains</b> class is used for complex interactions like <b class="font-bold">drag-drop</b>, <b class="font-bold">hover</b>, <b class="font-bold">right-click</b>, and <b class="font-bold">double-click</b>.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Python Example:</h3>
+            <pre class="bg-code-bg text-green-300 text-sm">
+from selenium.webdriver import ActionChains
+
+actions = ActionChains(driver)
+element = driver.find_element(By.ID, "drag")
+target = driver.find_element(By.ID, "drop")
+
+actions.drag_and_drop(element, target).perform()
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Java Example:</h3>
+            <pre class="bg-code-bg text-yellow-300 text-sm">
+Actions actions = new Actions(driver);
+WebElement source = driver.findElement(By.id("drag"));
+WebElement target = driver.findElement(By.id("drop"));
+actions.dragAndDrop(source, target).perform();
+            </pre>
+        </section>
+
+        <!-- 11. Screenshots -->
+        <section id="concept-11" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">11. Screenshots</h2>
+            <p class="text-gray-300 mb-4">
+                Capturing the current state of the browser.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Python Example:</h3>
+            <pre class="bg-code-bg text-green-300 text-sm">
+driver.save_screenshot("screenshot.png")
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Java Example:</h3>
+            <pre class="bg-code-bg text-yellow-300 text-sm">
+File src = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+Files.copy(src.toPath(), Paths.get("screenshot.png"));
+            </pre>
+        </section>
+
+        <!-- 12. Data-Driven Testing -->
+        <section id="concept-12" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">12. Data-Driven Testing</h2>
+            <p class="text-gray-300 mb-4">
+                Fetching test data from files like <b class="font-bold">Excel</b> or <b class="font-bold">CSV</b> to run the same test with different inputs.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Python Example (using CSV):</h3>
+            <pre class="bg-code-bg text-green-300 text-sm">
+import csv
+with open('data.csv') as f:
+    reader = csv.reader(f)
+    for row in reader:
+        print(row)
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Java Example (using Excel & Apache POI):</h3>
+            <pre class="bg-code-bg text-yellow-300 text-sm">
+FileInputStream file = new FileInputStream("data.xlsx");
+XSSFWorkbook workbook = new XSSFWorkbook(file);
+XSSFSheet sheet = workbook.getSheetAt(0);
+System.out.println(sheet.getRow(0).getCell(0).getStringCellValue());
+workbook.close();
+            </pre>
+        </section>
+
+        <!-- 13. Selenium Grid -->
+        <section id="concept-13" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">13. Selenium Grid</h2>
+            <p class="text-gray-300 mb-4">
+                Used for running tests in <b class="font-bold">parallel</b> across multiple browsers and machines, dramatically reducing test execution time.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-200 mb-2">Key Concepts:</h3>
+            <ul class="list-disc list-inside ml-4 text-gray-300 mb-4 space-y-1 keyword-bold">
+                <li><b class="font-bold">Hub</b>: Central point controlling tests.</li>
+                <li><b class="font-bold">Node</b>: Machines running tests.</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Configure using:</h3>
+            <pre class="bg-code-bg text-white text-sm">
+java -jar selenium-server-4.x.jar hub
+java -jar selenium-server-4.x.jar node --hub http://localhost:4444
+            </pre>
+        </section>
+
+        <!-- 14. Page Object Model (POM) -->
+        <section id="concept-14" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">14. Page Object Model (POM)</h2>
+            <p class="text-gray-300 mb-4">
+                A design pattern to separate <b class="font-bold">test logic</b> from <b class="font-bold">page elements</b> (Locators), making tests maintainable.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Python Example:</h3>
+            <pre class="bg-code-bg text-green-300 text-sm">
+class LoginPage:
+    def __init__(self, driver):
+        self.driver = driver
+        self.username = "username"
+        self.password = "password"
+        self.login_btn = "login"
+
+    def login(self, user, pwd):
+        self.driver.find_element(By.ID, self.username).send_keys(user)
+        self.driver.find_element(By.ID, self.password).send_keys(pwd)
+        self.driver.find_element(By.ID, self.login_btn).click()
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Java Example:</h3>
+            <pre class="bg-code-bg text-yellow-300 text-sm">
+public class LoginPage {
+    WebDriver driver;
+    By username = By.id("username");
+    By password = By.id("password");
+    By loginBtn = By.id("login");
+
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public void login(String user, String pass) {
+        driver.findElement(username).sendKeys(user);
+        driver.findElement(password).sendKeys(pass);
+        driver.findElement(loginBtn).click();
+    }
+}
+            </pre>
+        </section>
+
+        <!-- 15. Test Framework Integration -->
+        <section id="concept-15" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
+            <h2 class="text-3xl font-bold text-primary-blue mb-4">15. Test Framework Integration</h2>
+            <p class="text-gray-300 mb-4">
+                Integrating Selenium with professional test frameworks for reporting and organization.
+            </p>
+            <h3 class="text-xl font-semibold text-gray-200 mb-2">Frameworks:</h3>
+            <ul class="list-disc list-inside ml-4 text-gray-300 mb-4 space-y-1 keyword-bold">
+                <li><b class="font-bold">Python</b>: <b class="font-bold">pytest</b> or <b class="font-bold">unittest</b></li>
+                <li><b class="font-bold">Java</b>: <b class="font-bold">TestNG</b> or <b class="font-bold">JUnit</b></li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Python Example (pytest):</h3>
+            <pre class="bg-code-bg text-green-300 text-sm">
+def test_google_title(driver):
+    driver.get("https://www.google.com")
+    assert "Google" in driver.title
+            </pre>
+
+            <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-2">Java Example (TestNG):</h3>
+            <pre class="bg-code-bg text-yellow-300 text-sm">
+@Test
+public void testGoogleTitle() {
+    driver.get("https://www.google.com");
+    Assert.assertTrue(driver.getTitle().contains("Google"));
+}
+            </pre>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-500 py-8 border-t border-gray-800 mt-12">
+            <p>2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+        </footer>
+
+    </main>
+
+</body>
+
+{% endblock %}

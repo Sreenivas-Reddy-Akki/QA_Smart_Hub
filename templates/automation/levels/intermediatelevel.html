@@ -1,0 +1,622 @@
+{% extends 'base.html' %}
+
+{% block title %}Selenium Intermediate Reference{% endblock %}
+
+{% block extra_head %}
+  <style>
+    /* CSS Variables for fixed/sticky heights */
+    :root {
+        --header-height: 4rem; /* Assuming base.html header is 4rem (64px) */
+        --nav-height: 3.5rem;  /* New sticky navigation bar height (56px) */
+        --total-offset: calc(var(--header-height) + var(--nav-height));
+    }
+
+    /* ===== Layout and Main Content (Single Column Scroll) ===== */
+    .page-container {
+        /* Pushes content down past the fixed header from base.html */
+        padding-top: var(--header-height);
+        height: 100vh;
+        overflow: hidden; /* Contains the scrollable main element */
+        background: #0f172a; /* Slate-900 */
+    }
+
+    /* The main scrollable content area */
+    main {
+      height: 100%;
+      overflow-y: auto;
+      padding: 2rem;
+      transition: all 0.3s ease-in-out;
+    }
+
+    /* Scrollbar styling for main content */
+    main::-webkit-scrollbar {
+      width: 8px;
+    }
+    main::-webkit-scrollbar-thumb {
+      background: #334155; /* Slate-700 */
+      border-radius: 8px;
+    }
+    main::-webkit-scrollbar-track {
+      background: #1e293b; /* Slate-800 */
+    }
+
+    /* ===== Horizontal Navigation Bar (Sticky) ===== */
+    #navigation-header {
+      position: sticky;
+      top: 0; /* Sticks right below the main app header */
+      z-index: 30;
+      background: #1e293b; /* Slate-800 */
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.5);
+      /* Use flex for overall alignment and centering the title */
+      display: flex;
+      align-items: center;
+      justify-content: center; /* Center the overall content in the nav bar */
+      height: var(--nav-height);
+      margin: -2rem -2rem 2rem -2rem;
+      border-bottom: 2px solid #0f172a;
+      padding: 0 1rem; /* Reduced padding for more space for links */
+    }
+
+    /* Style for the centered title - only visible on desktop */
+    #nav-title {
+        position: absolute; /* Allows centering without disturbing the link flow */
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1.25rem; /* text-xl */
+        font-weight: 700;
+        color: #22d3ee; /* Cyan-400 */
+        pointer-events: none; /* Make sure title doesn't block clicks on the list */
+        z-index: 10;
+        /* Hide on screens smaller than md (768px) */
+        display: none;
+    }
+
+    @media (min-width: 768px) {
+        #nav-title {
+            display: block;
+        }
+    }
+
+    /* Links list must be scrollable to accommodate all links on small screens */
+    #navigation-header ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      white-space: nowrap; /* Prevents wrapping */
+      overflow-x: auto; /* Allows horizontal scrolling */
+      max-width: 100%;
+    }
+
+    #navigation-header li {
+        margin-right: 0.5rem;
+        /* Ensure list items are above the title */
+        z-index: 20;
+    }
+
+    #navigation-header a {
+      display: block;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      /* Added transform and box-shadow for the hover effect */
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+      color: #94a3b8; /* Slate-400 */
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border: 1px solid transparent;
+    }
+
+    /* Enhanced Hover effect for buttons: lift and glow */
+    #navigation-header a:hover {
+      background-color: #334155; /* Slate-700 */
+      color: #fff;
+      border-color: #475569;
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.2); /* Added glow */
+      transform: translateY(-2px); /* Added slight lift on hover */
+    }
+
+    /* Highlight active link */
+    #navigation-header a.active {
+      background-color: #0f172a; /* Dark background to indicate selection */
+      color: #22d3ee; /* Cyan-400 */
+      font-weight: 700;
+      border-color: #22d3ee;
+      box-shadow: 0 0 8px rgba(34, 211, 238, 0.3);
+      transform: translateY(0); /* Ensure active link is not lifted */
+    }
+
+    /* Content sections need padding-top for when the sticky nav hides them */
+    .content-section {
+        /* This padding is crucial for the scroll jump targets (the IDs) */
+        padding-top: var(--total-offset);
+        margin-top: calc(-1 * var(--total-offset));
+    }
+
+
+    /* --- Animations and Effects --- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(15px);
+      transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .fade-in.appear {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+
+    .hover-glow:hover {
+      box-shadow: 0 10px 30px rgba(34, 211, 238, 0.1);
+      transform: translateY(-5px);
+      transition: all 0.4s ease;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="page-container">
+    <main id="main-content">
+
+      <!-- ================= Page Header ================= -->
+      <header class="mb-6">
+        <h2 class="text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+          Mastering Selenium Automation
+        </h2>
+        <p class="text-slate-400 mt-3 text-lg">
+          Transition from basic scripting to building stable, scalable automation frameworks.
+        </p>
+      </header>
+
+      <!-- ================= Sticky Horizontal Navigation ================= -->
+      <nav id="navigation-header">
+          <!-- Centered Title (Hidden on small screens for space) -->
+          <h4 id="nav-title" class="text-xl font-bold text-cyan-200">Automation Reference Topics</h4>
+
+          <!-- Navigation Links with Numbers -->
+          <ul>
+            <li><a href="#topic1">1. Advanced WebDriver</a></li>
+            <li><a href="#topic2">2. Waits &amp; Synchronization</a></li>
+            <li><a href="#topic3">3. Page Object Model (POM)</a></li>
+            <li><a href="#topic4">4. Data-Driven Testing</a></li>
+            <li><a href="#topic5">5. Framework Concepts</a></li>
+            <li><a href="#topic6">6. Pytest / TestNG Basics</a></li>
+          </ul>
+      </nav>
+      <!-- End Sticky Navigation -->
+
+      <!-- Welcome Section (Still at the top, not part of the jump links) -->
+      <section class="bg-slate-800 rounded-xl shadow-2xl p-8 fade-in appear border border-cyan-400/20 mb-8">
+        <h3 class="text-3xl font-bold mb-4 text-cyan-400">Welcome to the Intermediate Level 👋</h3>
+        <p class="text-slate-300 leading-relaxed">
+          This guide focuses on the core design principles and synchronization techniques required to move beyond simple record-and-playback. By implementing concepts like <strong>POM</strong>, <strong>Explicit Waits</strong>, and <strong>Test Frameworks</strong>, you'll drastically improve your test stability and code maintainability.
+        </p>
+      </section>
+
+      <!-- Content Grid -->
+      <div class="grid grid-cols-1 gap-8">
+
+        <!-- 🧠 TOPIC 1: Advanced WebDriver -->
+        <!-- Note: content-section class is for smooth scrolling offset -->
+        <article id="topic1" class="content-section bg-slate-800 rounded-xl shadow-xl p-8 fade-in hover-glow border border-slate-700">
+          <h3 class="text-2xl font-bold mb-4 text-cyan-400">1️⃣ Advanced WebDriver: Multi-Window & Execution</h3>
+          <p class="text-slate-300 mb-6">
+            Advanced <strong>WebDriver</strong> techniques help you handle browser actions like multiple tabs/windows, JavaScript execution, and managing cookies efficiently.
+          </p>
+
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-semibold text-slate-200 mb-3">Python Example (Switching Tabs)</h4>
+              <pre class="bg-slate-950 text-emerald-300 text-sm p-4 rounded-lg overflow-x-auto border border-slate-700/50">
+from selenium import webdriver
+# NOTE: driver initialization and setup is assumed before this block
+# driver = webdriver.Chrome()
+# driver.get("https://example.com")
+
+# Open a new tab using JavaScript executor
+driver.execute_script("window.open('https://google.com')")
+windows = driver.window_handles
+
+# Switch to the new tab (index 1)
+driver.switch_to.window(windows[1])
+print(f"Now on: {driver.title}")
+# driver.quit() # Uncomment in full script
+              </pre>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-slate-200 mb-3">Java Example (Switching Tabs)</h4>
+              <pre class="bg-slate-950 text-emerald-300 text-sm p-4 rounded-lg overflow-x-auto border border-slate-700/50">
+import org.openqa.selenium.JavascriptExecutor;
+import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
+// NOTE: driver initialization and setup is assumed before this block
+// WebDriver driver = new ChromeDriver();
+// driver.get("https://example.com");
+
+((JavascriptExecutor) driver).executeScript("window.open('https://google.com')");
+Set&lt;String&gt; windowHandles = driver.getWindowHandles();
+List&lt;String&gt; tabs = new ArrayList&lt;&gt;(windowHandles);
+
+// Switch to the second tab
+driver.switchTo().window(tabs.get(1));
+System.out.println("Now on: " + driver.getTitle());
+// driver.quit(); // Uncomment in full script
+              </pre>
+            </div>
+          </div>
+        </article>
+
+        <!-- 🕒 TOPIC 2: Waits & Synchronization -->
+        <article id="topic2" class="content-section bg-slate-800 rounded-xl shadow-xl p-8 fade-in hover-glow border border-slate-700">
+          <h3 class="text-2xl font-bold mb-4 text-cyan-400">2️⃣ Waits & Synchronization: Explicit Wait</h3>
+          <p class="text-slate-300 mb-6">
+            <strong>Explicit Waits</strong> are critical for stable tests, forcing Selenium to wait for a <strong>specific condition</strong> (like element visibility or clickability) to be met before proceeding, which eliminates common <code class="bg-slate-700 rounded p-1 text-red-300">StaleElementReferenceException</code> issues.
+          </p>
+
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-semibold text-slate-200 mb-3">Python Example (Visibility Check)</h4>
+              <pre class="bg-slate-950 text-emerald-300 text-sm p-4 rounded-lg overflow-x-auto border border-slate-700/50">
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+# NOTE: driver is assumed to be initialized
+
+# Wait for up to 10 seconds
+wait = WebDriverWait(driver, 10)
+
+# driver.get("https://example.com/async") # Uncomment in full script
+element = wait.until(
+    EC.visibility_of_element_located((By.ID, "username"))
+)
+element.send_keys("admin")
+              </pre>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-slate-200 mb-3">Java Example (Clickability Check)</h4>
+              <pre class="bg-slate-950 text-emerald-300 text-sm p-4 rounded-lg overflow-x-auto border border-slate-700/50">
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.WebElement;
+import java.time.Duration;
+import org.openqa.selenium.By;
+
+// NOTE: driver is assumed to be initialized
+WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+WebElement button = wait.until(
+  ExpectedConditions.elementToBeClickable(By.cssSelector(".save-btn"))
+);
+button.click();
+              </pre>
+            </div>
+          </div>
+        </article>
+
+        <!-- 🧱 TOPIC 3: Page Object Model (POM) -->
+        <article id="topic3" class="content-section bg-slate-800 rounded-xl shadow-xl p-8 fade-in hover-glow border border-slate-700">
+          <h3 class="text-2xl font-bold mb-4 text-cyan-400">3️⃣ Page Object Model (POM)</h3>
+          <p class="text-slate-300 mb-6">
+            The <strong>Page Object Model (POM)</strong> is the industry-standard design pattern. It separates the <span class="font-bold text-cyan-400">Page Objects</span> (locators and actions) from the <span class="font-bold text-cyan-400">Test Logic</span>. This separation makes tests reusable and dramatically reduces maintenance efforts.
+          </p>
+
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-semibold text-slate-200 mb-3">Python Example (LoginPage Class)</h4>
+              <pre class="bg-slate-950 text-emerald-300 text-sm p-4 rounded-lg overflow-x-auto border border-slate-700/50">
+from selenium.webdriver.common.by import By
+
+class LoginPage:
+    def __init__(self, driver):
+        self.driver = driver
+        # Use tuples for locators (By type, locator value)
+        self.USERNAME_FIELD = (By.ID, "username")
+        self.PASSWORD_FIELD = (By.ID, "password")
+        self.LOGIN_BTN = (By.ID, "loginBtn")
+
+    def login(self, user, pwd):
+        # Unpack the locator tuple with the * operator
+        self.driver.find_element(*self.USERNAME_FIELD).send_keys(user)
+        self.driver.find_element(*self.PASSWORD_FIELD).send_keys(pwd)
+        self.driver.find_element(*self.LOGIN_BTN).click()
+              </pre>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-slate-200 mb-3">Java Example (LoginPage Class)</h4>
+              <pre class="bg-slate-950 text-emerald-300 text-sm p-4 rounded-lg overflow-x-auto border border-slate-700/50">
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class LoginPage {
+  private WebDriver driver;
+  // Define locators as private By objects
+  private By username = By.id("username");
+  private By password = By.id("password");
+  private By loginBtn = By.id("loginBtn");
+
+  public LoginPage(WebDriver driver) { this.driver = driver; }
+
+  public void login(String user, String pwd) {
+    driver.findElement(username).sendKeys(user);
+    driver.findElement(password).sendKeys(pwd);
+    driver.findElement(loginBtn).click();
+  }
+}
+              </pre>
+            </div>
+          </div>
+        </article>
+
+        <!-- 🧾 TOPIC 4: Data-Driven Testing -->
+        <article id="topic4" class="content-section bg-slate-800 rounded-xl shadow-xl p-8 fade-in hover-glow border border-slate-700">
+          <h3 class="text-2xl font-bold mb-4 text-cyan-400">4️⃣ Data-Driven Testing (DDT)</h3>
+          <p class="text-slate-300 mb-6">
+            <strong>DDT</strong> involves running the same test script against a variety of inputs retrieved from an <strong>external source</strong> (CSV, Excel, JSON). This significantly increases test coverage without duplicating code.
+          </p>
+
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-semibold text-slate-200 mb-3">Python Example (Reading CSV)</h4>
+              <pre class="bg-slate-950 text-emerald-300 text-sm p-4 rounded-lg overflow-x-auto border border-slate-700/50">
+import csv
+# Test case execution logic
+def run_login_tests():
+    # Assuming data.csv structure: username,password
+    # NOTE: File 'data.csv' must exist in the execution path
+    try:
+        with open('data.csv', newline='') as file:
+            reader = csv.reader(file)
+            # next(reader) # Uncomment to Skip header row
+            for row in reader:
+                username, password = row
+                # 1. Instantiate browser (e.g., driver = webdriver.Chrome())
+                # 2. Instantiate page object (e.g., loginPage = LoginPage(driver))
+                # 3. Call POM login method: loginPage.login(username, password)
+                # 4. Assert result
+                print(f"Testing login for: {username}")
+    except FileNotFoundError:
+        print("Error: data.csv not found.")
+
+# run_login_tests() # Uncomment in full script
+              </pre>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-slate-200 mb-3">Java Example (Reading File)</h4>
+              <pre class="bg-slate-950 text-emerald-300 text-sm p-4 rounded-lg overflow-x-auto border border-slate-700/50">
+import java.io.*;
+
+public void executeDataDrivenTests() {
+  // NOTE: File 'data.txt' must exist in the execution path
+  try (BufferedReader br = new BufferedReader(new FileReader("data.txt"))) {
+    String line;
+    // Reads file line by line
+    while ((line = br.readLine()) != null) {
+      String[] data = line.split(":"); // Use a delimiter (e.g., username:password)
+      if (data.length == 2) {
+          String user = data[0];
+          String pass = data[1];
+          System.out.println("Testing with: " + user);
+          // Call POM methods with data
+      }
+    }
+  } catch (IOException e) {
+    e.printStackTrace(); // Log the file error
+  }
+}
+              </pre>
+            </div>
+          </div>
+        </article>
+
+        <!-- ⚙️ TOPIC 5: Framework Concepts -->
+        <article id="topic5" class="content-section bg-slate-800 rounded-xl shadow-xl p-8 fade-in hover-glow border border-slate-700">
+          <h3 class="text-2xl font-bold mb-4 text-cyan-400">5️⃣ Automation Framework Concepts</h3>
+          <p class="text-slate-300 mb-6">
+            A <strong>Framework</strong> is a set of guidelines, tools, and best practices used to create and manage test automation assets. A good framework provides:
+          </p>
+
+          <ul class="list-disc list-inside text-slate-300 mb-6 ml-4 space-y-2">
+            <li><strong>Reusability:</strong> Code is written once and used many times (e.g., utility functions).</li>
+            <li><strong>Consistency:</strong> Standardized naming conventions and folder structures.</li>
+            <li><strong>Scalability:</strong> The ability to add new tests and features without breaking existing ones.</li>
+            <li><strong>Reporting & Logging:</strong> Centralized systems for execution analysis.</li>
+          </ul>
+
+          <h4 class="font-semibold text-slate-200 mb-3">Example Project Structure (Best Practice)</h4>
+          <pre class="bg-slate-950 text-emerald-300 text-sm p-4 rounded-lg overflow-x-auto border border-slate-700/50">
+project-root/
+├── tests/         # Test scripts (e.g., test_suite_1.py)
+├── pages/         # Page Object Model classes (the "what" to test)
+├── utilities/     # Helper functions (e.g., database, file I/O)
+├── resources/     # Test data files (CSV, JSON) and config files
+├── drivers/       # Browser drivers (chromedriver, geckodriver)
+└── README.md      # Documentation and execution instructions
+          </pre>
+        </article>
+
+        <!-- 🧩 TOPIC 6: Pytest / TestNG Basics -->
+        <article id="topic6" class="content-section bg-slate-800 rounded-xl shadow-xl p-8 mt-8 mb-12 fade-in hover-glow border border-slate-700">
+          <h3 class="text-2xl font-bold mb-4 text-cyan-400">6️⃣ Pytest / TestNG: Setup & Teardown</h3>
+          <p class="text-slate-300 mb-6">
+            Modern test runners like <strong>Pytest</strong> (Python) and <strong>TestNG</strong> (Java) manage the test lifecycle using specialized functions (<strong>Fixtures</strong> in Pytest, <strong>Annotations</strong> in TestNG) for controlled setup and cleanup.
+          </p>
+
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-semibold text-slate-200 mb-3">Python (Pytest Fixture with <code class="bg-slate-700 rounded p-1 text-red-300">yield</code>)</h4>
+              <p class="text-xs text-slate-400 mb-2 italic">The code before <code class="bg-slate-700 rounded p-1 text-red-300">yield</code> is Setup, and the code after is Teardown.</p>
+              <pre class="bg-slate-950 text-emerald-300 text-sm p-4 rounded-lg overflow-x-auto border border-slate-700/50">
+import pytest
+from selenium import webdriver
+
+# scope="session" runs once per test run
+@pytest.fixture(scope="session")
+def browser_setup():
+    print("--- ⚙️ LAUNCH BROWSER INSTANCE ---")
+    # In a real script, this creates the browser instance
+    # driver = webdriver.Chrome()
+    # driver.implicitly_wait(10)
+    driver = "MOCKED_DRIVER_INSTANCE" # Mocked for display
+    yield driver # <-- Execution pauses here for test code to run
+    # Teardown logic after the test
+    print("--- ❌ CLOSING BROWSER INSTANCE ---")
+    # driver.quit() # Uncomment in full script
+
+# Test method receives the fixture output
+def test_search_feature(browser_setup):
+    driver = browser_setup
+    # driver.get("https://duckduckgo.com") # Uncomment in full script
+    # ... test actions
+    print(f"Running test with {driver}")
+    assert True
+              </pre>
+            </div>
+
+            <div>
+              <h4 class="font-semibold text-slate-200 mb-3">Java (TestNG <code class="bg-slate-700 rounded p-1 text-red-300">@BeforeClass</code>/<code class="bg-slate-700 rounded p-1 text-red-300">@AfterClass</code>)</h4>
+              <p class="text-xs text-slate-400 mb-2 italic">Annotations control when setup and teardown methods are executed.</p>
+              <pre class="bg-slate-950 text-emerald-300 text-sm p-4 rounded-lg overflow-x-auto border border-slate-700/50">
+import org.testng.annotations.*;
+import org.openqa.selenium.WebDriver;
+// import org.openqa.selenium.chrome.ChromeDriver;
+
+public class BaseTest {
+    public WebDriver driver;
+
+    @BeforeClass // Runs once before any test method in this class
+    public void setup() {
+      System.out.println("--- ⚙️ LAUNCH BROWSER ---");
+      // driver = new ChromeDriver(); // Uncomment in full script
+    }
+
+    @Test
+    public void executeTest() {
+      // driver.get("https://example.com"); // Uncomment in full script
+      System.out.println("Executing actual test logic.");
+      // Test assertions go here
+    }
+
+    @AfterClass // Runs once after all test methods in this class
+    public void teardown() {
+      System.out.println("--- ❌ CLOSING BROWSER ---");
+      // driver.quit(); // Uncomment in full script
+    }
+}
+              </pre>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <footer class="text-center text-slate-500 text-sm pt-8 border-t border-slate-700 mt-12">
+        © QA Smart Hub 2025 | Intermediate Automation Reference
+      </footer>
+    </main>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <!-- Consolidated JavaScript for functionality -->
+  <script>
+    const mainContent = document.getElementById('main-content');
+    // Select all articles that have an ID (the scroll targets)
+    const sections = document.querySelectorAll('article[id]');
+    // Select all links within the horizontal navigation bar
+    const navLinks = document.querySelectorAll('#navigation-header a');
+
+    // Get the height of the sticky elements for the scroll offset
+    const getScrollOffset = () => {
+        const headerHeight = 64; // Value of var(--header-height)
+        const navHeight = 56;    // Value of var(--nav-height)
+        return headerHeight + navHeight;
+    };
+
+
+    // --- Scroll Spy Logic (Highlight Active Link) ---
+    function updateActiveLink() {
+      let current = '';
+      const offset = getScrollOffset();
+
+      // Determine the section currently in view
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+
+        // Check if the top of the section is visible and slightly below the scroll offset point
+        if (rect.top <= offset + 5 && rect.bottom > offset + 5) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      // If at the very top, highlight the first section
+      if (mainContent.scrollTop < 10 && sections.length > 0) {
+          current = sections[0].getAttribute('id');
+      }
+
+      // Highlight the corresponding link
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        const hrefId = link.getAttribute('href').substring(1);
+        if (hrefId === current) {
+          link.classList.add('active');
+
+          // Ensure the active link is visible in the horizontal scroll bar
+          link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+      });
+    }
+
+    // Attach listener to the main content's scroll
+    mainContent.addEventListener('scroll', updateActiveLink);
+    // Initial call to set the active link on load
+    window.addEventListener('load', updateActiveLink);
+
+
+    // --- Smooth Scroll (FIXED) when clicking header links ---
+    document.querySelectorAll('#navigation-header a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+          // The target position is where the element starts,
+          // minus the height of the sticky header elements.
+          const offsetTop = targetElement.offsetTop;
+          const scrollOffset = getScrollOffset();
+
+          mainContent.scrollTo({
+            // Scroll to the element's position minus the sticky headers' height
+            top: offsetTop - scrollOffset,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+
+    // --- Fade-in Animation on Scroll ---
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = {
+      threshold: 0.1,
+      root: mainContent, // Watch scroll on the main content area
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('appear');
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
+  </script>
+{% endblock %}

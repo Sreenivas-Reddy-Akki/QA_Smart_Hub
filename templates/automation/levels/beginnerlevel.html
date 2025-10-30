@@ -1,0 +1,562 @@
+{% extends "base.html" %}
+
+{% block title %}Automation Testing Master Plan{% endblock %}
+
+{% block content %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automation Testing Master Plan</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* NOTE: We only keep the custom styling here, as the fixed header and base body styles are inherited from base.html */
+        :root {
+            --primary-blue: #1e3a8a; /* Deep Blue */
+            --secondary-blue: #3b82f6; /* Tailwind Blue 500 */
+            --light-blue: #eff6ff; /* Tailwind Blue 50 - now largely unused with dark background */
+        }
+        body {
+            background-color: #000000; /* Solid Black background */
+            color: #e2e8f0; /* Light text for readability on black */
+        }
+        .section-header {
+            /* Headers and sidebar navigation color remains blue */
+            border-left: 6px solid var(--secondary-blue);
+            padding-left: 1rem;
+            color: var(--secondary-blue);
+            /* Ensure all children (including <strong>) inherit this blue color */
+        }
+        .section-header strong {
+            color: inherit; /* Inherits the blue color from .section-header */
+            font-weight: normal; /* Explicitly remove bold from <strong> tags as requested */
+        }
+        .code-block {
+            /* *** UPDATED: Deep Black color template for code blocks *** */
+            background-color: #0d0d0d; /* Very deep black background */
+            color: #ffffff; /* Pure white text for maximum contrast */
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle white border for definition */
+        }
+        /* Sticky sidebar styling - no top adjustment needed as header is removed */
+        .sidebar {
+            position: sticky;
+            top: 0; /* Adjusted to 0 as no fixed header */
+            height: 100vh; /* Takes full viewport height */
+            overflow-y: auto;
+        }
+        .nav-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            color: white;
+            transition: background-color 0.2s;
+        }
+        .nav-link:hover {
+            background-color: #3b82f6; /* Brighter blue on hover */
+        }
+        /* Back to Top Button */
+        #back-to-top {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            z-index: 50; /* Ensure it floats above content */
+        }
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        /* Highlight color for keywords in the BODY TEXT (not headers) is white */
+        .highlight {
+            color: #ffffff; /* Pure white for maximum visibility */
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div class="min-h-screen flex"> <!-- Removed pt-16 as no fixed header --><!-- Sidebar Navigation (Blue Frame) --><nav class="sidebar hidden lg:block w-64 bg-gray-900 shadow-xl p-4">
+            <h2 class="text-xl font-bold text-white mb-6 border-b-2 border-secondary-blue pb-2">Automation Topics</h2>
+            <div class="space-y-2">
+                <a href="#section-1" class="nav-link">1. Intro to Automation</a>
+                <a href="#section-2" class="nav-link">2. Programming Basics</a>
+                <a href="#section-3" class="nav-link">3. Intro to Selenium</a>
+                <a href="#section-4" class="nav-link">4. WebDriver Basics</a>
+                <a href="#section-5" class="nav-link">5. Advanced Selenium</a>
+                <a href="#section-6" class="nav-link">6. Framework Design</a>
+                <a href="#section-7" class="nav-link">7. Frameworks Integration</a>
+                <a href="#section-8" class="nav-link">8. Reporting & Logs</a>
+                <a href="#section-9" class="nav-link">9. Continuous Integration</a>
+                <a href="#section-10" class="nav-link">10. Cloud Testing</a>
+                <a href="#section-11" class="nav-link">11. API + DB Basics</a>
+            </div>
+        </nav>
+
+        <!-- Main Content Area --><main class="flex-1 p-6 lg:p-10 text-gray-200"> <!-- Main content text adjusted for dark background --><!-- Mobile Navigation (Dropdown) --><div class="lg:hidden mb-6">
+                <select onchange="window.location.hash = this.value;" class="w-full p-3 border border-secondary-blue rounded-lg bg-gray-700 shadow-md focus:ring-secondary-blue focus:border-secondary-blue text-gray-200">
+                    <option value="" disabled selected>Jump to Section...</option>
+                    <option value="#section-1">1. Intro to Automation</option>
+                    <option value="#section-2">2. Programming Basics</option>
+                    <option value="#section-3">3. Intro to Selenium</option>
+                    <option value="#section-4">4. WebDriver Basics</option>
+                    <option value="#section-5">5. Advanced Selenium</option>
+                    <option value="#section-6">6. Framework Design</option>
+                    <option value="#section-7">7. Frameworks Integration</option>
+                    <option value="#section-8">8. Reporting & Logs</option>
+                    <option value="#section-9">9. Continuous Integration</option>
+                    <option value="#section-10">10. Cloud Testing</option>
+                    <option value="#section-11">11. API + DB Basics</option>
+                </select>
+            </div>
+
+            <!-- SECTION 1: Introduction to Automation Testing --><section id="section-1" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+                <h2 class="text-3xl section-header mb-4">
+                    1. Introduction to <strong>Automation Testing</strong>
+                </h2>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">What is Software Testing?</h3>
+                <p>It's checking a software application to make sure it works as expected, meets the user's needs, and doesn't have major bugs. It ensures <strong class="highlight">quality</strong>.</p>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Manual Testing vs. Automation Testing</h3>
+                <ul class="list-disc list-inside ml-4 space-y-2">
+                    <li><strong class="highlight">Manual Testing</strong>: A human tester clicks through the application step-by-step, comparing the actual result with the expected result.
+                        <p class="text-sm text-gray-400 italic ml-4">Good for exploratory or one-time tests.</p>
+                    </li>
+                    <li><strong class="highlight">Automation Testing</strong>: Using special software tools (<strong class="highlight">Selenium</strong>) to write scripts that run the tests automatically without human help.
+                        <p class="text-sm text-gray-400 italic ml-4">Great for repetitive and large-scale tests.</p>
+                    </li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Why Automation Testing is Needed</h3>
+                <p>It handles boring, repetitive tasks fast. When you change the code often, you need quick, reliable checks (called <strong class="highlight">regression tests</strong>) to ensure old features still work. Humans are slow and make mistakes; scripts are fast and consistent.</p>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Advantages & Disadvantages of Automation</h3>
+                <div class="flex space-x-4">
+                    <div class="flex-1 p-3 bg-green-900 rounded-lg">
+                        <p class="font-bold text-green-300">Advantages (<strong class="highlight">Pros</strong>)</p>
+                        <ul class="list-disc list-inside ml-4 text-sm">
+                            <li>Faster test execution.</li>
+                            <li>Tests can run 24/7.</li>
+                            <li>High accuracy (no human error).</li>
+                            <li>Saves money in the long run.</li>
+                        </ul>
+                    </div>
+                    <div class="flex-1 p-3 bg-red-900 rounded-lg">
+                        <p class="font-bold text-red-300">Disadvantages (<strong class="highlight">Cons</strong>)</p>
+                        <ul class="list-disc list-inside ml-4 text-sm">
+                            <li>High initial cost (writing scripts takes time).</li>
+                            <li>Automation tools need maintenance.</li>
+                            <li>Cannot replace human intuition (exploratory testing).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Popular Automation Tools</h3>
+                <p>The main tools you'll hear about are <strong class="highlight">Selenium</strong>, <strong class="highlight">Cypress</strong>, and <strong class="highlight">Playwright</strong>. <strong class="highlight">Selenium</strong> is the oldest and supports the most languages (like Python, Java, C#) for web browser testing.</p>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Where Selenium Fits In</h3>
+                <p><strong class="highlight">Selenium</strong> is mainly used for testing web applications (websites) across different browsers. It simulates a real user's actions: clicking buttons, typing text, and verifying content.</p>
+            </section>
+
+            <!-- SECTION 2: Basics of Programming --><section id="section-2" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+                <h2 class="text-3xl section-header mb-4">
+                    2. Basics of Programming (<strong>Python</strong> & <strong>Java</strong>)
+                </h2>
+                <p>Automation scripts are code! You need to know the basics of a programming language like <strong class="highlight">Python</strong> or <strong class="highlight">Java</strong> to write and manage your tests.</p>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Common Core Concepts: Python Examples</h3>
+
+                <ul class="list-disc list-inside ml-4 space-y-2">
+                    <li><strong class="highlight">Variables</strong> & <strong class="highlight">Data Types</strong>: Storing information.
+                        <div class="code-block">
+                            <pre>age = 30           # Number (Integer)
+name = "Alice"     # Text (String)
+is_tested = True   # Boolean</pre>
+                        </div>
+                    </li>
+                    <li><strong class="highlight">Conditional Statements</strong> (<strong class="highlight">if</strong>, <strong class="highlight">else</strong>): Making decisions.
+                        <div class="code-block">
+                            <pre>score = 95
+if score > 90:
+    print("Test Passed!")
+elif score > 50:
+    print("Test needs review.")
+else:
+    print("Test Failed.")</pre>
+                        </div>
+                    </li>
+                    <li><strong class="highlight">Loops</strong> (<strong class="highlight">for</strong>, <strong class="highlight">while</strong>): Repeating actions.
+                        <div class="code-block">
+                            <pre>test_data = ["user1", "user2", "user3"]
+for user in test_data:
+    print(f"Testing login for {user}")
+
+i = 0
+while i < 2:
+    print("Waiting for element...")
+    i += 1</pre>
+                        </div>
+                    </li>
+                    <li><strong class="highlight">Lists</strong> and <strong class="highlight">Dictionaries</strong>: Storing collections of data.
+                        <div class="code-block">
+                            <pre>browsers = ["Chrome", "Firefox", "Edge"]
+# Dictionary (key-value pairs)
+test_status = {"Login": "PASS", "Checkout": "FAIL"}</pre>
+                        </div>
+                    </li>
+                    <li><strong class="highlight">Functions</strong> / <strong class="highlight">Methods</strong>: Bundling code to reuse it.
+                        <div class="code-block">
+                            <pre>def multiply(a, b):
+    return a * b
+
+result = multiply(5, 3) # result will be 15</pre>
+                        </div>
+                    </li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Common Core Concepts: Java Examples</h3>
+
+                <ul class="list-disc list-inside ml-4 space-y-2">
+                    <li><strong class="highlight">Variables</strong> & <strong class="highlight">Data Types</strong>: Storing information.
+                        <div class="code-block">
+                            <pre>int age = 30;           // Number (Integer)
+String name = "Alice";  // Text (String)
+boolean isTested = true; // Boolean</pre>
+                        </div>
+                    </li>
+                    <li><strong class="highlight">Conditional Statements</strong> (<strong class="highlight">if</strong>, <strong class="highlight">else</strong>): Making decisions.
+                        <div class="code-block">
+                            <pre>int score = 95;
+if (score > 90) {
+    System.out.println("Test Passed!");
+} else if (score > 50) {
+    System.out.println("Test needs review.");
+} else {
+    System.out.println("Test Failed.");
+}</pre>
+                        </div>
+                    </li>
+                    <li><strong class="highlight">Loops</strong> (<strong class="highlight">for</strong>, <strong class="highlight">while</strong>): Repeating actions.
+                        <div class="code-block">
+                            <pre>String[] testData = {"user1", "user2"};
+for (String user : testData) {
+    System.out.println("Testing login for " + user);
+}
+int count = 0;
+while (count < 2) {
+    System.out.println("Checking data...");
+    count++;
+}</pre>
+                        </div>
+                    </li>
+                    <li><strong class="highlight">Methods</strong>: Bundling code to reuse it.
+                        <div class="code-block">
+                            <pre>public int multiply(int a, int b) {
+    return a * b;
+}
+// Call the method later:
+// int result = multiply(5, 3);</pre>
+                        </div>
+                    </li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Object-Oriented Programming (<strong class="highlight">OOP</strong>)</h3>
+                <p><strong class="highlight">OOP</strong> helps organize large codebases. Key ideas:</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Class</strong> and <strong class="highlight">Object</strong>: A <strong class="highlight">Class</strong> is a blueprint (like a 'Car' design); an <strong class="highlight">Object</strong> is a real thing built from that blueprint (like 'MyCar').</li>
+                    <li><strong class="highlight">Inheritance</strong>: A new class can take properties/methods from an existing class.</li>
+                    <li><strong class="highlight">Encapsulation</strong>: Hiding the internal workings of an object and only showing what is needed.</li>
+                    <li><strong class="highlight">Abstraction</strong>: Showing only essential details and hiding complexity.</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Tools & Setup</h3>
+                <p>You need to install Python/Java and an Integrated Development Environment (<strong class="highlight">IDE</strong>) like <strong class="highlight">PyCharm</strong> (for Python) or <strong class="highlight">IntelliJ</strong> (for Java) to write and run your code easily.</p>
+            </section>
+
+            <!-- SECTION 3: Introduction to Selenium --><section id="section-3" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+                <h2 class="text-3xl section-header mb-4">
+                    3. Introduction to <strong>Selenium</strong>
+                </h2>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">What is Selenium?</h3>
+                <p><strong class="highlight">Selenium</strong> is a free, open-source tool for <strong class="highlight">automating web browsers</strong>. It's not a single tool but a suite of software.</p>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Components of Selenium Suite</h3>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Selenium IDE</strong>: A simple record/playback tool (browser extension). Good for quick scripts, but not complex projects.</li>
+                    <li><strong class="highlight">Selenium WebDriver</strong>: This is the core. It provides <strong class="highlight">APIs</strong> (commands) that let you write code (in Python, Java, etc.) to control a browser directly.</li>
+                    <li><strong class="highlight">Selenium Grid</strong>: Used for running many tests at the same time on different machines and browsers (<strong class="highlight">parallel execution</strong>).</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Selenium Architecture (Simple View)</h3>
+                <p>Your Code (Python/Java) sends commands to the <strong class="highlight">Browser Driver</strong> (e.g., ChromeDriver). The Driver then translates those commands into actions within the actual browser (Chrome, Firefox, etc.).</p>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Setup (Python Example)</h3>
+                <p>First, install the library, and make sure your browser driver (like `chromedriver`) is available.</p>
+                <div class="code-block">
+                    <pre># 1. Install Selenium Library
+pip install selenium</pre>
+                </div>
+                <p>Your first script will look something like this (for Chrome):</p>
+                <div class="code-block">
+                    <pre>from selenium import webdriver
+
+# 1. Start the browser
+driver = webdriver.Chrome()
+
+# 2. Go to a URL
+driver.get("https://www.google.com")
+
+# 3. Close the browser
+driver.quit()</pre>
+                </div>
+            </section>
+
+            <!-- SECTION 4: Selenium WebDriver Basics --><section id="section-4" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+                <h2 class="text-3xl section-header mb-4">
+                    4. <strong>Selenium WebDriver</strong> Basics
+                </h2>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2"><strong class="highlight">Locators</strong> (Finding Elements)</h3>
+                <p><strong class="highlight">Locators</strong> are how <strong class="highlight">Selenium</strong> finds a specific item (like a button or a text field) on a webpage. This is the most important part!</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">ID</strong>, <strong class="highlight">Name</strong>, <strong class="highlight">Class Name</strong>, <strong class="highlight">Tag Name</strong> are simple, direct ways to find elements if they have these unique attributes.</li>
+                    <li><strong class="highlight">Link Text</strong> and <strong class="highlight">Partial Link Text</strong> find links based on the visible text.</li>
+                    <li><strong class="highlight">XPath</strong> is a powerful way to navigate the entire structure of the webpage.</li>
+                    <li><strong class="highlight">CSS Selector</strong> is a fast way to find elements based on their CSS properties.</li>
+                </ul>
+
+                <p class="mt-2">Example of finding an element in Python:</p>
+                <div class="code-block">
+                    <pre>from selenium.webdriver.common.by import By
+# Find by ID and type text
+search_box = driver.find_element(By.ID, "q")
+search_box.send_keys("Automation Testing")
+
+# Find by CSS Selector and click
+submit_button = driver.find_element(By.CSS_SELECTOR, ".submit-btn")
+submit_button.click()</pre>
+                </div>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2"><strong class="highlight">Waits</strong> in <strong class="highlight">Selenium</strong> (<strong class="highlight">Synchronization</strong>)</h3>
+                <p>Webpages load at different speeds. <strong class="highlight">Waits</strong> make sure <strong class="highlight">Selenium</strong> doesn't try to click an element before it has appeared on the screen.</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Implicit Wait</strong>: Sets a default time for <strong class="highlight">WebDriver</strong> to wait for *any* element to appear before failing.</li>
+                    <li><strong class="highlight">Explicit Wait</strong>: Waits for a specific condition (e.g., element is clickable) on a specific element.</li>
+                    <li><strong class="highlight">Fluent Wait</strong>: Similar to <strong class="highlight">Explicit Wait</strong>, but you can define how often to check the condition.</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Handling Special Elements</h3>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Alerts</strong>: Small popup messages from the browser. You use `driver.switch_to.alert.accept()` to handle them.</li>
+                    <li><strong class="highlight">Frames (IFrames)</strong>: A webpage inside another webpage. You must switch to the frame first to interact with elements inside it: `driver.switch_to.frame("frame_id")`.</li>
+                    <li><strong class="highlight">Dropdowns</strong>: Special elements that require the <strong class="highlight">Select</strong> class to choose an option.</li>
+                </ul>
+            </section>
+
+            <!-- SECTION 5: Selenium Advanced Concepts --><section id="section-5" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+                <h2 class="text-3xl section-header mb-4">
+                    5. <strong>Selenium</strong> Advanced Concepts
+                </h2>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2"><strong class="highlight">Page Object Model (POM)</strong></h3>
+                <p>This is a design pattern (a smart way to structure your code). Instead of mixing test steps and element locators, you create a separate <strong class="highlight">Page Class</strong> for each page of your website. This makes code cleaner, easier to read, and much easier to maintain.</p>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Key Advanced Techniques</h3>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Handling Dynamic Elements</strong>: Elements whose IDs or properties change every time the page loads. You use more flexible <strong class="highlight">XPath</strong> or <strong class="highlight">CSS selectors</strong> to find them.</li>
+                    <li><strong class="highlight">JavaScript Executor</strong>: <strong class="highlight">Selenium</strong> commands are not enough for some actions. This allows you to run pure <strong class="highlight">JavaScript</strong> code through <strong class="highlight">Selenium</strong> (e.g., scrolling a page).</li>
+                    <li><strong class="highlight">Handling Web Tables</strong>: Special code to read data from complex HTML tables, often using loops and <strong class="highlight">XPath</strong>.</li>
+                    <li><strong class="highlight">ActionChains</strong> / <strong class="highlight">Actions Class</strong>: Used to perform complex mouse actions like hover, drag-and-drop, or keyboard actions like pressing `ENTER`.</li>
+                </ul>
+            </section>
+
+            <!-- SECTION 6: Automation Framework Design --><section id="section-6" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+                <h2 class="text-3xl section-header mb-4">
+                    6. Automation <strong>Framework</strong> Design
+                </h2>
+                <p>A <strong class="highlight">Framework</strong> is a set of rules, tools, guidelines, and libraries used to plan, create, and run automation tests. It’s like setting up a production line instead of building everything by hand.</p>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Framework Types</h3>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Modular Framework</strong>: Dividing the test into smaller, reusable code blocks (modules).</li>
+                    <li><strong class="highlight">Data Driven Framework</strong>: Separating the test data (inputs) from the test script (steps). You run the same script with many different inputs (e.g., reading usernames from an Excel file).</li>
+                    <li><strong class="highlight">Hybrid Framework</strong>: Combining the best parts of two or more frameworks, most often <strong class="highlight">POM</strong> + <strong class="highlight">Data-Driven</strong>. This is the most popular type.</li>
+                    <li><strong class="highlight">Behavior Driven Framework (BDD)</strong>: Writing tests in plain, easy-to-read language (like English) using a structure like <strong class="highlight">Given-When-Then</strong> (e.g., using <strong class="highlight">Cucumber</strong> or <strong class="highlight">Behave</strong>).</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Core Concepts</h3>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Test Data Management</strong>: Storing the input data (passwords, usernames, test values) in separate files (Excel, JSON, CSV).</li>
+                    <li><strong class="highlight">Reusable Functions/Utilities</strong>: Creating common functions (like `login()`, `logout()`, `takeScreenshot()`) that all tests can use.</li>
+                </ul>
+            </section>
+
+            <!-- SECTION 7: Test Frameworks Integration --><section id="section-7" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+                <h2 class="text-3xl section-header mb-4">
+                    7. Test <strong>Frameworks</strong> Integration
+                </h2>
+                <p>These frameworks provide structure, manage execution, handle test setup/cleanup, and offer better reporting than just using <strong class="highlight">Selenium</strong> alone.</p>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Python Side</h3>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Pytest</strong>: The most popular <strong class="highlight">Python</strong> test framework. It's simple, requires little setup, and supports advanced features.
+                        <ul class="list-circle list-inside ml-6">
+                            <li><strong class="highlight">Fixtures</strong>: Special functions used for setup (e.g., launching the browser) and teardown (closing the browser).</li>
+                            <li><strong class="highlight">Parametrization</strong>: Running the same test function multiple times with different sets of data.</li>
+                        </ul>
+                    </li>
+                    <li><strong class="highlight">Behave</strong> (<strong class="highlight">BDD</strong>): Used to write tests in <strong class="highlight">BDD</strong> format (<strong class="highlight">Given/When/Then</strong>).</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Java Side</h3>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">TestNG</strong>: A powerful framework designed for automation testing. It uses <strong class="highlight">Annotations</strong> (`@Test`, `@BeforeClass`) to define the structure and order of tests.
+                        <ul class="list-circle list-inside ml-6">
+                            <li><strong class="highlight">Annotations</strong>: Special markers (like `@Test` or `@AfterMethod`) that tell the framework how to run a specific method.</li>
+                            <li><strong class="highlight">Assertions</strong>: Checking if an actual result matches an expected result. (e.g., `Assert.assertEquals(title, "Expected Title")`).</li>
+                            <li><strong class="highlight">Parameterization</strong>: Passing data to test methods, often from an external file or XML.</li>
+                        </ul>
+                    </li>
+                    <li><strong class="highlight">JUnit 5</strong>: Another popular <strong class="highlight">Java</strong> framework, often used for unit tests but can also structure automation tests.</li>
+                </ul>
+            </section>
+
+            <!-- SECTION 8: Reporting & Logs --><section id="section-8" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+                <h2 class="text-3xl section-header mb-4">
+                    8. <strong>Reporting</strong> & <strong>Logs</strong>
+                </h2>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Importance of Reports</h3>
+                <p>After a test run, you need to show the results clearly. A good report tells you:</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li>How many tests <strong class="highlight">Passed</strong>, <strong class="highlight">Failed</strong>, or were <strong class="highlight">Skipped</strong>.</li>
+                    <li>Why a test failed (error messages, screenshots).</li>
+                    <li>How long the entire test suite took to run.</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Generating Reports</h3>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Allure Reports</strong>: Highly visual and detailed reports that collect data from your test runs and present it beautifully.</li>
+                    <li><strong class="highlight">Extent Reports</strong>: Another popular library for creating interactive, feature-rich HTML reports.</li>
+                    <li><strong class="highlight">Pytest-HTML</strong>: A simple plugin to create basic HTML reports from your <strong class="highlight">Pytest</strong> runs.</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2"><strong class="highlight">Logging</strong></h3>
+                <p><strong class="highlight">Logging</strong> is like keeping a detailed diary of your test execution. It helps you track what the script did step-by-step, making it much easier to find bugs when a test fails.</p>
+            </section>
+
+            <!-- SECTION 9: Continuous Integration (CI/CD) --><section id="section-9" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+                <h2 class="text-3xl section-header mb-4">
+                    9. <strong>Continuous Integration (CI/CD)</strong>
+                </h2>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Introduction to <strong class="highlight">CI/CD</strong></h3>
+                <p><strong class="highlight">CI/CD</strong> is a set of practices that automates the process of software development, testing, and deployment.</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Continuous Integration (CI)</strong>: Developers merge their code changes into a central repository often. After each merge, an automated build and test process runs.</li>
+                    <li><strong class="highlight">Continuous Delivery (CD)</strong>: The code that passes the tests is automatically prepared for release to production.</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2"><strong class="highlight">Jenkins</strong> Setup</h3>
+                <p><strong class="highlight">Jenkins</strong> is a popular <strong class="highlight">CI</strong> server tool. It acts as the central hub that:</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li>Pulls the latest code from <strong class="highlight">Git/GitHub</strong>.</li>
+                    <li>Runs your <strong class="highlight">Selenium</strong> test scripts.</li>
+                    <li>Sends notifications about the test results.</li>
+                    <li><strong class="highlight">Trigger builds automatically</strong>: You can set <strong class="highlight">Jenkins</strong> to run tests every time a new code change is pushed to <strong class="highlight">GitHub</strong>.</li>
+                </ul>
+            </section>
+
+            <!-- SECTION 10: Cross Browser & Cloud Testing --><section id="section-10" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+                <h2 class="text-3xl section-header mb-4">
+                    10. <strong>Cross Browser</strong> & <strong>Cloud Testing</strong>
+                </h2>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">What is <strong class="highlight">Cross Browser Testing</strong>?</h3>
+                <p>It's making sure your website works correctly and looks the same across all major browsers (Chrome, Firefox, Edge, Safari) and different operating systems (Windows, macOS, mobile).</p>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2"><strong class="highlight">Cloud Testing</strong></h3>
+                <p>Instead of setting up and managing a huge number of browser and OS combinations on your own computers, you run your tests on remote, cloud-based servers. This is called <strong class="highlight">Cloud Testing</strong>.</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Tools</strong>: <strong class="highlight">BrowserStack</strong>, <strong class="highlight">Sauce Labs</strong>, and <strong class="highlight">LambdaTest</strong> are popular cloud platforms that provide access to thousands of real browser and device combinations.</li>
+                    <li>You write your <strong class="highlight">Selenium</strong> code as usual, but instead of connecting to your local Chrome Driver, you connect to the remote machine on the cloud tool's network (often using <strong class="highlight">Selenium Grid</strong> principles).</li>
+                </ul>
+            </section>
+
+            <!-- SECTION 11: API + Database + Integration Basics --><section id="section-11" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+                <h2 class="text-3xl section-header mb-4">
+                    11. <strong>API</strong> + <strong>Database</strong> + <strong>Integration</strong> Basics
+                </h2>
+                <p>A complete automation tester should be able to test more than just the website's user interface (<strong class="highlight">UI</strong>).</p>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2"><strong class="highlight">API Testing</strong></h3>
+                <p>An <strong class="highlight">API (Application Programming Interface)</strong> is the communication layer between different software systems. Testing the <strong class="highlight">API</strong> is often faster and more stable than <strong class="highlight">UI</strong> testing.</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Python</strong>: Use the <strong class="highlight">Requests</strong> library to send simple commands (<strong class="highlight">GET</strong>, <strong class="highlight">POST</strong>) to an <strong class="highlight">API</strong> endpoint and check the response.</li>
+                    <li><strong class="highlight">Java</strong>: Use the <strong class="highlight">RestAssured</strong> library for easy <strong class="highlight">API testing</strong>.</li>
+                </ul>
+                <div class="code-block">
+                    <pre># Python API Testing Example
+import requests
+response = requests.get("https://api.github.com/users/octocat")
+assert response.status_code == 200 # Check if the request was successful</pre>
+                </div>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2"><strong class="highlight">Database Validation</strong></h3>
+                <p>You need to check if actions on the <strong class="highlight">UI</strong> correctly updated the <strong class="highlight">database</strong>. This involves connecting to the <strong class="highlight">database</strong> and running <strong class="highlight">SQL</strong> commands.</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Basic SQL</strong>: Commands like `SELECT` (to read data) and `DELETE` (to clean up test data) are essential.</li>
+                </ul>
+                <div class="code-block">
+                    <pre># SQL Example
+SELECT username FROM users WHERE user_id = '123';
+# Check if the result matches the username created in the UI test.</pre>
+                </div>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2">Combining <strong class="highlight">UI</strong> + <strong class="highlight">API Testing</strong> (<strong class="highlight">Integration</strong>)</h3>
+                <p>This is the practice of mixing tests. For instance: Use an <strong class="highlight">API call</strong> to quickly set up test data (create a user) and then use <strong class="highlight">Selenium (UI)</strong> to verify the user can log in and see their profile, then use the <strong class="highlight">Database</strong> to verify the data persisted correctly.</p>
+
+                <h3 class="text-xl font-semibold mt-4 mb-2"><strong class="highlight">Integration Best Practices</strong></h3>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li><strong class="highlight">Use API/DB for Setup</strong>: Minimize slow <strong class="highlight">UI</strong> interactions by using faster <strong class="highlight">API/DB</strong> calls for preconditions.</li>
+                    <li><strong class="highlight">Test Boundary Conditions</strong>: Use <strong class="highlight">API/DB</strong> to easily create test scenarios that are hard to trigger via the <strong class="highlight">UI</strong> (e.g., massive amounts of data, edge-case statuses).</li>
+                </ul>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Back to Top Button HTML --><button id="back-to-top" onclick="topFunction()" class="p-3 bg-secondary-blue text-white rounded-full shadow-lg hover:bg-blue-600 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+    <!-- End Back to Top Button HTML --><script>
+        // Simple JavaScript to handle the Back to Top button visibility (optional but good UX)
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.onscroll = function() { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                if (backToTopButton) backToTopButton.classList.add('show');
+            } else {
+                if (backToTopButton) backToTopButton.classList.remove('show');
+            }
+        }
+
+        // Function to scroll to the top
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    </script>
+</body>
+{% endblock %}

@@ -1,0 +1,629 @@
+{% extends "base.html" %}
+{% block title %}Python Intermediate Level{% endblock %}
+
+{% block extra_head %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python Intermediate Level</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen">
+
+<!-- ============================= -->
+<!--     Navigation Menu           -->
+<!-- ============================= -->
+<nav class="bg-gray-800 p-4 sticky top-0 z-50 shadow-lg">
+  <ul class="flex flex-wrap justify-center space-x-6 text-gray-200 font-semibold">
+    <li><a href="#functions" class="hover:text-blue-400">Functions</a></li>
+    <li><a href="#file-handling" class="hover:text-blue-400">File Handling</a></li>
+    <li><a href="#modules" class="hover:text-blue-400">Modules & Packages</a></li>
+    <li><a href="#oop" class="hover:text-blue-400">Object-Oriented Programming</a></li>
+    <li><a href="#advanced" class="hover:text-blue-400">Advanced Topics</a></li>
+  </ul>
+</nav>
+{% endblock %}
+{% block content %}
+<main class="max-w-5xl mx-auto p-6">
+
+<!-- ============================= -->
+<!--        FUNCTIONS IN PYTHON    -->
+<!-- ============================= -->
+<section id="functions" class="mt-12">
+  <h1 class="text-4xl font-extrabold text-blue-400 mb-4">Functions (Intermediate Concepts)</h1>
+  <p class="mb-4">
+    In Python, functions can accept variable numbers of arguments, return multiple values,
+    and even reference themselves recursively. You can also create anonymous functions (lambdas).
+  </p>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">1️⃣ *args and **kwargs</h3>
+  <p class="mb-3">
+    - <code>*args</code> allows you to pass multiple positional arguments.
+    - <code>**kwargs</code> allows you to pass multiple keyword arguments.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Using *args
+def add_all(*numbers):
+    total = 0
+    for n in numbers:
+        total += n
+    return total
+
+print(add_all(5, 10, 15, 20))
+
+# Example: Using **kwargs
+def show_details(**info):
+    for key, value in info.items():
+        print(f"{key}: {value}")
+
+show_details(name="Alice", age=25, city="New York")
+  </code></pre>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">2️⃣ Recursion</h3>
+  <p class="mb-3">
+    Recursion occurs when a function calls itself to solve smaller instances of a problem.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Factorial using recursion
+def factorial(n):
+    if n == 1:
+        return 1
+    return n * factorial(n - 1)
+
+print("Factorial of 5 is:", factorial(5))
+  </code></pre>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">3️⃣ Lambda Functions</h3>
+  <p class="mb-3">
+    Lambda functions are small, anonymous functions defined using the <code>lambda</code> keyword.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Lambda function
+square = lambda x: x ** 2
+print("Square of 6:", square(6))
+
+# Example: Lambda with map() and filter()
+nums = [1, 2, 3, 4, 5, 6]
+even_nums = list(filter(lambda x: x % 2 == 0, nums))
+squares = list(map(lambda x: x ** 2, nums))
+
+print("Even numbers:", even_nums)
+print("Squares:", squares)
+  </code></pre>
+</section>
+
+<!-- ============================= -->
+<!--         FILE HANDLING         -->
+<!-- ============================= -->
+<section id="file-handling" class="mt-12">
+  <h1 class="text-4xl font-extrabold text-blue-400 mb-4">File Handling in Python</h1>
+  <p class="mb-4">
+    Python allows reading and writing files using built-in functions.
+    You can open a file using the <code>open()</code> function, perform operations, and then close it.
+  </p>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">1️⃣ Reading Files</h3>
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Reading a file
+file = open("sample.txt", "r")
+content = file.read()
+print(content)
+file.close()
+  </code></pre>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">2️⃣ Writing to Files</h3>
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Writing to a file
+file = open("output.txt", "w")
+file.write("Hello, Python File Handling!")
+file.close()
+  </code></pre>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">3️⃣ Appending Data</h3>
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Appending data
+file = open("output.txt", "a")
+file.write("\nThis line was appended later.")
+file.close()
+  </code></pre>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">4️⃣ Using with open()</h3>
+  <p class="mb-3">
+    It’s best practice to use <code>with open()</code> because it automatically closes the file.
+  </p>
+
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: File handling with 'with' statement
+with open("data.txt", "r") as file:
+    for line in file:
+        print(line.strip())
+  </code></pre>
+
+  <p class="mb-4">
+    You can also handle errors using <code>try-except</code> while dealing with files to prevent crashes.
+  </p>
+</section>
+<!-- ============================= -->
+<!--        MODULES & PACKAGES     -->
+<!-- ============================= -->
+<section id="modules" class="mt-12">
+  <h1 class="text-4xl font-extrabold text-blue-400 mb-4">Modules & Packages</h1>
+  <p class="mb-4">
+    A <strong>module</strong> is a Python file containing functions, variables, or classes.
+    A <strong>package</strong> is a collection of modules organized inside a folder with an <code>__init__.py</code> file.
+  </p>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">1️⃣ Importing a Module</h3>
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# math_module.py
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+  </code></pre>
+
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# main.py
+import math_module
+
+print("Sum:", math_module.add(5, 3))
+print("Difference:", math_module.subtract(10, 4))
+  </code></pre>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">2️⃣ Built-in Modules</h3>
+  <p class="mb-3">Python includes many useful built-in modules such as <code>math</code>, <code>random</code>, <code>datetime</code>, and <code>os</code>.</p>
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+import math, random, datetime, os
+
+print("Square root of 16:", math.sqrt(16))
+print("Random number:", random.randint(1, 100))
+print("Today:", datetime.date.today())
+print("Current working directory:", os.getcwd())
+  </code></pre>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">3️⃣ Creating Packages</h3>
+  <p class="mb-3">A package is just a folder with an <code>__init__.py</code> file.</p>
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# project/
+# ├── mypackage/
+# │   ├── __init__.py
+# │   ├── operations.py
+# └── main.py
+
+# mypackage/operations.py
+def multiply(a, b):
+    return a * b
+
+# main.py
+from mypackage import operations
+print("Product:", operations.multiply(3, 4))
+  </code></pre>
+</section>
+
+<!-- ============================= -->
+<!--      OBJECT ORIENTED PROGRAMMING -->
+<!-- ============================= -->
+<section id="oop" class="mt-12">
+  <h1 class="text-4xl font-extrabold text-blue-400 mb-4">Object-Oriented Programming (OOP)</h1>
+  <p class="mb-4">
+    OOP allows you to structure programs using classes and objects.
+    It supports key concepts like <strong>Encapsulation</strong>, <strong>Inheritance</strong>, and <strong>Polymorphism</strong>.
+  </p>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">1️⃣ Classes and Objects</h3>
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Creating a class and object
+class Car:
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+
+    def display_info(self):
+        print(f"Car: {self.brand} {self.model}")
+
+# Object creation
+car1 = Car("Tesla", "Model S")
+car1.display_info()
+  </code></pre>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">2️⃣ Instance and Class Variables</h3>
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+class Student:
+    school_name = "Python Academy"  # Class variable
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age  # Instance variable
+
+    def show(self):
+        print(f"{self.name}, {self.age}, School: {Student.school_name}")
+
+s1 = Student("Alice", 20)
+s1.show()
+  </code></pre>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">3️⃣ Inheritance</h3>
+  <p class="mb-3">
+    Inheritance lets one class (child) use attributes and methods of another class (parent).
+  </p>
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+# Example: Single inheritance
+class Animal:
+    def speak(self):
+        print("Animal speaking...")
+
+class Dog(Animal):
+    def bark(self):
+        print("Dog barking...")
+
+dog1 = Dog()
+dog1.speak()
+dog1.bark()
+  </code></pre>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">4️⃣ Method Overriding</h3>
+  <p class="mb-3">A subclass can override a method from its parent to change its behavior.</p>
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+class Animal:
+    def sound(self):
+        print("Some sound")
+
+class Cat(Animal):
+    def sound(self):
+        print("Meow!")
+
+c = Cat()
+c.sound()
+  </code></pre>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">5️⃣ Polymorphism</h3>
+  <p class="mb-3">Polymorphism allows the same method to behave differently for different classes.</p>
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+class Bird:
+    def move(self):
+        print("Flying in the sky")
+
+class Fish:
+    def move(self):
+        print("Swimming in the water")
+
+for animal in (Bird(), Fish()):
+    animal.move()
+  </code></pre>
+
+  <h3 class="text-2xl font-semibold text-green-400 mb-2">6️⃣ Encapsulation</h3>
+  <p class="mb-3">Encapsulation restricts direct access to variables and methods to protect data integrity.</p>
+  <pre class="bg-gray-800 p-4 rounded-lg mb-6"><code class="language-python">
+class Account:
+    def __init__(self, owner, balance):
+        self.owner = owner
+        self.__balance = balance  # private variable
+
+    def deposit(self, amount):
+        self.__balance += amount
+        print("Updated balance:", self.__balance)
+
+acc = Account("John", 1000)
+acc.deposit(500)
+# print(acc.__balance)  # ❌ will raise error (private)
+  </code></pre>
+</section>
+
+
+    <!-- ============================= -->
+    <!-- PART 3 - ADVANCED FUNCTIONS & MODULES -->
+    <!-- ============================= -->
+
+    <section id="modules" class="mb-16">
+        <h2 class="text-3xl font-bold text-green-400 mb-4 border-b border-gray-700 pb-2">Modules and Packages</h2>
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            A <strong>module</strong> is a Python file containing code (functions, variables, classes) that can be imported into another script.
+            A <strong>package</strong> is a directory containing multiple modules with an <code>__init__.py</code> file.
+        </p>
+
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+            <h3 class="text-xl text-yellow-300 mb-3">Creating and Importing a Module</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+# --- mymodule.py ---
+def greet(name):
+    return f"Hello, {name}!"
+
+# --- main.py ---
+import mymodule
+print(mymodule.greet("Sreenivas"))
+</pre>
+        </div>
+
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            You can also import specific functions using <code>from ... import ...</code> and rename them using <code>as</code>.
+        </p>
+
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+from mymodule import greet as hello
+print(hello("Reddy"))
+</pre>
+    </section>
+
+    <!-- ============================= -->
+    <!-- OOP - CLASSES AND OBJECTS -->
+    <!-- ============================= -->
+
+    <section id="oop" class="mb-16">
+        <h2 class="text-3xl font-bold text-green-400 mb-4 border-b border-gray-700 pb-2">Object-Oriented Programming (OOP)</h2>
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Python supports object-oriented programming, which allows you to model real-world entities using <strong>classes</strong> and <strong>objects</strong>.
+        </p>
+
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+            <h3 class="text-xl text-yellow-300 mb-3">Creating a Class and Object</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+class Car:
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+
+    def display(self):
+        print(f"Brand: {self.brand}, Model: {self.model}")
+
+car1 = Car("Tesla", "Model S")
+car1.display()
+</pre>
+        </div>
+
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            The <code>__init__</code> method is called automatically when an object is created, and <code>self</code> refers to the current instance.
+        </p>
+    </section>
+
+    <!-- ============================= -->
+    <!-- INHERITANCE -->
+    <!-- ============================= -->
+
+    <section id="inheritance" class="mb-16">
+        <h2 class="text-3xl font-bold text-green-400 mb-4 border-b border-gray-700 pb-2">Inheritance</h2>
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Inheritance allows one class (child) to acquire the properties and behaviors of another class (parent).
+        </p>
+
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+            <h3 class="text-xl text-yellow-300 mb-3">Single Inheritance Example</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+class Vehicle:
+    def info(self):
+        print("This is a vehicle.")
+
+class Car(Vehicle):
+    def brand(self):
+        print("Brand: Tesla")
+
+my_car = Car()
+my_car.info()
+my_car.brand()
+</pre>
+        </div>
+
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Python also supports multiple inheritance, where a class can inherit from more than one parent class.
+        </p>
+    </section>
+
+    <!-- ============================= -->
+    <!-- POLYMORPHISM -->
+    <!-- ============================= -->
+
+    <section id="polymorphism" class="mb-16">
+        <h2 class="text-3xl font-bold text-green-400 mb-4 border-b border-gray-700 pb-2">Polymorphism</h2>
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Polymorphism allows methods to have the same name but behave differently for different objects.
+        </p>
+
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+            <h3 class="text-xl text-yellow-300 mb-3">Example of Polymorphism</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+class Dog:
+    def sound(self):
+        print("Bark")
+
+class Cat:
+    def sound(self):
+        print("Meow")
+
+for animal in [Dog(), Cat()]:
+    animal.sound()
+</pre>
+        </div>
+    </section>
+
+    <!-- ============================= -->
+    <!-- FILE HANDLING -->
+    <!-- ============================= -->
+
+    <section id="file-handling" class="mb-16">
+        <h2 class="text-3xl font-bold text-green-400 mb-4 border-b border-gray-700 pb-2">File Handling</h2>
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Python provides built-in functions to read, write, and manipulate files using the <code>open()</code> function.
+        </p>
+
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+            <h3 class="text-xl text-yellow-300 mb-3">Writing and Reading Files</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+# Writing to a file
+with open("sample.txt", "w") as file:
+    file.write("Hello, Python learners!")
+
+# Reading from a file
+with open("sample.txt", "r") as file:
+    content = file.read()
+    print(content)
+</pre>
+        </div>
+
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Always use <code>with</code> for file handling to automatically close the file after use.
+        </p>
+    </section>
+
+
+        <!-- ============================= -->
+    <!-- ITERATORS -->
+    <!-- ============================= -->
+
+    <section id="iterators" class="mb-16">
+        <h2 class="text-3xl font-bold text-green-400 mb-4 border-b border-gray-700 pb-2">Iterators in Python</h2>
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Iterators are objects that allow you to traverse through all elements of a collection (like lists or tuples).
+            Any object with <code>__iter__()</code> and <code>__next__()</code> methods is considered an iterator.
+        </p>
+
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+            <h3 class="text-xl text-yellow-300 mb-3">Example: Using an Iterator</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+numbers = [1, 2, 3]
+it = iter(numbers)
+
+print(next(it))  # 1
+print(next(it))  # 2
+print(next(it))  # 3
+</pre>
+        </div>
+
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Once all elements are traversed, calling <code>next()</code> again raises a <code>StopIteration</code> exception.
+        </p>
+    </section>
+
+    <!-- ============================= -->
+    <!-- GENERATORS -->
+    <!-- ============================= -->
+
+    <section id="generators" class="mb-16">
+        <h2 class="text-3xl font-bold text-green-400 mb-4 border-b border-gray-700 pb-2">Generators</h2>
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Generators are a simple way to create iterators using functions and the <code>yield</code> keyword.
+            They allow you to generate values on the fly without storing the entire sequence in memory.
+        </p>
+
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+            <h3 class="text-xl text-yellow-300 mb-3">Example: Generator Function</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+def count_up_to(n):
+    i = 1
+    while i <= n:
+        yield i
+        i += 1
+
+for num in count_up_to(5):
+    print(num)
+</pre>
+        </div>
+
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Generators are memory-efficient and great for working with large data or infinite sequences.
+        </p>
+    </section>
+
+    <!-- ============================= -->
+    <!-- DECORATORS -->
+    <!-- ============================= -->
+
+    <section id="decorators" class="mb-16">
+        <h2 class="text-3xl font-bold text-green-400 mb-4 border-b border-gray-700 pb-2">Decorators</h2>
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Decorators are functions that modify the behavior of another function without permanently changing it.
+            They are often used for logging, access control, or performance measurement.
+        </p>
+
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+            <h3 class="text-xl text-yellow-300 mb-3">Example: Function Decorator</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+def decorator_function(func):
+    def wrapper():
+        print("Before the function runs...")
+        func()
+        print("After the function runs...")
+    return wrapper
+
+@decorator_function
+def say_hello():
+    print("Hello, Python!")
+
+say_hello()
+</pre>
+        </div>
+
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            The <code>@decorator_name</code> syntax is shorthand for wrapping a function inside another.
+        </p>
+    </section>
+
+    <!-- ============================= -->
+    <!-- REGULAR EXPRESSIONS -->
+    <!-- ============================= -->
+
+    <section id="regex" class="mb-16">
+        <h2 class="text-3xl font-bold text-green-400 mb-4 border-b border-gray-700 pb-2">Regular Expressions (Regex)</h2>
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Regular expressions allow you to search, match, and manipulate strings using specific patterns.
+            Python provides the <code>re</code> module for regex operations.
+        </p>
+
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+            <h3 class="text-xl text-yellow-300 mb-3">Example: Basic Regex Operations</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+import re
+
+text = "Contact me at test@example.com or info@qa-smart.com"
+emails = re.findall(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", text)
+print(emails)
+</pre>
+        </div>
+
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            <code>re.findall()</code> returns all matching patterns as a list.
+            Other useful functions include <code>re.search()</code>, <code>re.match()</code>, and <code>re.sub()</code>.
+        </p>
+    </section>
+
+    <!-- ============================= -->
+    <!-- CUSTOM EXCEPTIONS -->
+    <!-- ============================= -->
+
+    <section id="custom-exceptions" class="mb-16">
+        <h2 class="text-3xl font-bold text-green-400 mb-4 border-b border-gray-700 pb-2">Custom Exceptions</h2>
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Python allows you to create your own exception types by defining custom classes that inherit from <code>Exception</code>.
+        </p>
+
+        <div class="bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
+            <h3 class="text-xl text-yellow-300 mb-3">Example: Creating a Custom Exception</h3>
+<pre class="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm text-gray-100">
+class InvalidAgeError(Exception):
+    pass
+
+def check_age(age):
+    if age < 18:
+        raise InvalidAgeError("Age must be at least 18!")
+    else:
+        print("Access granted!")
+
+try:
+    check_age(16)
+except InvalidAgeError as e:
+    print("Error:", e)
+</pre>
+        </div>
+
+        <p class="text-gray-300 mb-6 leading-relaxed">
+            Custom exceptions make your code more readable and help in better debugging of domain-specific errors.
+        </p>
+    </section>
+
+</main>
+</body>
+{% endblock %}
+
+

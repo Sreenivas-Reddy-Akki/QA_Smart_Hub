@@ -1,0 +1,628 @@
+{% extends "base.html" %}
+{% block title %}Intermediate Selenium Concepts{% endblock %}
+{% block content %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intermediate Selenium Concepts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for clean code blocks */
+        .code-block {
+            background-color: #1e293b; /* Slate-800 */
+            color: #e2e8f0; /* Slate-200 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.875rem; /* sm text size */
+            margin-top: 0.75rem;
+        }
+        /* Style for the language labels */
+        .lang-label {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        /* Custom font and background */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+        }
+
+        /* Ensure smooth scrolling for anchors */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-black text-gray-100">
+
+    <!-- Main Content Area: Increased max width to 2xl and updated grid for wider content -->
+    <main class="max-w-screen-2xl mx-auto p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-5 gap-10 mt-4">
+
+        <!-- Sidebar Navigation (Table of Contents) - Col 1 -->
+        <aside class="lg:col-span-1 bg-gray-900 p-6 rounded-xl shadow-xl h-fit sticky top-4 border border-indigo-500/50">
+            <h2 class="text-2xl font-extrabold text-white mb-4 border-b border-indigo-500 pb-2">
+                Reference Guide
+            </h2>
+            <nav id="menu-list" class="space-y-2 text-sm font-medium">
+                <a href="#locators" class="block text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">1. Advanced Locators</a>
+                <a href="#data" class="block text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">2. Data-Driven Testing</a>
+                <a href="#waits" class="block text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">3. Explicit Waits</a>
+                <a href="#tables" class="block text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">4. Dynamic Web Tables</a>
+                <a href="#windows" class="block text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">5. Multiple Windows & Tabs</a>
+                <a href="#actions" class="block text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">6. Actions Class</a>
+                <a href="#upload" class="block text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">7. File Upload</a>
+                <a href="#shadow" class="block text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">8. Shadow DOM</a>
+                <a href="#screenshot" class="block text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">9. Element Screenshots</a>
+                <a href="#logging" class="block text-indigo-400 hover:text-indigo-200 transition duration-150 p-2 rounded-md hover:bg-gray-800">10. Logging & Reporting</a>
+            </nav>
+        </aside>
+
+        <!-- Content Sections Container - Col 2-5 (Now taking 4 columns) -->
+        <div class="lg:col-span-4">
+
+            <!-- Title and Description (Replacing the removed header) -->
+            <div class="bg-gray-900 p-6 rounded-xl shadow-2xl mb-8 border border-indigo-500/50">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-3 tracking-tight">
+                    Intermediate Selenium Concepts
+                </h1>
+                <p class="text-gray-300 text-lg leading-relaxed">
+                    This reference guide covers essential concepts for building robust and maintainable data-driven automation frameworks, focusing on complex interactions and advanced element handling.
+                </p>
+            </div>
+
+            <!-- Content Grid for the sections -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <!-- 1. Advanced Locators -->
+                <div id="locators" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                    <h2 class="text-2xl font-bold text-indigo-400 mb-4">1. Advanced Locators (XPath, CSS Selectors, and Dynamic Elements)</h2>
+                    <div class="text-gray-300 mb-6">
+                        <p>
+                            At the intermediate level, testers must master custom <span class="font-bold">XPath</span> and <span class="font-bold">CSS selectors</span> for <span class="font-bold">dynamic elements</span> (those that change frequently, like IDs generated at runtime).
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="lang-label bg-yellow-500 text-yellow-900">Python Example</span>
+                        <pre class="code-block"><code>from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+driver = webdriver.Chrome()
+driver.get("https://example.com")
+
+# Dynamic XPath example
+element = driver.find_element(By.XPATH, "//input[contains(@id,'user')]")
+
+# CSS selector example
+button = driver.find_element(By.CSS_SELECTOR, "button[class*='submit-btn']")
+button.click()
+
+driver.quit()</code></pre>
+                    </div>
+
+                    <div>
+                        <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                        <pre class="code-block"><code>import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class AdvancedLocators {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://example.com");
+
+        driver.findElement(By.xpath("//input[contains(@id,'user')]")).sendKeys("Admin");
+        driver.findElement(By.cssSelector("button[class*='submit-btn']")).click();
+
+        driver.quit();
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 2. Data-Driven Testing -->
+                <div id="data" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                    <h2 class="text-2xl font-bold text-indigo-400 mb-4">2. Data-Driven Testing</h2>
+                    <div class="text-gray-300 mb-6">
+                        <p>
+                            <span class="font-bold">Data-driven testing</span> involves running the same test multiple times with different input values from <span class="font-bold">external sources</span> like <span class="font-bold">Excel</span>, <span class="font-bold">CSV</span>, or <span class="font-bold">JSON</span> files.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="lang-label bg-yellow-500 text-yellow-900">Python Example</span>
+                        <pre class="code-block"><code>import csv
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+driver = webdriver.Chrome()
+driver.get("https://example.com/login")
+
+with open('data.csv') as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        driver.find_element(By.ID, "username").send_keys(row['username'])
+        driver.find_element(By.ID, "password").send_keys(row['password'])
+        driver.find_element(By.ID, "login").click()
+
+driver.quit()</code></pre>
+                    </div>
+
+                    <div>
+                        <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                        <pre class="code-block"><code>import org.apache.poi.xssf.usermodel.*;
+import java.io.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class DataDriven {
+    public static void main(String[] args) throws Exception {
+        // NOTE: Requires Apache POI library
+        FileInputStream fis = new FileInputStream("data.xlsx");
+        XSSFWorkbook wb = new XSSFWorkbook(fis);
+        XSSFSheet sheet = wb.getSheet("Sheet1");
+
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://example.com/login");
+
+        for (int i = 1; i &lt;= sheet.getLastRowNum(); i++) {
+            String user = sheet.getRow(i).getCell(0).getStringCellValue();
+            String pass = sheet.getRow(i).getCell(1).getStringCellValue();
+            driver.findElement(By.id("username")).sendKeys(user);
+            driver.findElement(By.id("password")).sendKeys(pass);
+            driver.findElement(By.id("login")).click();
+        }
+        driver.quit();
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 3. Explicit Waits & Expected Conditions -->
+                <div id="waits" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                    <h2 class="text-2xl font-bold text-indigo-400 mb-4">3. Explicit Waits & Expected Conditions</h2>
+                    <div class="text-gray-300 mb-6">
+                        <p>
+                            <span class="font-bold">Explicit waits</span> let you wait for a <span class="font-bold">specific condition</span> to occur before continuing — e.g., <span class="font-bold">element visibility</span>, <span class="font-bold">clickability</span>, or <span class="font-bold">page title</span>.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="lang-label bg-yellow-500 text-yellow-900">Python Example</span>
+                        <pre class="code-block"><code>from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+driver = webdriver.Chrome()
+driver.get("https://example.com")
+
+wait = WebDriverWait(driver, 10)
+element = wait.until(EC.element_to_be_clickable((By.ID, "submit")))
+element.click()
+
+driver.quit()</code></pre>
+                    </div>
+
+                    <div>
+                        <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                        <pre class="code-block"><code>import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.*;
+import java.time.Duration;
+
+public class ExplicitWait {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://example.com");
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.id("submit")));
+        element.click();
+
+        driver.quit();
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 4. Handling Dynamic Web Tables -->
+                <div id="tables" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                    <h2 class="text-2xl font-bold text-indigo-400 mb-4">4. Handling Dynamic Web Tables</h2>
+                    <div class="text-gray-300 mb-6">
+                        <p>
+                            <span class="font-bold">Dynamic tables</span> require iterating through <span class="font-bold">rows</span> and <span class="font-bold">columns</span> to extract or validate data using nested element finding.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="lang-label bg-yellow-500 text-yellow-900">Python Example</span>
+                        <pre class="code-block"><code>from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+driver = webdriver.Chrome()
+driver.get("https://example.com/table")
+
+# Find all rows (tr) within the table body
+rows = driver.find_elements(By.XPATH, "//table[@id='data']//tr")
+for row in rows:
+    # Find all cells (td) within the current row
+    cols = row.find_elements(By.TAG_NAME, "td")
+    data = [col.text for col in cols]
+    print(data)
+
+driver.quit()</code></pre>
+                    </div>
+
+                    <div>
+                        <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                        <pre class="code-block"><code>import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import java.util.List;
+
+public class DynamicTables {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://example.com/table");
+
+        List&lt;WebElement&gt; rows = driver.findElements(By.xpath("//table[@id='data']//tr"));
+        for (WebElement row : rows) {
+            List&lt;WebElement&gt; cols = row.findElements(By.tagName("td"));
+            for (WebElement col : cols) {
+                System.out.print(col.getText() + " ");
+            }
+            System.out.println();
+        }
+        driver.quit();
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 5. Working with Multiple Windows & Tabs -->
+                <div id="windows" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                    <h2 class="text-2xl font-bold text-indigo-400 mb-4">5. Working with Multiple Windows & Tabs</h2>
+                    <div class="text-gray-300 mb-6">
+                        <p>
+                            Sometimes, an action opens a <span class="font-bold">new window</span> or <span class="font-bold">tab</span>. You need to switch between them using <span class="font-bold">window handles</span> to interact with elements in the new context.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="lang-label bg-yellow-500 text-yellow-900">Python Example</span>
+                        <pre class="code-block"><code>from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+driver = webdriver.Chrome()
+driver.get("https://example.com")
+
+main_window = driver.current_window_handle
+driver.find_element(By.LINK_TEXT, "Open New Tab").click()
+
+# Iterate through all available window handles
+for handle in driver.window_handles:
+    if handle != main_window:
+        driver.switch_to.window(handle)
+        print("New tab title:", driver.title)
+        driver.close() # Close the new tab
+
+driver.switch_to.window(main_window) # Switch back to the main window
+driver.quit()</code></pre>
+                    </div>
+
+                    <div>
+                        <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                        <pre class="code-block"><code>import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import java.util.Set;
+import org.openqa.selenium.By;
+
+public class WindowHandling {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://example.com");
+
+        String main = driver.getWindowHandle();
+        driver.findElement(By.linkText("Open New Tab")).click();
+
+        Set&lt;String&gt; handles = driver.getWindowHandles();
+        for (String handle : handles) {
+            if (!handle.equals(main)) {
+                driver.switchTo().window(handle);
+                System.out.println("New window title: " + driver.getTitle());
+                driver.close();
+            }
+        }
+        driver.switchTo().window(main);
+        driver.quit();
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 6. Actions Class (Mouse & Keyboard) -->
+                <div id="actions" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                    <h2 class="text-2xl font-bold text-indigo-400 mb-4">6. Actions Class (Mouse & Keyboard)</h2>
+                    <div class="text-gray-300 mb-6">
+                        <p>
+                            The <span class="font-bold">Actions class</span> allows performing <span class="font-bold">advanced user interactions</span> like <span class="font-bold">drag-and-drop</span>, <span class="font-bold">hover</span>, <span class="font-bold">double-click</span>, and <span class="font-bold">keyboard events</span>.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="lang-label bg-yellow-500 text-yellow-900">Python Example (Drag and Drop)</span>
+                        <pre class="code-block"><code>from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
+
+driver = webdriver.Chrome()
+driver.get("https://example.com")
+
+source = driver.find_element(By.ID, "draggable")
+target = driver.find_element(By.ID, "droppable")
+
+actions = ActionChains(driver)
+actions.drag_and_drop(source, target).perform()
+
+driver.quit()</code></pre>
+                    </div>
+
+                    <div>
+                        <span class="lang-label bg-blue-500 text-blue-900">Java Example (Drag and Drop)</span>
+                        <pre class="code-block"><code>import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class MouseKeyboard {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://example.com");
+
+        WebElement source = driver.findElement(By.id("draggable"));
+        WebElement target = driver.findElement(By.id("droppable"));
+
+        Actions action = new Actions(driver);
+        action.dragAndDrop(source, target).perform();
+
+        driver.quit();
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 7. File Upload & Download Automation -->
+                <div id="upload" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                    <h2 class="text-2xl font-bold text-indigo-400 mb-4">7. File Upload & Download Automation</h2>
+                    <div class="text-gray-300 mb-6">
+                        <p>
+                            Selenium can handle <span class="font-bold">file upload</span> using the standard <code><span class="font-bold">send_keys()</span></code> method, provided the input element is visible.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="lang-label bg-yellow-500 text-yellow-900">Python Example</span>
+                        <pre class="code-block"><code>from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+driver = webdriver.Chrome()
+driver.get("https://example.com/upload")
+
+# The path must be absolute to the file on the testing machine
+upload_input = driver.find_element(By.ID, "file-upload")
+upload_input.send_keys("/path/to/file.png")
+driver.find_element(By.ID, "upload-button").click()
+
+driver.quit()</code></pre>
+                    </div>
+
+                    <div>
+                        <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                        <pre class="code-block"><code>import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class FileUpload {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://example.com/upload");
+
+        driver.findElement(By.id("file-upload")).sendKeys("C:\\path\\to\\file.png");
+        driver.findElement(By.id("upload-button")).click();
+        driver.quit();
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 8. Handling Hidden or Shadow DOM Elements -->
+                <div id="shadow" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                    <h2 class="text-2xl font-bold text-indigo-400 mb-4">8. Handling Hidden or Shadow DOM Elements</h2>
+                    <div class="text-gray-300 mb-6">
+                        <p>
+                            For elements inside <span class="font-bold">shadow roots</span>, standard Selenium locators fail. You must use a <span class="font-bold">JavaScript executor</span> to retrieve the shadow root and then locate the element within it.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="lang-label bg-yellow-500 text-yellow-900">Python Example</span>
+                        <pre class="code-block"><code>from selenium import webdriver
+
+driver = webdriver.Chrome()
+driver.get("https://example.com/shadow-host")
+
+# 1. Locate the Shadow Host element
+shadow_host = driver.find_element("css selector", "#my-shadow-host")
+
+# 2. Execute JavaScript to get the Shadow Root
+shadow_root = driver.execute_script("return arguments[0].shadowRoot", shadow_host)
+
+# 3. Find element inside the shadow root (Python's behavior allows this)
+inner_element = shadow_root.find_element("css selector", "#inner-button")
+inner_element.click()
+
+driver.quit()</code></pre>
+                    </div>
+
+                    <div>
+                        <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                        <pre class="code-block"><code>import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class ShadowDOM {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://example.com/shadow-host");
+
+        WebElement shadowHost = driver.findElement(By.cssSelector("#my-shadow-host"));
+
+        // Get the Shadow Root reference
+        SearchContext shadowRoot = (SearchContext) ((JavascriptExecutor) driver)
+                .executeScript("return arguments[0].shadowRoot", shadowHost);
+
+        // Find the element inside the Shadow Root
+        shadowRoot.findElement(By.cssSelector("#inner-button")).click();
+
+        driver.quit();
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 9. Taking Element Screenshots -->
+                <div id="screenshot" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                    <h2 class="text-2xl font-bold text-indigo-400 mb-4">9. Taking Element Screenshots</h2>
+                    <div class="text-gray-300 mb-6">
+                        <p>
+                            Beyond taking a full-page screenshot, Selenium provides methods to take <span class="font-bold">screenshots of specific web elements</span>, which is useful for focused visual validation.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="lang-label bg-yellow-500 text-yellow-900">Python Example</span>
+                        <pre class="code-block"><code>from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+driver = webdriver.Chrome()
+driver.get("https://example.com")
+
+# Locate the specific element (e.g., the logo)
+logo = driver.find_element(By.ID, "logo")
+
+# Takes a screenshot only of the element and saves it
+logo.screenshot("logo.png")
+
+driver.quit()</code></pre>
+                    </div>
+
+                    <div>
+                        <span class="lang-label bg-blue-500 text-blue-900">Java Example</span>
+                        <pre class="code-block"><code>import org.openqa.selenium.*;
+import org.openqa.selenium.io.FileHandler;
+import org.openqa.selenium.chrome.ChromeDriver;
+import java.io.File;
+
+public class ElementScreenshot {
+    public static void main(String[] args) throws Exception {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://example.com");
+
+        WebElement logo = driver.findElement(By.id("logo"));
+        // Get the screenshot as a File object
+        File src = logo.getScreenshotAs(OutputType.FILE);
+        // Copy the file to the desired location
+        FileHandler.copy(src, new File("logo.png"));
+
+        driver.quit();
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- 10. Logging and Reporting -->
+                <div id="logging" class="bg-gray-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-700">
+                    <h2 class="text-2xl font-bold text-indigo-400 mb-4">10. Logging and Reporting</h2>
+                    <div class="text-gray-300 mb-6">
+                        <p>
+                            Integrate built-in language <span class="font-bold">logging</span> tools and external <span class="font-bold">reporting</span> libraries for better visibility, debugging, and audit trails of test runs.
+                        </p>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="lang-label bg-yellow-500 text-yellow-900">Python Example (Built-in Logging)</span>
+                        <pre class="code-block"><code>import logging
+
+# Configure basic logging to a file
+logging.basicConfig(
+    filename="test.log",
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
+logging.info("Test suite configuration started")
+
+# Simulate a Selenium action
+try:
+    # driver.get("...")
+    logging.info("Login successful for user 'test_user'")
+except Exception as e:
+    logging.error(f"Login failed: {e}")
+
+logging.info("Test completed")</code></pre>
+                    </div>
+
+                    <div>
+                        <span class="lang-label bg-blue-500 text-blue-900">Java Example (Log4j/SLF4J)</span>
+                        <pre class="code-block"><code>import org.apache.log4j.Logger;
+// NOTE: Requires log4j dependency
+
+public class LogExample {
+    // Initialize logger for this class
+    static Logger log = Logger.getLogger(LogExample.class);
+
+    public static void main(String[] args) {
+        log.info("Test execution started");
+
+        try {
+            // driver.get("...");
+            log.info("Navigated to target URL successfully");
+        } catch (Exception e) {
+            log.error("Navigation failed", e);
+        }
+
+        log.info("Test completed successfully");
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-screen-2xl mx-auto mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 p-4 sm:p-8">
+        <p>&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+    </footer>
+
+</body>
+
+{% endblock %}
