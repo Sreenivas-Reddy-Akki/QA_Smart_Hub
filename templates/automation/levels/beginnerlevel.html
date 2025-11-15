@@ -1,123 +1,124 @@
 {% extends "base.html" %}
-
-{% block title %}Automation Testing Master Plan{% endblock %}
-
+{% block title %}Automation Beginner Testing Master Plan{% endblock %}
 {% block content %}
-
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automation Testing Master Plan</title>
-    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* NOTE: We only keep the custom styling here, as the fixed header and base body styles are inherited from base.html */
-        :root {
-            --primary-blue: #1e3a8a; /* Deep Blue */
-            --secondary-blue: #3b82f6; /* Tailwind Blue 500 */
-            --light-blue: #eff6ff; /* Tailwind Blue 50 - now largely unused with dark background */
-        }
-        body {
-            background-color: #000000; /* Solid Black background */
-            color: #e2e8f0; /* Light text for readability on black */
-        }
-        .section-header {
-            /* Headers and sidebar navigation color remains blue */
-            border-left: 6px solid var(--secondary-blue);
-            padding-left: 1rem;
-            color: var(--secondary-blue);
-            /* Ensure all children (including <strong>) inherit this blue color */
-        }
-        .section-header strong {
-            color: inherit; /* Inherits the blue color from .section-header */
-            font-weight: normal; /* Explicitly remove bold from <strong> tags as requested */
-        }
-        .code-block {
-            /* *** UPDATED: Deep Black color template for code blocks *** */
-            background-color: #0d0d0d; /* Very deep black background */
-            color: #ffffff; /* Pure white text for maximum contrast */
-            border-radius: 0.5rem;
-            padding: 0.75rem;
-            margin-top: 0.5rem;
-            overflow-x: auto;
-            font-size: 0.875rem;
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle white border for definition */
-        }
-        /* Sticky sidebar styling - no top adjustment needed as header is removed */
-        .sidebar {
-            position: sticky;
-            top: 0; /* Adjusted to 0 as no fixed header */
-            height: 100vh; /* Takes full viewport height */
-            overflow-y: auto;
-        }
-        .nav-link {
-            display: block;
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.375rem;
-            color: white;
-            transition: background-color 0.2s;
-        }
-        .nav-link:hover {
-            background-color: #3b82f6; /* Brighter blue on hover */
-        }
-        /* Back to Top Button */
-        #back-to-top {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-            z-index: 50; /* Ensure it floats above content */
-        }
-        #back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        /* Highlight color for keywords in the BODY TEXT (not headers) is white */
-        .highlight {
-            color: #ffffff; /* Pure white for maximum visibility */
-            font-weight: 700;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automation Beginner Testing Master Plan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #000;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+    :root {
+      --primary-blue: #1e3a8a;
+      --secondary-blue: #3b82f6;
+    }
+
+    .section-header {
+      border-left: 6px solid var(--secondary-blue);
+      padding-left: 1rem;
+      color: var(--secondary-blue);
+    }
+    .code-block {
+      background-color: #0d0d0d;
+      color: #fff;
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.875rem;
+    }
+    .highlight { color: #fff; font-weight: 700; }
+
+    /* Sidebar */
+    .sidebar { position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto; transition: transform 0.3s ease; z-index: 40; box-shadow: 2px 0 10px rgba(0,0,0,0.5);}
+    .sidebar-hidden { transform: translateX(-100%); }
+
+    .nav-link { display: block; padding: 0.5rem 0.75rem; border-radius: 0.375rem; color: white; transition: background-color 0.2s; }
+    .nav-link:hover { background-color: var(--secondary-blue); }
+
+    /* Floating Quick Navigation */
+    #floating-nav {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      background-color: rgba(17, 24, 39, 0.95);
+      border: 1px solid #1e3a8a;
+      border-radius: 12px;
+      padding: 12px 10px;
+      width: 250px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+    #floating-nav.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    #floating-nav h3 { font-weight: 600; color: #3b82f6; font-size: 1.05rem; margin-bottom: 8px; border-bottom: 1px solid #1e3a8a; padding-bottom: 4px; }
+    #floating-nav a { display: block; color: #d1d5db; padding: 6px 8px; border-radius: 6px; text-decoration: none; transition: 0.2s; }
+    #floating-nav a:hover { background-color: #2563eb; color: #fff; }
+  </style>
 </head>
-<body class="font-sans antialiased">
 
-    <div class="min-h-screen flex"> <!-- Removed pt-16 as no fixed header --><!-- Sidebar Navigation (Blue Frame) --><nav class="sidebar hidden lg:block w-64 bg-gray-900 shadow-xl p-4">
-            <h2 class="text-xl font-bold text-white mb-6 border-b-2 border-secondary-blue pb-2">Automation Topics</h2>
-            <div class="space-y-2">
-                <a href="#section-1" class="nav-link">1. Intro to Automation</a>
-                <a href="#section-2" class="nav-link">2. Programming Basics</a>
-                <a href="#section-3" class="nav-link">3. Intro to Selenium</a>
-                <a href="#section-4" class="nav-link">4. WebDriver Basics</a>
-                <a href="#section-5" class="nav-link">5. Advanced Selenium</a>
-                <a href="#section-6" class="nav-link">6. Framework Design</a>
-                <a href="#section-7" class="nav-link">7. Frameworks Integration</a>
-                <a href="#section-8" class="nav-link">8. Reporting & Logs</a>
-                <a href="#section-9" class="nav-link">9. Continuous Integration</a>
-                <a href="#section-10" class="nav-link">10. Cloud Testing</a>
-                <a href="#section-11" class="nav-link">11. API + DB Basics</a>
-            </div>
-        </nav>
+<body class="antialiased">
 
-        <!-- Main Content Area --><main class="flex-1 p-6 lg:p-10 text-gray-200"> <!-- Main content text adjusted for dark background --><!-- Mobile Navigation (Dropdown) --><div class="lg:hidden mb-6">
-                <select onchange="window.location.hash = this.value;" class="w-full p-3 border border-secondary-blue rounded-lg bg-gray-700 shadow-md focus:ring-secondary-blue focus:border-secondary-blue text-gray-200">
-                    <option value="" disabled selected>Jump to Section...</option>
-                    <option value="#section-1">1. Intro to Automation</option>
-                    <option value="#section-2">2. Programming Basics</option>
-                    <option value="#section-3">3. Intro to Selenium</option>
-                    <option value="#section-4">4. WebDriver Basics</option>
-                    <option value="#section-5">5. Advanced Selenium</option>
-                    <option value="#section-6">6. Framework Design</option>
-                    <option value="#section-7">7. Frameworks Integration</option>
-                    <option value="#section-8">8. Reporting & Logs</option>
-                    <option value="#section-9">9. Continuous Integration</option>
-                    <option value="#section-10">10. Cloud Testing</option>
-                    <option value="#section-11">11. API + DB Basics</option>
-                </select>
-            </div>
+<!-- ============================= -->
+<!-- Floating Back + Toggle Buttons -->
+<!-- ============================= -->
+<div class="fixed top-18 left-6 flex items-center gap-3 z-50">
+  <!-- Back Button -->
+  <button id="back-button"
+    class="w-12 h-12 bg-gray-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-600 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 20 20" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"/>
+    </svg>
+  </button>
 
-            <!-- SECTION 1: Introduction to Automation Testing --><section id="section-1" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+  <!-- Toggle Menu Button -->
+  <button id="menu-toggle"
+    class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+</div>
+
+<!-- ============================= -->
+<!-- Floating Quick Navigation -->
+<!-- ============================= -->
+<div id="floating-nav">
+  <h3>Quick Navigation</h3>
+  <a href="#section-1">1. Intro to Automation</a>
+  <a href="#section-2">2. Programming Basics</a>
+  <a href="#section-3">3. Intro to Selenium</a>
+  <a href="#section-4">4. WebDriver Basics</a>
+  <a href="#section-5">5. Advanced Selenium</a>
+  <a href="#section-6">6. Framework Design</a>
+  <a href="#section-7">7. Frameworks Integration</a>
+  <a href="#section-8">8. Reporting & Logs</a>
+  <a href="#section-9">9. Continuous Integration</a>
+  <a href="#section-10">10. Cloud Testing</a>
+  <a href="#section-11">11. API + DB Basics</a>
+</div>
+
+
+
+        <!-- Main Content Area - Padding for the fixed toggle buttons -->
+        <main class="flex-1 p-6 lg:p-10 text-gray-200 pt-20">
+            <h1 class="text-5xl md:text-5xl font-extrabold text-gray-200 mb-2">Automation Testing for Beginners</h1>
+
+
+            <!-- SECTION 1: Introduction to Automation Testing -->
+            <section id="section-1" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
                 <h2 class="text-3xl section-header mb-4">
                     1. Introduction to <strong>Automation Testing</strong>
                 </h2>
@@ -139,7 +140,7 @@
                 <p>It handles boring, repetitive tasks fast. When you change the code often, you need quick, reliable checks (called <strong class="highlight">regression tests</strong>) to ensure old features still work. Humans are slow and make mistakes; scripts are fast and consistent.</p>
 
                 <h3 class="text-xl font-semibold mt-4 mb-2">Advantages & Disadvantages of Automation</h3>
-                <div class="flex space-x-4">
+                <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                     <div class="flex-1 p-3 bg-green-900 rounded-lg">
                         <p class="font-bold text-green-300">Advantages (<strong class="highlight">Pros</strong>)</p>
                         <ul class="list-disc list-inside ml-4 text-sm">
@@ -166,7 +167,8 @@
                 <p><strong class="highlight">Selenium</strong> is mainly used for testing web applications (websites) across different browsers. It simulates a real user's actions: clicking buttons, typing text, and verifying content.</p>
             </section>
 
-            <!-- SECTION 2: Basics of Programming --><section id="section-2" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+            <!-- SECTION 2: Basics of Programming -->
+            <section id="section-2" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
                 <h2 class="text-3xl section-header mb-4">
                     2. Basics of Programming (<strong>Python</strong> & <strong>Java</strong>)
                 </h2>
@@ -281,7 +283,8 @@ while (count < 2) {
                 <p>You need to install Python/Java and an Integrated Development Environment (<strong class="highlight">IDE</strong>) like <strong class="highlight">PyCharm</strong> (for Python) or <strong class="highlight">IntelliJ</strong> (for Java) to write and run your code easily.</p>
             </section>
 
-            <!-- SECTION 3: Introduction to Selenium --><section id="section-3" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+            <!-- SECTION 3: Introduction to Selenium -->
+            <section id="section-3" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
                 <h2 class="text-3xl section-header mb-4">
                     3. Introduction to <strong>Selenium</strong>
                 </h2>
@@ -320,7 +323,8 @@ driver.quit()</pre>
                 </div>
             </section>
 
-            <!-- SECTION 4: Selenium WebDriver Basics --><section id="section-4" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+            <!-- SECTION 4: Selenium WebDriver Basics -->
+            <section id="section-4" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
                 <h2 class="text-3xl section-header mb-4">
                     4. <strong>Selenium WebDriver</strong> Basics
                 </h2>
@@ -362,7 +366,8 @@ submit_button.click()</pre>
                 </ul>
             </section>
 
-            <!-- SECTION 5: Selenium Advanced Concepts --><section id="section-5" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+            <!-- SECTION 5: Selenium Advanced Concepts -->
+            <section id="section-5" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
                 <h2 class="text-3xl section-header mb-4">
                     5. <strong>Selenium</strong> Advanced Concepts
                 </h2>
@@ -379,7 +384,8 @@ submit_button.click()</pre>
                 </ul>
             </section>
 
-            <!-- SECTION 6: Automation Framework Design --><section id="section-6" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+            <!-- SECTION 6: Automation Framework Design -->
+            <section id="section-6" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
                 <h2 class="text-3xl section-header mb-4">
                     6. Automation <strong>Framework</strong> Design
                 </h2>
@@ -400,7 +406,8 @@ submit_button.click()</pre>
                 </ul>
             </section>
 
-            <!-- SECTION 7: Test Frameworks Integration --><section id="section-7" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+            <!-- SECTION 7: Test Frameworks Integration -->
+            <section id="section-7" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
                 <h2 class="text-3xl section-header mb-4">
                     7. Test <strong>Frameworks</strong> Integration
                 </h2>
@@ -430,7 +437,8 @@ submit_button.click()</pre>
                 </ul>
             </section>
 
-            <!-- SECTION 8: Reporting & Logs --><section id="section-8" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+            <!-- SECTION 8: Reporting & Logs -->
+            <section id="section-8" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
                 <h2 class="text-3xl section-header mb-4">
                     8. <strong>Reporting</strong> & <strong>Logs</strong>
                 </h2>
@@ -454,7 +462,8 @@ submit_button.click()</pre>
                 <p><strong class="highlight">Logging</strong> is like keeping a detailed diary of your test execution. It helps you track what the script did step-by-step, making it much easier to find bugs when a test fails.</p>
             </section>
 
-            <!-- SECTION 9: Continuous Integration (CI/CD) --><section id="section-9" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+            <!-- SECTION 9: Continuous Integration (CI/CD) -->
+            <section id="section-9" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
                 <h2 class="text-3xl section-header mb-4">
                     9. <strong>Continuous Integration (CI/CD)</strong>
                 </h2>
@@ -476,7 +485,8 @@ submit_button.click()</pre>
                 </ul>
             </section>
 
-            <!-- SECTION 10: Cross Browser & Cloud Testing --><section id="section-10" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+            <!-- SECTION 10: Cross Browser & Cloud Testing -->
+            <section id="section-10" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
                 <h2 class="text-3xl section-header mb-4">
                     10. <strong>Cross Browser</strong> & <strong>Cloud Testing</strong>
                 </h2>
@@ -492,7 +502,8 @@ submit_button.click()</pre>
                 </ul>
             </section>
 
-            <!-- SECTION 11: API + Database + Integration Basics --><section id="section-11" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
+            <!-- SECTION 11: API + Database + Integration Basics -->
+            <section id="section-11" class="bg-gray-800 p-6 rounded-xl shadow-lg mb-8">
                 <h2 class="text-3xl section-header mb-4">
                     11. <strong>API</strong> + <strong>Database</strong> + <strong>Integration</strong> Basics
                 </h2>
@@ -531,32 +542,135 @@ SELECT username FROM users WHERE user_id = '123';
                     <li><strong class="highlight">Test Boundary Conditions</strong>: Use <strong class="highlight">API/DB</strong> to easily create test scenarios that are hard to trigger via the <strong class="highlight">UI</strong> (e.g., massive amounts of data, edge-case statuses).</li>
                 </ul>
             </section>
-
         </main>
     </div>
 
-    <!-- Back to Top Button HTML --><button id="back-to-top" onclick="topFunction()" class="p-3 bg-secondary-blue text-white rounded-full shadow-lg hover:bg-blue-600 transition-colors">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-    </button>
-    <!-- End Back to Top Button HTML --><script>
-        // Simple JavaScript to handle the Back to Top button visibility (optional but good UX)
-        const backToTopButton = document.getElementById('back-to-top');
+    <!-- JavaScript for Menu Toggle and Smooth Scrolling functionality -->
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menu-toggle');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const closeIcon = document.getElementById('close-icon');
+        const backButton = document.getElementById('back-button');
 
-        window.onscroll = function() { scrollFunction() };
+        // --- 1. Back Button (Go to Previous Page) ---
+        backButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            // This is the correct method to go back in the browser's history stack.
+            try {
+                history.back();
+            } catch (error) {
+                // Console log the error if history back fails due to sandbox restrictions,
+                // but the application won't break.
+                console.error("Could not execute history.back():", error);
+            }
+        });
 
-        function scrollFunction() {
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                if (backToTopButton) backToTopButton.classList.add('show');
-            } else {
-                if (backToTopButton) backToTopButton.classList.remove('show');
+        /**
+         * Smoothly scrolls to an element defined by an ID.
+         * @param {string} targetId - The full anchor link (e.g., '#section-1').
+         */
+        function smoothScrollToSection(targetId) {
+            // Remove the '#' to get the actual element ID
+            const elementId = targetId.substring(1);
+            const targetElement = document.getElementById(elementId);
+
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start' // Scroll to the start of the block
+                });
             }
         }
 
-        // Function to scroll to the top
-        function topFunction() {
-            document.body.scrollTop = 0; // For Safari
-            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-        }
+        // --- 2. Menu Toggle Functionality ---
+        menuToggle.addEventListener('click', () => {
+            const isHidden = sidebar.classList.toggle('sidebar-hidden');
+
+            // Toggle icons
+            if (isHidden) {
+                hamburgerIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            } else {
+                hamburgerIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            }
+        });
+
+        // --- 3. Navigation Links Fix (Smooth Scroll to Section) ---
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault(); // Stop the default jump behavior
+
+                const targetId = link.getAttribute('href');
+                smoothScrollToSection(targetId);
+
+                // Close the sidebar after navigating for a better UX
+                sidebar.classList.add('sidebar-hidden');
+                hamburgerIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            });
+        });
+
     </script>
+
+<!-- ============================= -->
+<!-- JavaScript for Navigation -->
+<!-- ============================= -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const sidebar = document.getElementById('sidebar');
+  const menuToggle = document.getElementById('menu-toggle');
+  const backButton = document.getElementById('back-button');
+  const floatingNav = document.getElementById('floating-nav');
+  let isNavOpen = false;
+
+  // --- Back Button ---
+  backButton.addEventListener('click', () => {
+    if (window.history.length > 1) window.history.back();
+    else alert("No previous page found.");
+  });
+
+  // --- Toggle Floating Quick Navigation ---
+  menuToggle.addEventListener('click', () => {
+    isNavOpen = !isNavOpen;
+    floatingNav.classList.toggle("active", isNavOpen);
+  });
+
+  // --- Close Floating Menu When Clicking Outside ---
+  document.addEventListener('click', (e) => {
+    if (isNavOpen && !floatingNav.contains(e.target) && !menuToggle.contains(e.target)) {
+      floatingNav.classList.remove('active');
+      isNavOpen = false;
+    }
+  });
+
+  // --- Smooth Scroll for Floating Links ---
+  document.querySelectorAll('#floating-nav a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      floatingNav.classList.remove('active');
+      isNavOpen = false;
+    });
+  });
+
+  // --- Smooth Scroll for Sidebar Links ---
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      sidebar?.classList.add('sidebar-hidden');
+    });
+  });
+});
+</script>
+
+<!--footer section-->
+    <footer class="max-w-screen-2xl mx-auto mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 p-4 sm:p-8">
+        <p>&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+    </footer>
+
 </body>
+</html>
 {% endblock %}

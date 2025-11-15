@@ -1,0 +1,352 @@
+{% extends "base.html" %}
+{% block title %}Akki AI | SmartHub{% endblock %}
+{% block content %}
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Akki AI</title>
+
+<style>
+:root {
+  --bg:#0b1020;
+  --panel:#111a2f;
+  --muted:#94a3b8;
+  --user:#0ea5e9;
+  --glass:rgba(255,255,255,.05);
+}
+
+/* === Reset === */
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{
+  font-family:Inter,system-ui;
+  background:radial-gradient(circle at top,#081225,#020617 90%);
+  color:#e6eef6;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* === App Wrapper === */
+.app-container{
+  position:absolute;
+  top:80px;
+  left:0;right:0;bottom:0;
+  margin:auto;
+  width:98vw;
+  height:calc(100vh - 100px);
+  display:grid;
+  grid-template-columns:300px 1fr;
+  background:linear-gradient(180deg,#0d162a,#071021);
+  border-radius:18px;
+  box-shadow:0 0 25px rgba(0,0,0,.5);
+  border:1px solid rgba(255,255,255,.06);
+  overflow:hidden;
+  max-width:1900px;
+}
+
+/* === Sidebar === */
+.sidebar{
+  background:var(--panel);
+  border-right:1px solid rgba(255,255,255,.05);
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.sidebar h2{font-size:18px;text-align:center;color:#e0e6f0;margin-bottom:8px;}
+.btn{
+  border:none;cursor:pointer;font-weight:600;border-radius:8px;font-size:13px;padding:8px 10px;
+}
+.btn.new{background:linear-gradient(90deg,var(--user),#06b6d4);color:#012;width:100%;}
+.mode-buttons{display:flex;gap:8px;}
+.mode-btn{
+  flex:1;border-radius:6px;padding:7px;background:rgba(255,255,255,.05);
+  color:var(--muted);border:1px solid rgba(255,255,255,.1);cursor:pointer;font-size:12px;
+}
+.mode-btn.active{background:var(--user);color:var(--bg);font-weight:700;}
+.chat-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:6px;}
+.chat-item{
+  padding:9px;border-radius:9px;background:rgba(255,255,255,.03);
+  cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+}
+.chat-item.active{background:rgba(14,165,233,.18);border:1px solid rgba(14,165,233,.3);}
+.chat-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px;}
+.delete-chat{color:#aaa;cursor:pointer;font-weight:bold;padding:0 4px;}
+.delete-chat:hover{color:#fff;}
+
+/* === Chat Section === */
+.main{display:flex;flex-direction:column;background:linear-gradient(180deg,#0f172a,#071026);
+  padding:20px 28px;overflow:hidden;height:100%;
+}
+.chat-wrap{flex:1;overflow-y:auto;padding:24px;border-radius:16px;background:var(--glass);
+  box-shadow:inset 0 0 12px rgba(0,0,0,.5);
+}
+.messages{display:flex;flex-direction:column;gap:12px;width:100%;min-height:100%;}
+.msg{display:flex;gap:10px;align-items:flex-start;width:100%;}
+.msg.assistant{justify-content:flex-start;}
+.msg.user{justify-content:flex-end;}
+.avatar{width:34px;height:34px;border-radius:8px;background:#fff;color:#052;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;
+}
+.bubble{position:relative;padding:11px 13px;border-radius:10px;line-height:1.45;
+  box-shadow:0 4px 14px rgba(2,6,23,.5);word-break:break-word;font-size:14px;max-width:85%;
+}
+.msg.assistant .bubble{background:rgba(255,255,255,.04);}
+.msg.user .bubble{background:rgba(14,165,233,.15);color:#dff7ff;}
+
+/* === Highlight & Link Styles === */
+.bubble a {
+  color:#38bdf8;
+  text-decoration:underline;
+  font-weight:500;
+  transition:color 0.2s ease;
+}
+.bubble a:hover {
+  color:#0ea5e9;
+  text-shadow:0 0 6px rgba(14,165,233,0.6);
+}
+
+/* === Copy & Composer === */
+.copy-btn{position:absolute;top:5px;right:5px;font-size:11px;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);color:#aaa;border-radius:4px;padding:2px 6px;cursor:pointer;
+}
+.copy-btn:hover{color:#fff;background:rgba(255,255,255,.12);}
+.composer{display:flex;align-items:center;gap:8px;margin-top:10px;background:rgba(255,255,255,.04);
+  border-radius:10px;padding:8px;border:1px solid rgba(255,255,255,.08);
+}
+textarea{flex:1;min-height:44px;resize:none;border:none;background:transparent;color:inherit;
+  outline:none;padding:8px;font-size:13px;
+}
+.controls{display:flex;gap:8px;}
+.btn.send{background:linear-gradient(90deg,var(--user),#06b6d4);color:#012;font-weight:600;
+  font-size:13px;padding:6px 12px;white-space:nowrap;
+}
+.footer{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;margin-top:6px;}
+</style>
+</head>
+
+<body>
+<div class="app-container">
+  <div class="sidebar">
+    <h2>Akki AI</h2>
+    <button class="btn new" id="newChatBtn">+ New Chat</button>
+    <div class="mode-buttons">
+      <button class="mode-btn active" id="modeLocal">Akki AI (Local)</button>
+      <button class="mode-btn" id="modeGemini">Akki AI + Gemini / OpenAI</button>
+    </div>
+    <div class="chat-list" id="chatList"></div>
+  </div>
+
+  <div class="main">
+    <div class="chat-wrap" id="chatWrap"><div class="messages" id="messages"></div></div>
+    <div>
+      <div class="composer">
+        <textarea id="input" placeholder="Type your message..."></textarea>
+        <div class="controls">
+          <button class="btn send" id="sendBtn">Send</button>
+          <button class="btn" id="clearBtn">Clear</button>
+        </div>
+      </div>
+      <div class="footer"><div id="modeStatus">Mode: Akki AI (Local)</div><div id="status">Ready</div></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+// ==================== QA SMART HUB KNOWLEDGE BASE (LOCAL MODE) ====================
+const QA_SMARTHUB_DATA = {
+  "manual": {
+    description: "Manual testing is the process of manually verifying that software behaves as expected. It’s essential for usability, exploratory, and regression testing, ensuring human insight in validating user experience.",
+    official_link: { text: "ISTQB Foundation Level", url: "https://www.istqb.org/certifications/certified-tester-foundation-level" },
+    youtube_link: { text: "Manual Testing Full Course", url: "https://www.youtube.com/results?search_query=manual+testing+tutorial+for+beginners" }
+  },
+  "automation": {
+    description: "Automation testing uses scripts and tools to execute test cases automatically, improving speed, reliability, and coverage. Common tools include Selenium, Playwright, and Pytest.",
+    official_link: { text: "Automation Overview – Selenium Docs", url: "https://www.selenium.dev/documentation/en/" },
+    youtube_link: { text: "Automation Testing Basics", url: "https://www.youtube.com/results?search_query=automation+testing+tutorial+for+beginners" }
+  },
+  "selenium": {
+    description: "Selenium is a powerful open-source framework for automating web applications across browsers. It supports multiple languages like Java, Python, and JavaScript.",
+    official_link: { text: "Selenium Official Documentation", url: "https://www.selenium.dev/documentation/" },
+    youtube_link: { text: "Selenium WebDriver Tutorial", url: "https://www.youtube.com/results?search_query=selenium+webdriver+tutorial" }
+  },
+  "pytest": {
+    description: "Pytest is a flexible Python testing framework ideal for API and UI test automation. It supports fixtures, assertions, and plugins like Allure for rich reporting.",
+    official_link: { text: "Pytest Official Docs", url: "https://docs.pytest.org/en/stable/" },
+    youtube_link: { text: "Pytest Tutorial for Beginners", url: "https://www.youtube.com/results?search_query=pytest+tutorial+for+beginners" }
+  },
+  "java": {
+    description: "Java is an object-oriented programming language widely used for building automation frameworks like Selenium with TestNG or JUnit.",
+    official_link: { text: "Java Official Docs – Oracle", url: "https://docs.oracle.com/en/java/" },
+    youtube_link: { text: "Java Programming Full Course", url: "https://www.youtube.com/results?search_query=java+programming+for+beginners" }
+  },
+  "python": {
+    description: "Python is a high-level, readable language ideal for automation, API testing, and AI integration. Frameworks like Pytest make it a QA favorite.",
+    official_link: { text: "Python.org Official Site", url: "https://www.python.org/" },
+    youtube_link: { text: "Python Tutorial for Beginners", url: "https://www.youtube.com/results?search_query=python+tutorial+for+beginners" }
+  },
+  "cucumber": {
+    description: "Cucumber supports Behavior-Driven Development (BDD) using Gherkin syntax (Given-When-Then). It bridges the gap between technical and business teams.",
+    official_link: { text: "Cucumber Official Website", url: "https://cucumber.io/" },
+    youtube_link: { text: "Cucumber BDD Tutorial", url: "https://www.youtube.com/results?search_query=cucumber+bdd+tutorial" }
+  },
+  "jenkins": {
+    description: "Jenkins is a popular open-source automation server that enables Continuous Integration and Continuous Delivery (CI/CD) for building, testing, and deploying code.",
+    official_link: { text: "Jenkins Official Docs", url: "https://www.jenkins.io/doc/" },
+    youtube_link: { text: "Jenkins Pipeline Full Tutorial", url: "https://www.youtube.com/results?search_query=jenkins+pipeline+tutorial" }
+  },
+  "maven": {
+    description: "Apache Maven is a project management and build automation tool for Java. It simplifies dependency management and project structure using the POM model.",
+    official_link: { text: "Apache Maven Project", url: "https://maven.apache.org/" },
+    youtube_link: { text: "Maven Tutorial for Beginners", url: "https://www.youtube.com/results?search_query=apache+maven+tutorial" }
+  },
+  "testNG": {
+    description: "TestNG is a Java testing framework inspired by JUnit and NUnit. It supports data-driven testing, parallel execution, and detailed HTML reports.",
+    official_link: { text: "TestNG Official Documentation", url: "https://testng.org/doc/" },
+    youtube_link: { text: "TestNG Full Course", url: "https://www.youtube.com/results?search_query=testng+tutorial+for+beginners" }
+  },
+  "xpath": {
+    description: "XPath (XML Path Language) helps locate web elements precisely in UI automation by navigating the DOM structure efficiently.",
+    official_link: { text: "MDN XPath Reference", url: "https://developer.mozilla.org/en-US/docs/Web/XPath" },
+    youtube_link: { text: "XPath in Selenium Tutorial", url: "https://www.youtube.com/results?search_query=xpath+tutorial+for+selenium" }
+  },
+  "ci/cd": {
+    description: "CI/CD automates software integration, testing, and deployment, enabling faster delivery with fewer errors through continuous feedback loops.",
+    official_link: { text: "GitLab CI/CD Documentation", url: "https://about.gitlab.com/topics/ci-cd/" },
+    youtube_link: { text: "CI/CD Pipeline Explained", url: "https://www.youtube.com/results?search_query=ci+cd+pipeline+tutorial" }
+  },
+  "docker": {
+    description: "Docker uses lightweight containers to create isolated, reproducible test environments. It’s essential for DevOps and distributed QA setups.",
+    official_link: { text: "Docker Official Docs", url: "https://docs.docker.com/" },
+    youtube_link: { text: "Docker for QA Engineers", url: "https://www.youtube.com/results?search_query=docker+for+qa+tutorial" }
+  },
+  "git": {
+    description: "Git is a version control system for tracking code changes collaboratively. QA teams use it to maintain test scripts and framework updates.",
+    official_link: { text: "Git Official Site", url: "https://git-scm.com/" },
+    youtube_link: { text: "Git Tutorial for Beginners", url: "https://www.youtube.com/results?search_query=git+tutorial+for+beginners" }
+  },
+  "github": {
+    description: "GitHub is a platform for hosting and collaborating on Git repositories, supporting CI/CD and workflow automation.",
+    official_link: { text: "GitHub Official", url: "https://github.com/" },
+    youtube_link: { text: "GitHub Complete Tutorial", url: "https://www.youtube.com/results?search_query=github+tutorial+for+beginners" }
+  },
+  "api testing": {
+    description: "API testing validates communication between systems by verifying endpoints, status codes, and responses. Tools include Postman and Rest Assured.",
+    official_link: { text: "API Basics – Mulesoft", url: "https://www.mulesoft.com/resources/api/what-is-an-api" },
+    youtube_link: { text: "API Testing for Beginners", url: "https://www.youtube.com/results?search_query=api+testing+tutorial+for+beginners" }
+  },
+  "postman": {
+    description: "Postman is a GUI-based API testing tool that simplifies sending requests, analyzing responses, and automating tests through collections.",
+    official_link: { text: "Postman Official Site", url: "https://www.postman.com/" },
+    youtube_link: { text: "Postman API Testing Tutorial", url: "https://www.youtube.com/results?search_query=postman+tutorial+for+beginners" }
+  },
+  "rest assured": {
+    description: "Rest Assured is a Java library that makes API testing easy by allowing fluent validation of HTTP responses and JSON/XML data.",
+    official_link: { text: "Rest Assured GitHub", url: "https://github.com/rest-assured/rest-assured" },
+    youtube_link: { text: "Rest Assured Full Tutorial", url: "https://www.youtube.com/results?search_query=rest+assured+tutorial+for+beginners" }
+  },
+  "playwright": {
+    description: "Playwright is a modern automation framework from Microsoft that supports Chromium, Firefox, and WebKit with a single API.",
+    official_link: { text: "Playwright Official", url: "https://playwright.dev/" },
+    youtube_link: { text: "Playwright Automation Course", url: "https://www.youtube.com/results?search_query=playwright+tutorial+for+beginners" }
+  },
+  "ai": {
+    description: "AI-powered QA tools use machine learning to predict flaky tests, analyze failures, and enhance visual validation with self-healing capabilities.",
+    official_link: { text: "Applitools AI Testing Platform", url: "https://applitools.com/" },
+    youtube_link: { text: "AI in Software Testing", url: "https://www.youtube.com/results?search_query=ai+in+software+testing" }
+  }
+};
+// ==================== END KNOWLEDGE BASE ====================
+
+const input=document.getElementById('input'),sendBtn=document.getElementById('sendBtn'),
+clearBtn=document.getElementById('clearBtn'),messages=document.getElementById('messages'),
+chatWrap=document.getElementById('chatWrap'),modeLocal=document.getElementById('modeLocal'),
+modeGemini=document.getElementById('modeGemini'),modeStatus=document.getElementById('modeStatus'),
+statusEl=document.getElementById('status'),chatList=document.getElementById('chatList'),
+newChatBtn=document.getElementById('newChatBtn');
+let currentMode='local';
+let sessions=JSON.parse(localStorage.getItem('akki_sessions')||'[]');
+let currentIndex=0;
+
+function save(){localStorage.setItem('akki_sessions',JSON.stringify(sessions));}
+function current(){return sessions[currentIndex]||(sessions[currentIndex]={title:'',history:[]});}
+function scroll(){chatWrap.scrollTop=chatWrap.scrollHeight;}
+function renderList(){
+ chatList.innerHTML='';
+ sessions.forEach((s,i)=>{
+   const div=document.createElement('div');
+   div.className='chat-item'+(i===currentIndex?' active':'');
+   const span=document.createElement('span');span.className='chat-title';span.textContent=s.title||'Untitled Chat';
+   const del=document.createElement('span');del.className='delete-chat';del.textContent='✖';
+   del.onclick=e=>{e.stopPropagation();sessions.splice(i,1);if(currentIndex>=sessions.length)currentIndex=sessions.length-1;save();renderAll();};
+   div.onclick=()=>{currentIndex=i;renderAll();};
+   div.append(span,del);chatList.append(div);
+ });
+}
+function renderMessages(){
+ messages.innerHTML='<div style="height:100%;visibility:hidden;">&nbsp;</div>';
+ current().history.forEach(m=>{
+   const div=document.createElement('div');div.className='msg '+m.role;
+   let content=m.role==='assistant'?marked.parse(m.content):m.content;
+   const bubble=document.createElement('div');bubble.className='bubble markdown';bubble.innerHTML=content;
+   if(m.role==='assistant'&&m.content.includes('```')){
+     const btn=document.createElement('div');btn.textContent='📋 Copy';btn.className='copy-btn';
+     btn.onclick=()=>navigator.clipboard.writeText(m.content.replace(/```[a-z]*\n?|```/g,''));bubble.append(btn);
+   }
+   div.innerHTML=`<div class="avatar">${m.role==='user'?'Q':'A'}</div>`;div.appendChild(bubble);
+   messages.append(div);
+ });
+ scroll();save();renderList();
+}
+function push(role,content){current().history.push({role,content,time:Date.now()});if(!current().title&&role==='user')current().title=content.slice(0,20)+'...';save();renderMessages();}
+
+// -------------------- MAIN MESSAGE HANDLER --------------------
+async function handleSend(){
+ const q=input.value.trim();if(!q)return;push('user',q);input.value='';
+ const typing={role:'assistant',content:'<i>...</i>',time:Date.now()};current().history.push(typing);renderMessages();
+ let reply;
+
+ if(currentMode==='local'){
+   const lower=q.toLowerCase();
+   let foundKey=Object.keys(QA_SMARTHUB_DATA).find(k=>lower.includes(k));
+   if(foundKey){
+     const data=QA_SMARTHUB_DATA[foundKey];
+     reply = `**${foundKey.toUpperCase()}**\n\n${data.description}\n\n📘 [${data.official_link.text}](${data.official_link.url})\n🎥 [${data.youtube_link.text}](${data.youtube_link.url})`;
+   } else {
+     reply = "I'm Akki AI, your local QA knowledge assistant. Try asking about topics like Selenium, Pytest, Jenkins, CI/CD, API Testing, etc.";
+   }
+ }
+ else {
+   reply = await callBackend(q);
+ }
+
+ const i=current().history.indexOf(typing);if(i>-1)current().history.splice(i,1);push('assistant',reply);
+}
+
+// -------------------- API CALL FOR EXTERNAL MODE --------------------
+async function callBackend(prompt){
+ try{
+   statusEl.textContent='Connecting...';
+   const r=await fetch('{{ url_for("generate") }}',{method:'POST',headers:{'Content-Type':'application/json'},
+     body:JSON.stringify({prompt,model_choice:currentMode,use_grounding:true})});
+   const d=await r.json();statusEl.textContent='Ready';
+   let t=d.result||d.message||'No response';
+   if(d.sources&&d.sources.length){t+='\n\n---\n**Sources:**\n';d.sources.forEach(s=>t+=`* [${s.title}](${s.uri})\n`);}
+   return t;
+ }catch(e){statusEl.textContent='Error';return '⚠️ External AI unreachable.';}
+}
+
+function renderAll(){renderMessages();renderList();}
+sendBtn.onclick=handleSend;
+input.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();handleSend();}};
+clearBtn.onclick=()=>{if(confirm('Clear conversation?')){current().history=[];save();renderMessages();}};
+modeLocal.onclick=()=>{currentMode='local';modeLocal.classList.add('active');modeGemini.classList.remove('active');modeStatus.textContent='Mode: Akki AI(Local)';};
+modeGemini.onclick=()=>{currentMode='gemini';modeGemini.classList.add('active');modeLocal.classList.remove('active');modeStatus.textContent='Mode: Akki AI + Gemini / OpenAI';};
+newChatBtn.onclick=()=>{sessions.push({title:'',history:[]});currentIndex=sessions.length-1;save();renderAll();};
+if(!sessions.length)sessions=[{title:'',history:[]}];
+renderAll();
+</script>
+</body>
+</html>
+{% endblock %}

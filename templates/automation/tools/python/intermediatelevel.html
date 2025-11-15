@@ -1,36 +1,116 @@
 {% extends "base.html" %}
-{% block title %}Python Intermediate Level{% endblock %}
-
-{% block extra_head %}
+{% block title %}Python Intermediate Concepts{% endblock %}
+{% block content %}
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Python Intermediate Level</title>
+  <title>Python Intermediate Concepts</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #1f2937; }
+    ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #60a5fa; }
+
+    /* Floating Navigation Menu */
+    #floating-nav {
+      position: fixed;
+      top: 75px;
+      left: 20px;
+      background-color: rgba(31, 41, 55, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 12px 10px;
+      width: 240px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    #floating-nav.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    #floating-nav h3 {
+      font-weight: 600;
+      color: #60a5fa;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #374151;
+      padding-bottom: 4px;
+    }
+
+    #floating-nav a {
+      display: block;
+      color: #cbd5e1;
+      padding: 6px 8px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    #floating-nav a:hover {
+      background-color: #2563eb;
+      color: #fff;
+    }
+  </style>
 </head>
-<body class="min-h-screen">
+
+<body class="min-h-screen bg-gray-900 text-gray-100">
 
 <!-- ============================= -->
-<!--     Navigation Menu           -->
+<!-- Floating Top Buttons -->
 <!-- ============================= -->
-<nav class="bg-gray-800 p-4 sticky top-0 z-50 shadow-lg">
-  <ul class="flex flex-wrap justify-center space-x-6 text-gray-200 font-semibold">
-    <li><a href="#functions" class="hover:text-blue-400">Functions</a></li>
-    <li><a href="#file-handling" class="hover:text-blue-400">File Handling</a></li>
-    <li><a href="#modules" class="hover:text-blue-400">Modules & Packages</a></li>
-    <li><a href="#oop" class="hover:text-blue-400">Object-Oriented Programming</a></li>
-    <li><a href="#advanced" class="hover:text-blue-400">Advanced Topics</a></li>
-  </ul>
-</nav>
-{% endblock %}
-{% block content %}
-<main class="max-w-5xl mx-auto p-6">
+<div class="fixed top-18 left-6 flex items-center gap-3 z-50">
+  <!-- Back Button -->
+  <button id="back-button"
+    class="w-12 h-12 bg-gray-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-600 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-500">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  <!-- Toggle Menu Button -->
+  <button id="menu-toggle"
+    class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+</div>
+
+<!-- ============================= -->
+<!-- Floating Navigation Menu -->
+<!-- ============================= -->
+<div id="floating-nav">
+  <h3>Quick Navigation</h3>
+  <a href="#functions">Functions</a>
+  <a href="#file-handling">File Handling</a>
+  <a href="#modules">Modules & Packages</a>
+  <a href="#oop">Object-Oriented Programming</a>
+  <a href="#inheritance">Inheritance</a>
+  <a href="#polymorphism">Polymorphism</a>
+  <a href="#iterators">Iterators</a>
+  <a href="#generators">Generators</a>
+  <a href="#decorators">Decorators</a>
+  <a href="#regex">Regular Expressions</a>
+  <a href="#custom-exceptions">Custom Exceptions</a>
+</div>
+
+<main class="max-w-8xl mx-auto p-6">
 
 <!-- ============================= -->
 <!--        FUNCTIONS IN PYTHON    -->
 <!-- ============================= -->
 <section id="functions" class="mt-12">
-  <h1 class="text-4xl font-extrabold text-blue-400 mb-4">Functions (Intermediate Concepts)</h1>
+  <h1 class="text-5xl font-extrabold text-blue-400 mb-4">Python Functions (Intermediate Concepts)</h1>
   <p class="mb-4">
     In Python, functions can accept variable numbers of arguments, return multiple values,
     and even reference themselves recursively. You can also create anonymous functions (lambdas).
@@ -623,7 +703,57 @@ except InvalidAgeError as e:
     </section>
 
 </main>
+
+
+<!-- ============================= -->
+<!-- Script for Buttons and Nav -->
+<!-- ============================= -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const backButton = document.getElementById("back-button");
+    const menuToggle = document.getElementById("menu-toggle");
+    const floatingNav = document.getElementById("floating-nav");
+    let isNavOpen = false;
+
+    // Back button
+    backButton.addEventListener("click", () => {
+      if (window.history.length > 1) window.history.back();
+      else alert("No previous page available.");
+    });
+
+    // Toggle nav menu
+    menuToggle.addEventListener("click", () => {
+      isNavOpen = !isNavOpen;
+      floatingNav.classList.toggle("active", isNavOpen);
+    });
+
+    // Close nav when clicking outside
+    document.addEventListener("click", (e) => {
+      if (isNavOpen && !floatingNav.contains(e.target) && !menuToggle.contains(e.target)) {
+        floatingNav.classList.remove("active");
+        isNavOpen = false;
+      }
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('#floating-nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+        floatingNav.classList.remove('active');
+        isNavOpen = false;
+      });
+    });
+  });
+</script>
+
+<!--footer section-->
+<footer class="max-w-screen-2xl mx-auto mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 p-4 sm:p-8">
+    <p>&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+</footer>
+
 </body>
 {% endblock %}
+
 
 

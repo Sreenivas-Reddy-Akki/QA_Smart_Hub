@@ -1,42 +1,125 @@
 {% extends "base.html" %}
 {% block title %}Python Advanced Concepts{% endblock %}
 
-{% block extra_head %}
+{% block content %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Advanced Concepts</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python Advanced Concepts | QA Smart Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #1f2937; }
+    ::-webkit-scrollbar-thumb { background: #22c55e; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #4ade80; }
+
+    #floating-nav {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      background-color: rgba(31,41,55,0.95);
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 12px 10px;
+      width: 250px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    #floating-nav.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    #floating-nav h3 {
+      font-weight: 600;
+      color: #4ade80;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #374151;
+      padding-bottom: 4px;
+    }
+
+    #floating-nav a {
+      display: block;
+      color: #d1d5db;
+      padding: 6px 8px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    #floating-nav a:hover {
+      background-color: #22c55e;
+      color: #fff;
+    }
+  </style>
 </head>
+
 <body class="bg-gray-900 text-gray-100 min-h-screen flex">
 
-    <!-- Sidebar Navigation -->
-    <nav class="w-64 bg-gray-800 border-r border-gray-700 p-6 sticky top-0 h-screen">
-        <h1 class="text-2xl font-bold text-green-400 mb-8">Python Advanced</h1>
-        <ul class="space-y-4 text-gray-300">
-            <li><a href="#advanced-oop" class="hover:text-green-400">Advanced OOP</a></li>
-            <li><a href="#advanced-ds" class="hover:text-green-400">Advanced Data Structures</a></li>
-            <li><a href="#multithreading" class="hover:text-green-400">Multithreading</a></li>
-            <li><a href="#multiprocessing" class="hover:text-green-400">Multiprocessing</a></li>
-            <li><a href="#asyncio" class="hover:text-green-400">AsyncIO</a></li>
-            <li><a href="#context-managers" class="hover:text-green-400">Context Managers</a></li>
-            <li><a href="#memory" class="hover:text-green-400">Memory Management</a></li>
-            <li><a href="#api" class="hover:text-green-400">Working with APIs</a></li>
-            <li><a href="#testing" class="hover:text-green-400">Unit Testing</a></li>
-            <li><a href="#performance" class="hover:text-green-400">Performance & Best Practices</a></li>
-        </ul>
-    </nav>
-{% endblock %}
-{% block content %}
-    <!-- Main Content -->
-    <main class="flex-1 p-10 space-y-20 overflow-y-auto">
+<!-- Floating Controls -->
+<div class="fixed top-18 left-6 flex items-center gap-3 z-50">
+  <button id="back-button"
+    class="w-12 h-12 bg-gray-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-600 transition active:scale-95">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  <button id="menu-toggle"
+    class="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-700 transition active:scale-95">
+    ☰
+  </button>
+</div>
+
+<!-- Floating Navigation -->
+<div id="floating-nav">
+  <h3>Quick Navigation</h3>
+  <a href="#advanced-oop">Advanced OOP</a>
+  <a href="#advanced-ds">Advanced Data Structures</a>
+  <a href="#multithreading">Multithreading</a>
+  <a href="#generators">Generators</a>
+  <a href="#decorators">Decorators</a>
+  <a href="#context-managers">Context Managers</a>
+  <a href="#regex">Regular Expressions</a>
+  <a href="#modules">Modules</a>
+  <a href="#packages">Packages</a>
+  <a href="#exception-handling">Exception Handling</a>
+  <a href="#logging">Logging</a>
+  <a href="#json-handling">JSON Handling</a>
+  <a href="#unit-testing">Unit Testing</a>
+  <a href="#virtualenv">Virtual Environments</a>
+  <a href="#async-programming">Async Programming</a>
+  <a href="#rest-apis">REST APIs</a>
+  <a href="#database-handling">Database Handling</a>
+  <a href="#django-framework">Django Framework</a>
+  <a href="#performance-optimization">Performance Optimization</a>
+  <a href="#conclusion">Conclusion</a>
+</div>
+
+<!-- Main Content -->
+<main class="flex-1 p-25 space-y-10 overflow-y-auto">
+
+  <header class="text-center mb-12 pt-10">
+    <h1 class="text-6xl sm:text-5xl font-extrabold text-green-400">Python Advanced Concepts</h1>
+    <p class="text-gray-400 mt-2 text-lg">Master advanced Python programming for automation, APIs, async, and more.</p>
+  </header>
 
         <!-- ======================================== -->
         <!-- ADVANCED OOP -->
         <!-- ======================================== -->
 
         <section id="advanced-oop" class="mb-16">
-            <h2 class="text-4xl font-bold text-green-400 mb-6 border-b border-gray-700 pb-3">Advanced Object-Oriented Programming</h2>
+            <h2 class="text-4xl font-bold text-green-400 mb-6 border-b border-gray-700 pb-3">Python Advanced Object-Oriented Programming</h2>
             <p class="text-gray-300 mb-6 leading-relaxed">
                 Advanced OOP concepts enhance code modularity and reusability.
                 Python supports <strong>abstract classes</strong>, <strong>multiple inheritance</strong>, and <strong>method overriding</strong>.
@@ -674,6 +757,54 @@ print("Execution time:", time.time() - start)
   </p>
 </section>
 </main>
-</body>
 
+
+<!-- ============================= -->
+<!-- JavaScript for Back + Toggle -->
+<!-- ============================= -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const backButton = document.getElementById("back-button");
+  const menuToggle = document.getElementById("menu-toggle");
+  const floatingNav = document.getElementById("floating-nav");
+  let isNavOpen = false;
+
+  // Back Button Action
+  backButton.addEventListener("click", () => {
+    if (window.history.length > 1) window.history.back();
+    else alert("No previous page found.");
+  });
+
+  // Toggle Navigation
+  menuToggle.addEventListener("click", () => {
+    isNavOpen = !isNavOpen;
+    floatingNav.classList.toggle("active", isNavOpen);
+  });
+
+  // Close when clicking outside
+  document.addEventListener("click", (e) => {
+    if (isNavOpen && !floatingNav.contains(e.target) && !menuToggle.contains(e.target)) {
+      floatingNav.classList.remove("active");
+      isNavOpen = false;
+    }
+  });
+
+  // Smooth Scroll
+  document.querySelectorAll('#floating-nav a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      floatingNav.classList.remove('active');
+      isNavOpen = false;
+    });
+  });
+});
+</script>
+
+<!--footer section-->
+<footer class="max-w-screen-2xl mx-auto mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 p-4 sm:p-8">
+    <p>&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+</footer>
+
+</body>
 {% endblock %}

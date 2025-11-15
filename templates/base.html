@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QA Smart Hub | {% block title %}{% endblock %}</title>
+
+    <!-- Favicon Links -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='images/favicon-64x64.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='images/site.webmanifest') }}">
+
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -23,11 +35,10 @@
             }
         }
     </script>
+
     <style>
         /* Ensures the whole viewport is used for flexible layout */
-        body {
-            min-height: 100vh;
-        }
+        body { min-height: 100vh; }
 
         /* DEFAULT THEME (DARK) Scrollbar - uses body/html default styles */
         ::-webkit-scrollbar { width: 8px; }
@@ -39,7 +50,6 @@
         .light-theme::-webkit-scrollbar-track { background: #e5e7eb; }
         .light-theme::-webkit-scrollbar-thumb { background: #9ca3af; }
 
-
         /* FIX: Defensive CSS to ensure fixed header is always on top of the scrollbar */
         .fixed-header-z-fix {
             z-index: 9999 !important; /* Force a very high Z-index */
@@ -47,38 +57,30 @@
         }
 
         /* LIGHT THEME OVERRIDES (applied when body has 'light-theme' class) */
-        .light-theme {
-            background-color: #f3f4f6 !important; /* General light background */
-            color: #111827 !important; /* General dark text */
-        }
+        .light-theme { background-color: #f3f4f6 !important; color: #111827 !important; }
         .light-theme .bg-background { background-color: #f3f4f6 !important; }
-        .light-theme .bg-secondary { background-color: #ffffff !important; box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06); }
-        .light-theme .fixed-header-z-fix {
-            background-color: #ffffff !important; /* Ensure background is fully opaque (Light Theme) */
-        }
+        .light-theme .bg-secondary { background-color: #ffffff !important; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .light-theme .fixed-header-z-fix { background-color: #ffffff !important; }
 
+        .light-theme .text-text-light { color: #111827 !important; }
+        .light-theme .text-text-muted { color: #4b5563 !important; }
+        .light-theme .hover\:bg-gray-700:hover { background-color: #e5e7eb !important; }
+        .light-theme .hover\:text-text-light:hover { color: #111827 !important; }
+        .light-theme .border-gray-700 { border-color: #d1d5db !important; }
+        .light-theme .bg-gray-800 { background-color: #e5e7eb !important; }
 
-        .light-theme .text-text-light { color: #111827 !important; } /* Text becomes dark */
-        .light-theme .text-text-muted { color: #4b5563 !important; } /* Muted text becomes darker */
-        .light-theme .hover\:bg-gray-700:hover { background-color: #e5e7eb !important; } /* Light grey hover background */
-        .light-theme .hover\:text-text-light:hover { color: #111827 !important; } /* Dark text on hover */
-        .light-theme .border-gray-700 { border-color: #d1d5db !important; } /* Light border */
-        .light-theme .bg-gray-800 { background-color: #e5e7eb !important; } /* Mobile menu button/profile bg in light mode */
-
-        /* Card hover effect adjustments (kept for completeness) */
         .card-hover-effect {
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            border-radius: 0.5rem; /* rounded-lg */
+            border-radius: 0.5rem;
         }
-        /* Dark theme card shadow */
         .card-hover-effect:hover {
-            transform: scale(1.03); /* Increase size slightly */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+            transform: scale(1.03);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -2px rgba(0,0,0,0.15);
         }
-        /* Light theme card shadow */
-        .light-theme .card-hover-effect:hover {
-             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-        }
+        .light-theme .card-hover-effect:hover { box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+
+        /* Small helper to ensure content starts below header; header script adjusts actual height */
+        .header-spacer { height: 4rem; }
     </style>
 
     <script>
@@ -95,213 +97,15 @@
         }
     </script>
 </head>
+
+
 <body class="flex flex-col min-h-screen font-sans bg-background text-text-light">
 
-    <header class="bg-secondary shadow-lg fixed top-0 w-full z-50 fixed-header-z-fix">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+    <!-- include header (contains the full nav + footer) -->
+    {% include 'includes/header.html' %}
 
-                <div class="flex items-end space-x-2">
-                    <a href="{{ url_for('home') }}" class="flex-shrink-0 text-2xl font-bold text-primary tracking-wide">
-                        QA<span class="text-text-light">SmartHub</span>
-                    </a>
-                    <span class="text-xs text-text-muted font-mono pb-0.5 hidden sm:block">v1.0.0</span>
-                </div>
-
-                <div class="hidden sm:flex sm:items-center">
-                    {% if session.logged_in %}
-                    <div class="flex items-center space-x-4">
-
-                        <a href="#" class="text-primary hover:bg-indigo-400/20 px-3 py-2 rounded-md text-sm font-bold transition duration-150 flex items-center border border-primary/50 shadow-sm whitespace-nowrap">
-                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                            Akki AI
-                        </a>
-
-                        <a href="{{ url_for('home') }}" class="text-text-muted hover:bg-gray-700 hover:text-text-light px-3 py-2 rounded-md text-sm font-medium transition duration-150">Home</a>
-                        <a href="{{ url_for('manual') }}" class="text-text-muted hover:bg-gray-700 hover:text-text-light px-3 py-2 rounded-md text-sm font-medium transition duration-150">Manual</a>
-
-                        <div class="relative group">
-                            <a href="{{ url_for('automation_home') }}"
-                                class="text-text-muted hover:bg-gray-700 hover:text-text-light px-3 py-2 rounded-md text-sm font-medium transition duration-150 flex items-center">
-                                Automation <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </a>
-
-                            <div class="absolute left-0 hidden group-hover:block bg-secondary text-text-light rounded-md shadow-xl mt-0 w-64 z-50 border border-gray-700/50 max-h-96 overflow-y-auto">
-
-                                <div class="px-4 pt-2 pb-1 text-xs font-semibold text-primary/70 uppercase tracking-wider">Learning Levels</div>
-                                <a href="{{ url_for('automation_beginners') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Beginners</a>
-                                <a href="{{ url_for('automation_intermediate') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Intermediate</a>
-                                <a href="{{ url_for('automation_professional') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Professional</a>
-
-                                <div class="border-t border-gray-700/50 my-1"></div>
-
-                                <div class="px-4 pt-2 pb-1 text-xs font-semibold text-primary/70 uppercase tracking-wider">Languages & Frameworks</div>
-
-                                <a href="{{ url_for('automation_selenium') }}" class="block px-4 py-1 text-sm font-medium text-text-light hover:bg-gray-700/70 transition duration-100">Selenium (WebDriver)</a>
-                                <a href="{{ url_for('selenium_beginner') }}" class="block pl-8 pr-4 py-1 text-xs text-text-muted hover:bg-gray-700/70 transition duration-100">Beginner Level</a>
-                                <a href="{{ url_for('selenium_intermediate') }}" class="block pl-8 pr-4 py-1 text-xs text-text-muted hover:bg-gray-700/70 transition duration-100">Intermediate Level</a>
-                                <a href="{{ url_for('selenium_advanced') }}" class="block pl-8 pr-4 py-1 text-xs text-text-muted hover:bg-gray-700/70 transition duration-100">Advanced Level</a>
-
-                                <a href="{{ url_for('automation_python') }}" class="block px-4 pt-2 pb-1 text-sm font-medium text-text-light hover:bg-gray-700/70 transition duration-100">Python Programming</a>
-                                <a href="{{ url_for('python_beginner') }}" class="block pl-8 pr-4 py-1 text-xs text-text-muted hover:bg-gray-700/70 transition duration-100">Beginner Level</a>
-                                <a href="{{ url_for('python_intermediate') }}" class="block pl-8 pr-4 py-1 text-xs text-text-muted hover:bg-gray-700/70 transition duration-100">Intermediate Level</a>
-                                <a href="{{ url_for('python_advanced') }}" class="block pl-8 pr-4 py-1 text-xs text-text-muted hover:bg-gray-700/70 transition duration-100">Advanced Level</a>
-
-                                <a href="{{ url_for('automation_java') }}" class="block px-4 pt-2 pb-1 text-sm font-medium text-text-light hover:bg-gray-700/70 transition duration-100">Java Programming</a>
-                                <a href="{{ url_for('java_beginner') }}" class="block pl-8 pr-4 py-1 text-xs text-text-muted hover:bg-gray-700/70 transition duration-100">Beginner Level</a>
-                                <a href="{{ url_for('java_intermediate') }}" class="block pl-8 pr-4 py-1 text-xs text-text-muted hover:bg-gray-700/70 transition duration-100">Intermediate Level</a>
-                                <a href="{{ url_for('java_advanced') }}" class="block pl-8 pr-4 py-1 text-xs text-text-muted hover:bg-gray-700/70 transition duration-100">Advanced Level</a>
-
-                                <a href="{{ url_for('automation_playwright') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Playwright</a>
-                                <a href="{{ url_for('automation_rest_assured') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Rest Assured (API)</a>
-
-
-                                <div class="border-t border-gray-700/50 my-1"></div>
-
-                                <div class="px-4 pt-2 pb-1 text-xs font-semibold text-primary/70 uppercase tracking-wider">Tools & Ecosystem</div>
-                                <a href="{{ url_for('automation_pytest') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Pytest</a>
-                                <a href="{{ url_for('automation_testng') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">TestNG</a>
-                                <a href="{{ url_for('automation_cucumber') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Cucumber (BDD)</a>
-                                <a href="{{ url_for('automation_postman') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Postman (API Testing)</a>
-                                <a href="{{ url_for('automation_xpath') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">XPath</a>
-                                <a href="{{ url_for('automation_maven') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Maven</a>
-                                <a href="{{ url_for('automation_frameworks') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Framework Concepts</a>
-                                <a href="{{ url_for('automation_git') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Git & GitHub</a>
-                                <a href="{{ url_for('automation_docker') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Docker</a>
-                                <a href="{{ url_for('automation_jenkins') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Jenkins</a>
-                                <a href="{{ url_for('automation_ci_cd') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">CI/CD Pipeline</a>
-                                <a href="{{ url_for('automation_allure') }}" class="block px-4 py-2 text-sm hover:bg-gray-700/70 transition duration-100">Allure Reports</a>
-                            </div>
-                        </div>
-
-                        <a href="{{ url_for('ai_tools') }}" class="text-text-muted hover:bg-gray-700 hover:text-text-light px-3 py-2 rounded-md text-sm font-medium transition duration-150">AI Tools</a>
-                        <a href="{{ url_for('interview') }}" class="text-text-muted hover:bg-gray-700 hover:text-text-light px-3 py-2 rounded-md text-sm font-medium transition duration-150">Interview Prep</a>
-                        <a href="{{ url_for('blog') }}" class="text-text-muted hover:bg-gray-700 hover:text-text-light px-3 py-2 rounded-md text-sm font-medium transition duration-150">Blog</a>
-                        <a href="{{ url_for('about') }}" class="text-text-muted hover:bg-gray-700 hover:text-text-light px-3 py-2 rounded-md text-sm font-medium transition duration-150">About</a>
-                    </div>
-                    {% endif %}
-                </div>
-
-                <div class="flex items-center">
-                    {% if session.logged_in %}
-                    <div class="hidden sm:block relative">
-                        <button id="user-menu-button" type="button" class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-primary p-1" aria-expanded="false" aria-haspopup="true">
-                            <span class="sr-only">Open user menu</span>
-                            <svg class="h-6 w-6 text-text-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                        </button>
-
-                        <div id="user-menu" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-secondary ring-1 ring-black ring-opacity-5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                            <div class="px-4 py-2 text-sm text-text-muted border-b border-gray-700">Settings</div>
-
-                            <button onclick="toggleTheme()" class="w-full text-left px-4 py-2 text-sm text-text-light hover:bg-gray-700 transition duration-150" role="menuitem" tabindex="-1">
-                                <span id="theme-text-desktop">Switch Theme</span>
-                            </button>
-
-                            <a href="{{ url_for('logout') }}" class="block px-4 py-2 text-sm text-red-400 hover:bg-gray-700 transition duration-150" role="menuitem" tabindex="-1">
-                                Sign out
-                            </a>
-                        </div>
-                    </div>
-                    {% else %}
-                    <a href="{{ url_for('login') }}" class="ml-10 hidden sm:block text-white bg-primary hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium transition duration-150 shadow-md">Sign In</a>
-                    {% endif %}
-
-                    <div class="-mr-2 flex sm:hidden">
-                        <button id="mobile-menu-button" type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-text-muted hover:text-text-light hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-primary" aria-expanded="false">
-                            <span class="sr-only">Open main menu</span>
-                            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                            </svg>
-                            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <div class="sm:hidden hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                {% if session.logged_in %}
-
-                <a href="#" class="text-primary bg-gray-800 hover:bg-gray-700 hover:text-text-light block px-3 py-2 rounded-md text-base font-medium transition duration-150 flex items-center">
-                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                    Akki AI Chatbot
-                </a>
-
-                <a href="{{ url_for('home') }}" class="text-text-muted hover:bg-gray-700 hover:text-text-light block px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="{{ url_for('manual') }}" class="text-text-muted hover:bg-gray-700 hover:text-text-light block px-3 py-2 rounded-md text-base font-medium">Manual Testing</a>
-
-                <a href="{{ url_for('automation_home') }}" class="text-text-light bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">Automation Topics</a>
-
-                <div class="ml-4 space-y-1 py-1 border-l-2 border-primary max-h-96 overflow-y-auto">
-
-                    <div class="px-3 pt-2 text-xs font-semibold text-primary/70 uppercase tracking-wider">Learning Levels</div>
-                    <a href="{{ url_for('automation_beginners') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">Beginners Level</a>
-                    <a href="{{ url_for('automation_intermediate') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">Intermediate Level</a>
-                    <a href="{{ url_for('automation_professional') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">Professional Level</a>
-
-                    <div class="border-t border-gray-700 my-1"></div>
-
-                    <div class="px-3 pt-2 text-xs font-semibold text-primary/70 uppercase tracking-wider">Languages & Frameworks</div>
-
-                    <a href="{{ url_for('automation_selenium') }}" class="text-text-light hover:bg-gray-700/50 block px-3 py-1 rounded-md text-sm font-medium">Selenium (WebDriver)</a>
-                    <a href="{{ url_for('selenium_beginner') }}" class="text-text-muted hover:bg-gray-800/50 block px-6 py-1 rounded-md text-xs font-medium"> - Beginner</a>
-                    <a href="{{ url_for('selenium_intermediate') }}" class="text-text-muted hover:bg-gray-800/50 block px-6 py-1 rounded-md text-xs font-medium"> - Intermediate</a>
-                    <a href="{{ url_for('selenium_advanced') }}" class="text-text-muted hover:bg-gray-800/50 block px-6 py-1 rounded-md text-xs font-medium"> - Advanced</a>
-
-                    <a href="{{ url_for('automation_python') }}" class="text-text-light hover:bg-gray-700/50 block px-3 py-1 rounded-md text-sm font-medium mt-1">Python Programming</a>
-                    <a href="{{ url_for('python_beginner') }}" class="text-text-muted hover:bg-gray-800/50 block px-6 py-1 rounded-md text-xs font-medium"> - Beginner</a>
-                    <a href="{{ url_for('python_intermediate') }}" class="text-text-muted hover:bg-gray-800/50 block px-6 py-1 rounded-md text-xs font-medium"> - Intermediate</a>
-                    <a href="{{ url_for('python_advanced') }}" class="text-text-muted hover:bg-gray-800/50 block px-6 py-1 rounded-md text-xs font-medium"> - Advanced</a>
-
-                    <a href="{{ url_for('automation_java') }}" class="text-text-light hover:bg-gray-700/50 block px-3 py-1 rounded-md text-sm font-medium mt-1">Java Programming</a>
-                    <a href="{{ url_for('java_beginner') }}" class="text-text-muted hover:bg-gray-800/50 block px-6 py-1 rounded-md text-xs font-medium"> - Beginner</a>
-                    <a href="{{ url_for('java_intermediate') }}" class="text-text-muted hover:bg-gray-800/50 block px-6 py-1 rounded-md text-xs font-medium"> - Intermediate</a>
-                    <a href="{{ url_for('java_advanced') }}" class="text-text-muted hover:bg-gray-800/50 block px-6 py-1 rounded-md text-xs font-medium"> - Advanced</a>
-
-                    <a href="{{ url_for('automation_playwright') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium mt-1">Playwright</a>
-                    <a href="{{ url_for('automation_rest_assured') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">Rest Assured (API)</a>
-
-
-                    <div class="border-t border-gray-700 my-1"></div>
-
-                    <div class="px-3 pt-2 text-xs font-semibold text-primary/70 uppercase tracking-wider">Tools & Ecosystem</div>
-                    <a href="{{ url_for('automation_pytest') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">Pytest</a>
-                    <a href="{{ url_for('automation_testng') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">TestNG</a>
-                    <a href="{{ url_for('automation_cucumber') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">Cucumber (BDD)</a>
-                    <a href="{{ url_for('automation_postman') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">Postman (API Testing)</a>
-                    <a href="{{ url_for('automation_xpath') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">XPath</a>
-                    <a href="{{ url_for('automation_maven') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">Maven</a>
-                    <a href="{{ url_for('automation_frameworks') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">Framework Concepts</a>
-                    <a href="{{ url_for('automation_git') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">Git & GitHub</a>
-                    <a href="{{ url_for('automation_docker') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">Docker</a>
-                    <a href="{{ url_for('automation_jenkins') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">Jenkins</a>
-                    <a href="{{ url_for('automation_ci_cd') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">CI/CD Pipeline</a>
-                    <a href="{{ url_for('automation_allure') }}" class="text-text-muted hover:bg-gray-700/50 hover:text-text-light block px-3 py-1 rounded-md text-sm font-medium">Allure Reports</a>
-                </div>
-
-                <a href="{{ url_for('ai_tools') }}" class="text-text-muted hover:bg-gray-700 hover:text-text-light block px-3 py-2 rounded-md text-base font-medium">AI Tools</a>
-                <a href="{{ url_for('interview') }}" class="text-text-muted hover:bg-gray-700 hover:text-text-light block px-3 py-2 rounded-md text-base font-medium">Interview Prep</a>
-                <a href="{{ url_for('blog') }}" class="text-text-muted hover:bg-gray-700 hover:text-text-light block px-3 py-2 rounded-md text-base font-medium">Blog</a>
-                <a href="{{ url_for('about') }}" class="text-text-muted hover:bg-gray-700 hover:text-text-light block px-3 py-2 rounded-md text-base font-medium">About</a>
-
-                <button onclick="toggleTheme()" class="w-full text-left text-text-light hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
-                    <span id="theme-text-mobile">Switch Theme</span>
-                </button>
-
-                <a href="{{ url_for('logout') }}" class="text-white bg-red-600 hover:bg-red-700 block px-3 py-2 rounded-md text-base font-medium mt-2">Logout</a>
-                {% else %}
-                <a href="{{ url_for('login') }}" class="text-white bg-primary hover:bg-indigo-500 block px-3 py-2 rounded-md text-base font-medium mt-2">Sign In</a>
-                {% endif %}
-            </div>
-        </div>
-    </header>
-
-    <div class="h-16"></div>
+    <!-- spacer ensures content starts below header; header script will update its exact height -->
+    <div id="header-spacer" class="header-spacer"></div>
 
     <main class="flex-grow">
         <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -309,95 +113,5 @@
         </div>
     </main>
 
-    <footer class="bg-secondary mt-8 border-t border-gray-700">
-        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center text-text-muted text-sm">
-            &copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.
-        </div>
-    </footer>
-
-    <script>
-        // NOTE: THEME_KEY is already defined in the <head> script block.
-
-        // 1. Theme Logic
-        function applyTheme(theme) {
-            const isDark = theme === 'dark';
-            const html = document.documentElement;
-            const body = document.body;
-
-            // Apply body theme class
-            body.classList.toggle('light-theme', !isDark);
-
-            // Apply global background for minimal flash
-            html.classList.toggle('bg-gray-900', isDark);
-            html.classList.toggle('bg-gray-100', !isDark);
-
-            // Update button text to reflect the *next* action
-            const nextThemeText = isDark ? 'Switch to Light' : 'Switch to Dark';
-            const desktopSpan = document.getElementById('theme-text-desktop');
-            const mobileSpan = document.getElementById('theme-text-mobile');
-
-            if (desktopSpan) desktopSpan.textContent = nextThemeText;
-            if (mobileSpan) mobileSpan.textContent = nextThemeText;
-        }
-
-        function toggleTheme() {
-            const currentTheme = localStorage.getItem(THEME_KEY) || 'dark';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-            localStorage.setItem(THEME_KEY, newTheme);
-            applyTheme(newTheme);
-
-            // Close desktop menu after selection (good UX)
-            const userMenu = document.getElementById('user-menu');
-            if (userMenu) userMenu.classList.add('hidden');
-        }
-
-        // Initialize theme and update button text on load
-        document.addEventListener('DOMContentLoaded', () => {
-            let savedTheme = localStorage.getItem(THEME_KEY);
-            if (!savedTheme || (savedTheme !== 'dark' && savedTheme !== 'light')) {
-                savedTheme = 'dark'; // Default to dark if unset
-            }
-            applyTheme(savedTheme);
-        });
-
-
-        // 2. Mobile Menu Toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            const isOpen = menu.classList.contains('hidden');
-
-            menu.classList.toggle('hidden', !isOpen);
-            this.querySelector('svg:first-child').classList.toggle('hidden', !isOpen); // Menu icon
-            this.querySelector('svg:last-child').classList.toggle('hidden', isOpen); // Close icon
-        });
-
-        // 3. Profile Dropdown Toggle (Desktop)
-        document.getElementById('user-menu-button')?.addEventListener('click', function(event) {
-            event.stopPropagation(); // Stop click from propagating to the document listener below
-            const menu = document.getElementById('user-menu');
-            menu.classList.toggle('hidden');
-            const isExpanded = !menu.classList.contains('hidden');
-            this.setAttribute('aria-expanded', isExpanded);
-        });
-
-        // 4. Close Profile Dropdown when clicking outside (FIX for "not working")
-        document.addEventListener('click', function(event) {
-            const userMenuButton = document.getElementById('user-menu-button');
-            const userMenu = document.getElementById('user-menu');
-
-            // Only execute if elements exist (i.e., user is logged in)
-            if (userMenu && userMenuButton) {
-                const isClickInsideButton = userMenuButton.contains(event.target);
-                const isClickInsideMenu = userMenu.contains(event.target);
-
-                // If the menu is open and the click is NOT inside the button AND NOT inside the menu, close it
-                if (!userMenu.classList.contains('hidden') && !isClickInsideButton && !isClickInsideMenu) {
-                    userMenu.classList.add('hidden');
-                    userMenuButton.setAttribute('aria-expanded', false);
-                }
-            }
-        });
-    </script>
 </body>
 </html>

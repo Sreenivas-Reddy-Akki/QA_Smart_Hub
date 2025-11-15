@@ -1,111 +1,143 @@
 {% extends "base.html" %}
-{% block title %}Selenium Complete Concepts for Beginners{% endblock %}
+{% block title %}Selenium For Beginners{% endblock %}
 {% block content %}
-
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selenium Complete Concepts for Beginners</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configure custom colors and fonts -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'primary-blue': '#38bdf8', // A vibrant sky blue for headings
-                        'code-bg': '#1f2937', // Dark gray for code blocks
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Apply smooth scrolling for navigation links */
-        html {
-            scroll-behavior: smooth;
-        }
-        /* Style the code blocks for readability */
-        pre {
-            padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        /* Fix the navigation bar */
-        #navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 50; /* Higher than content */
-        }
-        /* Offset the anchor links to account for the fixed navbar height */
-        section::before {
-            content: "";
-            display: block;
-            height: 5rem; /* Height of the fixed navbar */
-            margin-top: -5rem;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        /* Table styling for better visibility on black background */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-        th, td {
-            border: 1px solid #4b5563; /* Darker border */
-            padding: 0.75rem;
-            text-align: left;
-        }
-        th {
-            background-color: #1f2937; /* Dark header row */
-            color: #ffffff;
-            font-weight: 600;
-        }
-        /* Styling for bold keywords within tables */
-        .keyword-bold b {
-            font-weight: 700 !important;
-        }
-    </style>
-    <!-- Use Inter font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selenium For Beginners</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #111827;
+      color: #f3f4f6;
+      overflow-x: hidden;
+    }
+
+    /* Floating Navigation Menu */
+    #floating-nav {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      background-color: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 12px 10px;
+      width: 260px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      max-height: 75vh;               /* limit height */
+      overflow-y: auto;               /* enable scrolling */
+      scrollbar-width: thin;          /* Firefox scrollbar */
+      scrollbar-color: #4f46e5 #1f2937;
+    }
+
+    #floating-nav.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    #floating-nav h3 {
+      font-weight: 600;
+      color: #818cf8;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #374151;
+      padding-bottom: 4px;
+      position: sticky;
+      top: 0;
+      background-color: rgba(17,24,39,0.95);
+      z-index: 5;
+    }
+
+    #floating-nav a {
+      display: block;
+      color: #d1d5db;
+      padding: 6px 8px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    #floating-nav a:hover {
+      background-color: #4f46e5;
+      color: #fff;
+    }
+
+    /* Chrome / Edge scrollbar styling */
+    #floating-nav::-webkit-scrollbar {
+      width: 8px;
+    }
+    #floating-nav::-webkit-scrollbar-track {
+      background: #1f2937;
+      border-radius: 10px;
+    }
+    #floating-nav::-webkit-scrollbar-thumb {
+      background-color: #4f46e5;
+      border-radius: 10px;
+    }
+    #floating-nav::-webkit-scrollbar-thumb:hover {
+      background-color: #6366f1;
+    }
+  </style>
 </head>
-<body class="bg-black text-gray-100 font-sans">
 
-    <!-- Fixed Navigation Bar -->
-    <nav id="navbar" class="bg-gray-900 shadow-lg border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <!-- Updated Navigation Title Link -->
-                <a href="https://www.selenium.dev/" target="_blank" class="text-xl font-bold text-primary-blue hover:text-white transition duration-300">Selenium Guide <span class="text-sm font-normal text-gray-400"> (Official Site)</span></a>
-                <div class="hidden lg:flex lg:ml-6 space-x-4 overflow-x-auto py-2">
-                    <!-- Navigation links to concepts -->
-                    <a href="#concept-1" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Intro</a>
-                    <a href="#concept-4" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Locators</a>
-                    <a href="#concept-5" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Commands</a>
-                    <a href="#concept-7" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Waits</a>
-                    <a href="#concept-9" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Frames</a>
-                    <a href="#concept-10" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Actions</a>
-                    <a href="#concept-14" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">POM</a>
-                    <a href="#concept-15" class="text-sm px-3 py-2 rounded-md font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition duration-200">Frameworks</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+<body class="min-h-screen">
 
-    <!-- Main Content Area -->
-    <main class="max-w-4xl mx-auto px-4 py-8 pt-24">
+<!-- ============================= -->
+<!-- Floating Top Buttons -->
+<!-- ============================= -->
+<div class="fixed top-18 left-6 flex items-center gap-3 z-50">
+  <!-- Back Button -->
+  <button id="back-button"
+    class="w-12 h-12 bg-gray-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-600 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+    </svg>
+  </button>
 
-        <h1 class="text-4xl font-extrabold text-primary-blue mb-10 text-center">Selenium Complete Concepts for Beginners</h1>
+  <!-- Toggle Menu Button -->
+  <button id="menu-toggle"
+    class="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-700 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+</div>
+
+  <!-- Floating Quick Navigation -->
+  <div id="floating-nav">
+    <h3>Selenium Quick Navigation</h3>
+    <a href="#concept-1">1️⃣ Introduction</a>
+    <a href="#concept-2">2️⃣ Components</a>
+    <a href="#concept-3">3️⃣ Setup</a>
+    <a href="#concept-4">4️⃣ Locators</a>
+    <a href="#concept-5">5️⃣ WebDriver Commands</a>
+    <a href="#concept-6">6️⃣ Web Elements</a>
+    <a href="#concept-7">7️⃣ Waits</a>
+    <a href="#concept-8">8️⃣ Alerts</a>
+    <a href="#concept-9">9️⃣ Frames & Windows</a>
+    <a href="#concept-10">🔟 Actions</a>
+    <a href="#concept-11">11️⃣ Screenshots</a>
+    <a href="#concept-12">12️⃣ Data-Driven</a>
+    <a href="#concept-13">13️⃣ Selenium Grid</a>
+    <a href="#concept-14">14️⃣ POM</a>
+    <a href="#concept-15">15️⃣ Frameworks</a>
+  </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 pt-43 pb-8">
+        <h1 class="text-5xl font-extrabold text-primary-blue mb-10 text-center">Selenium Complete Concepts for Beginners</h1>
+
 
         <!-- 1. Introduction to Selenium -->
         <section id="concept-1" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
@@ -500,7 +532,7 @@ java -jar selenium-server-4.x.jar node --hub http://localhost:4444
         <!-- 14. Page Object Model (POM) -->
         <section id="concept-14" class="mb-12 p-6 rounded-lg bg-gray-900 shadow-xl">
             <h2 class="text-3xl font-bold text-primary-blue mb-4">14. Page Object Model (POM)</h2>
-            <p class="text-gray-300 mb-4">
+            <p class="text-3xl font-bold text-primary-blue mb-4">
                 A design pattern to separate <b class="font-bold">test logic</b> from <b class="font-bold">page elements</b> (Locators), making tests maintainable.
             </p>
 
@@ -569,13 +601,56 @@ public void testGoogleTitle() {
             </pre>
         </section>
 
-        <!-- Footer -->
-        <footer class="text-center text-gray-500 py-8 border-t border-gray-800 mt-12">
-            <p>2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
-        </footer>
-
     </main>
 
-</body>
+ <!-- ============================= -->
+<!-- JavaScript for Buttons & Nav -->
+<!-- ============================= -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const backButton = document.getElementById("back-button");
+  const menuToggle = document.getElementById("menu-toggle");
+  const floatingNav = document.getElementById("floating-nav");
+  let isNavOpen = false;
 
+  // Back Button
+  backButton.addEventListener("click", () => {
+    if (window.history.length > 1) window.history.back();
+    else alert("No previous page available.");
+  });
+
+  // Toggle Floating Menu
+  menuToggle.addEventListener("click", () => {
+    isNavOpen = !isNavOpen;
+    floatingNav.classList.toggle("active", isNavOpen);
+  });
+
+  // Close Menu on Outside Click
+  document.addEventListener("click", (event) => {
+    if (isNavOpen && !floatingNav.contains(event.target) && !menuToggle.contains(event.target)) {
+      floatingNav.classList.remove("active");
+      isNavOpen = false;
+    }
+  });
+
+  // Smooth Scroll Links
+  document.querySelectorAll('#floating-nav a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      floatingNav.classList.remove('active');
+      isNavOpen = false;
+    });
+  });
+});
+</script>
+
+<!--footer section-->
+<footer class="max-w-screen-2xl mx-auto mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 p-4 sm:p-8">
+  <p>&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+</footer>
+
+</body>
+</html>
 {% endblock %}
+

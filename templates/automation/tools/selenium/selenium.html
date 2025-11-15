@@ -1,63 +1,122 @@
-
 {% extends "base.html" %}
-
 {% block title %}Selenium Learning Guide: Beginner to Advanced{% endblock %}
-
 {% block content %}
-
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selenium Learning Guide: Beginner to Advanced</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom font import for aesthetics */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selenium Learning Guide: Beginner to Advanced</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-VYjc7DBZ3v+2I9ghd5K8g..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #000;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+
+    :root {
+      --blue: #3b82f6;
+      --darkgray: #1f2937;
+    }
+
+    section {
+      background-color: var(--darkgray);
+      border-left: 4px solid var(--blue);
+      border-radius: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .code-block {
+      background-color: #0f172a;
+      color: #10b981;
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      font-size: 0.875rem;
+      overflow-x: auto;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* Floating Navigation Menu */
+    #floating-nav {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      background-color: rgba(17, 24, 39, 0.97);
+      border: 1px solid var(--blue);
+      border-radius: 12px;
+      padding: 12px 10px;
+      width: 250px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+    #floating-nav.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    #floating-nav h3 { font-weight: 600; color: var(--blue); font-size: 1.05rem; margin-bottom: 8px; border-bottom: 1px solid var(--blue); padding-bottom: 4px; }
+    #floating-nav a { display: block; color: #d1d5db; padding: 6px 8px; border-radius: 6px; text-decoration: none; transition: 0.2s; }
+    #floating-nav a:hover { background-color: var(--blue); color: #fff; }
+
+    .fade-in { opacity: 0; transform: translateY(15px); transition: all 0.6s ease-out; }
+    .fade-in.appear { opacity: 1; transform: translateY(0); }
+
+    /* Custom classes for color consistency */
+    .bg-template-grey { background-color: var(--darkgray); }
+    .border-headline-blue { border-color: var(--blue); }
+    .text-headline-blue { color: var(--blue); }
+    .bg-code-black { background-color: #0f172a; }
+
+    /* Fix button position due to h1 padding/margin */
+    @media (min-width: 640px) {
+        .fixed.top-18 {
+            top: 2rem; /* Adjusted for better placement */
         }
-        /* Style for code blocks to ensure readability */
-        pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-    </style>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'body-black': '#000000',           /* Requested Deep Black Background */
-                        'template-grey': '#1f2937',        /* Requested Dark Grey Section Template (Tailwind gray-800) */
-                        'header-blue': '#1e40af',          /* Deep Blue (no longer used for header/footer background) */
-                        'headline-blue': '#3b82f6',        /* Bright Blue for H2 Headlines (Tailwind blue-500) */
-                        'code-black': '#0f172a',           /* Very dark slate for code blocks (Tailwind slate-900) */
-                    }
-                }
-            }
-        }
-    </script>
+    }
+  </style>
 </head>
-<body class="bg-body-black min-h-screen text-gray-200"> <!-- Body is Black, text is Light Gray -->
 
-    <!-- Header Section (Pure Black) -->
-    <header class="bg-black text-white shadow-2xl">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
-            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
-                Selenium Learning Guide
-            </h1>
-        </div>
-    </header>
+<body class="bg-black text-gray-200">
 
-    <!-- Main Content Container -->
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pb-12">
+  <div class="fixed top-20 left-6 flex items-center gap-3 z-50">
+    <button id="back-button" class="w-12 h-12 bg-gray-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-600 transition focus:ring-2 focus:ring-blue-500">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <button id="menu-toggle" class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition focus:ring-2 focus:ring-blue-400">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
 
-        <!-- 1. Introduction to Selenium (Dark Grey Template) -->
-        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
-            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">1. Introduction to Selenium</h2>
-            
+  <div id="floating-nav">
+    <h3>Quick Navigation</h3>
+    <a href="#intro">1️⃣ Introduction to Selenium</a>
+    <a href="#prereq">2️⃣ Prerequisites</a>
+    <a href="#install">3️⃣ Installation Process</a>
+    <a href="#basics">4️⃣ Selenium Basics</a>
+    <a href="#intermediate">5️⃣ Intermediate Topics</a>
+    <a href="#advanced">6️⃣ Advanced Topics</a>
+    <a href="#frameworks">7️⃣ Frameworks</a>
+    <a href="#best">8️⃣ Best Practices</a>
+    <a href="#resources">9️⃣ Resources</a>
+  </div>
+
+  <header class="pt-8 text-center">
+    <h1 class="text-5xl font-extrabold text-white tracking-tight">Selenium Learning Guide</h1>
+    <p class="text-gray-400 mt-2">From Beginner to Advanced - The Complete Roadmap</p>
+  </header>
+
+
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pb-12">
+
+        <section id="intro" class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue fade-in">
+            <h2 class="text-2xl font-bold text-blue-500 mb-4">1️⃣ Introduction to Selenium</h2>
             <h3 class="text-xl font-semibold text-white mt-4 mb-2">What is Selenium?</h3>
             <p class="mb-4 text-gray-300">
                 Selenium is an open-source framework for automating web browsers. It supports multiple programming languages (Java, Python, C#, etc.) and browsers (Chrome, Firefox, Edge, etc.). Selenium is widely used for:
@@ -77,27 +136,25 @@
             </ul>
         </section>
 
-        <!-- 2. Prerequisites for Selenium (Dark Grey Template) -->
-        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
-            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">2. Prerequisites for Selenium</h2>
-            
+        <section id="prereq" class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue fade-in">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">2️⃣ Prerequisites for Selenium</h2>
+
             <h3 class="text-xl font-semibold text-white mt-4 mb-2">Programming Language</h3>
-            <p class="mb-4 text-gray-300">Basic knowledge of <strong>Java</strong>, <strong>Python</strong>, or <strong>C#</strong> (Python is recommended for beginners).</p>
+            <p class="mb-4 text-gray-300">Basic knowledge of Java, Python, or C# (Python is recommended for beginners).</p>
 
             <h3 class="text-xl font-semibold text-white mt-6 mb-2">Web Technologies</h3>
-            <p class="mb-4 text-gray-300">Understanding of <strong>HTML</strong>, <strong>CSS</strong>, and <strong>JavaScript</strong> (to locate elements on a webpage).</p>
+            <p class="mb-4 text-gray-300">Understanding of HTML, CSS, and JavaScript (to locate elements on a webpage).</p>
 
             <h3 class="text-xl font-semibold text-white mt-6 mb-2">Development Environment</h3>
-            <p class="mb-4 text-gray-300">Install an IDE (e.g., <strong>PyCharm</strong>, <strong>VS Code</strong>, or <strong>Eclipse</strong>).</p>
+            <p class="mb-4 text-gray-300">Install an IDE (e.g., PyCharm, VS Code, or Eclipse).</p>
 
             <h3 class="text-xl font-semibold text-white mt-6 mb-2">Web Browsers</h3>
-            <p class="text-gray-300">Install the latest versions of <strong>Chrome</strong>, <strong>Firefox</strong>, or <strong>Edge</strong>.</p>
+            <p class="text-gray-300">Install the latest versions of Chrome, Firefox, or Edge.</p>
         </section>
 
-        <!-- 3. Selenium Installation Process (Dark Grey Template) -->
-        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
-            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">3. Selenium Installation Process</h2>
-            
+        <section id="install" class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue fade-in">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">3️⃣ Selenium Installation Process</h2>
+
             <h3 class="text-xl font-semibold text-white mt-4 mb-2">Step 1: Install Python</h3>
             <p class="text-gray-300">Download and install Python from <a href="https://www.python.org/downloads/" target="_blank" class="text-headline-blue hover:underline">python.org</a>.</p>
             <p class="mt-2 text-gray-300">Verify installation:</p>
@@ -117,10 +174,9 @@
             <p class="mt-2 text-gray-300">Place the WebDriver in a known directory or add it to your system's PATH.</p>
         </section>
 
-        <!-- 4. Selenium Basics (Dark Grey Template) -->
-        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
-            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">4. Selenium Basics</h2>
-            
+        <section id="basics" class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue fade-in">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">4️⃣ Selenium Basics</h2>
+
             <h3 class="text-xl font-semibold text-white mt-4 mb-2">Launching a Browser</h3>
             <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>from selenium import webdriver
 
@@ -133,25 +189,24 @@ driver.get("https://www.google.com")</code></pre>
             <h3 class="text-xl font-semibold text-white mt-6 mb-2">Locating Elements</h3>
             <p class="text-gray-300">Selenium provides methods to locate elements using:</p>
             <ul class="list-disc list-inside space-y-1 ml-4 text-gray-400">
-                <li><strong>ID</strong></li>
-                <li><strong>Name</strong></li>
-                <li><strong>Class Name</strong></li>
-                <li><strong>CSS Selector</strong></li>
-                <li><strong>XPath</strong></li>
+                <li>ID</li>
+                <li>Name</li>
+                <li>Class Name</li>
+                <li>CSS Selector</li>
+                <li>XPath</li>
             </ul>
             <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>search_box = driver.find_element("name", "q")
 search_box.send_keys("Selenium")
 search_box.submit()</code></pre>
         </section>
 
-        <!-- 5. Intermediate Selenium Topics (Dark Grey Template) -->
-        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
-            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">5. Intermediate Selenium Topics</h2>
-            
+        <section id="intermediate" class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue fade-in">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">5️⃣ Intermediate Selenium Topics</h2>
+
             <h3 class="text-xl font-semibold text-white mt-4 mb-2">Handling Waits</h3>
             <ul class="list-disc list-inside space-y-1 ml-4 text-gray-400">
-                <li><strong>Implicit Wait:</strong> Waits for a specified time before throwing an exception.</li>
-                <li><strong>Explicit Wait:</strong> Waits for a specific condition.</li>
+                <li>Implicit Wait: Waits for a specified time before throwing an exception.</li>
+                <li>Explicit Wait: Waits for a specific condition.</li>
             </ul>
             <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -171,10 +226,9 @@ alert.dismiss() # Clicks "Cancel"</code></pre>
 driver.switch_to.default_content()    # Switch back to main page</code></pre>
         </section>
 
-        <!-- 6. Advanced Selenium Topics (Dark Grey Template) -->
-        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
-            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">6. Advanced Selenium Topics</h2>
-            
+        <section id="advanced" class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue fade-in">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">6️⃣ Advanced Selenium Topics</h2>
+
             <h3 class="text-xl font-semibold text-white mt-4 mb-2">Page Object Model (POM)</h3>
             <p class="text-gray-300">A design pattern to create an object repository for web elements.</p>
             <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>class LoginPage:
@@ -212,10 +266,9 @@ for browser in browsers:
     driver.quit()</code></pre>
         </section>
 
-        <!-- 7. Selenium with Test Frameworks (Dark Grey Template) -->
-        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
-            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">7. Selenium with Test Frameworks</h2>
-            
+        <section id="frameworks" class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue fade-in">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">7️⃣ Selenium with Test Frameworks</h2>
+
             <h3 class="text-xl font-semibold text-white mt-4 mb-2">UnitTest (Python)</h3>
             <pre class="bg-code-black text-green-300 p-3 rounded-lg mt-2 text-sm overflow-x-auto shadow-inner border border-gray-700"><code>import unittest
 from selenium import webdriver
@@ -255,20 +308,18 @@ def test_google_search(driver):
     assert "Selenium" in driver.title</code></pre>
         </section>
 
-        <!-- 8. Best Practices (Dark Grey Template) -->
-        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
-            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">8. Best Practices</h2>
+        <section id="best" class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue fade-in">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">8️⃣ Best Practices</h2>
             <ul class="list-disc list-inside space-y-2 ml-4 text-gray-400">
-                <li>Use <strong>Page Object Model (POM)</strong> for maintainability.</li>
-                <li>Implement <strong>waits</strong> to handle dynamic elements.</li>
-                <li>Run tests in <strong>headless mode</strong> for faster execution.</li>
-                <li>Use <strong>CI/CD integration</strong> (e.g., Jenkins, GitHub Actions) for automated testing.</li>
+                <li>Use Page Object Model (POM) for maintainability.</li>
+                <li>Implement waits to handle dynamic elements.</li>
+                <li>Run tests in headless mode for faster execution.</li>
+                <li>Use CI/CD integration (e.g., Jenkins, GitHub Actions) for automated testing.</li>
             </ul>
         </section>
 
-        <!-- 9. Resources (Dark Grey Template) -->
-        <section class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue">
-            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">9. Resources</h2>
+        <section id="resources" class="bg-template-grey p-6 sm:p-8 rounded-xl shadow-2xl mb-6 border-l-4 border-headline-blue fade-in">
+            <h2 class="text-2xl font-bold text-headline-blue mb-4 border-b-2 border-headline-blue/50 pb-2">9️⃣ Resources</h2>
             <ul class="list-disc list-inside space-y-2 ml-4 text-gray-400">
                 <li><a href="https://www.selenium.dev/documentation/" target="_blank" class="text-headline-blue hover:underline">Selenium Official Documentation</a></li>
                 <li><a href="https://selenium-python.readthedocs.io/" target="_blank" class="text-headline-blue hover:underline">Selenium with Python</a></li>
@@ -277,11 +328,73 @@ def test_google_search(driver):
         </section>
 
     </div>
+    <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const backButton = document.getElementById('back-button');
+    const menuToggle = document.getElementById('menu-toggle');
+    const floatingNav = document.getElementById('floating-nav');
+    let isMenuOpen = false;
 
-    <!-- Footer Section (Pure Black) -->
-    <footer class="bg-black text-white p-4 text-center">
-        <p class="text-sm">&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+    // Back button
+    backButton.addEventListener('click', () => {
+      if (window.history.length > 1) window.history.back();
+      else alert("No previous page found.");
+    });
+
+    // Toggle menu
+    menuToggle.addEventListener('click', () => {
+      isMenuOpen = !isMenuOpen;
+      floatingNav.classList.toggle('active', isMenuOpen);
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (isMenuOpen && !floatingNav.contains(e.target) && !menuToggle.contains(e.target)) {
+        floatingNav.classList.remove('active');
+        isMenuOpen = false;
+      }
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('#floating-nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+            // Added scroll-margin-top to account for the fixed header/navigation
+            const headerHeight = 80; // Estimated height for fixed elements
+            const elementPosition = target.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+        floatingNav.classList.remove('active');
+        isMenuOpen = false;
+      });
+    });
+
+    // Fade-in effect
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = { threshold: 0.15 };
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('appear');
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+    faders.forEach(fader => appearOnScroll.observe(fader));
+  });
+  </script>
+
+
+    <footer class="max-w-screen-2xl mx-auto mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 p-4 sm:p-8">
+        <p>&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
     </footer>
 
 </body>
+</html>
 {% endblock %}

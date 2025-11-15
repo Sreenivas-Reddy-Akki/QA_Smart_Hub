@@ -1,117 +1,208 @@
 {% extends "base.html" %}
-
 {% block title %}Automation for Beginners: Get Started{% endblock %}
-
 {% block content %}
-<div class="p-4 sm:p-12 max-w-6xl mx-auto bg-gray-900">
-    <h1 class="text-3xl md:text-4xl font-extrabold text-indigo-400 mb-2">Automation Testing: The Beginner's Guide</h1>
-    <p class="text-lg text-indigo-400 mb-10 border-b border-gray-700 pb-4">Start your journey! This guide covers the 'why,' essential programming concepts, OS-specific setup steps, and your first code examples.</p>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automation for Beginners: Get Started</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #111827;
+      color: #f3f4f6;
+      overflow-x: hidden;
+    }
 
-    <!-- 1. Why Automate Testing? --><section class="bg-gray-800 p-8 rounded-2xl shadow-xl shadow-gray-900/50 mb-10 border border-gray-700">
-        <h2 class="text-3xl font-bold text-blue-400 mb-4 flex items-center">
-            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            1. Why Automate Testing? 🚀
-        </h2>
-        <div class="space-y-4 text-gray-300">
-            <p class="text-gray-300">Automation means using code to run tests that a human would normally perform manually. It's essential for modern software development because it shifts testing left, providing fast feedback and enabling continuous delivery. Key benefits include:</p>
-            <ul class="list-disc list-inside space-y-2 ml-4">
-                <li class="pl-2"><strong class="text-green-400">Speed:</strong> Automated tests run in seconds or minutes, allowing instant validation of new code commits.</li>
-                <li class="pl-2"><strong class="text-indigo-400">Reliability:</strong> Eliminates human error; every test runs exactly the same way every time.</li>
-                <li class="pl-2"><strong class="text-red-400">Repetition:</strong> Ideal for <strong>Regression Testing</strong>, ensuring new changes haven't broken existing, critical features.</li>
-            </ul>
-        </div>
-    </section>
+    /* Floating Navigation Menu */
+    #floating-nav {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      background-color: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 12px 10px;
+      width: 250px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
 
-    <!-- 2. Programming Foundation --><section class="bg-gray-800 p-8 rounded-2xl shadow-xl shadow-gray-900/50 mb-10 border border-gray-700">
-        <h2 class="text-3xl font-bold text-blue-400 mb-4 flex items-center">
-            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-            2. Foundation: Required Programming Concepts
-        </h2>
-        <p class="text-gray-300 mb-6">Automation scripts are just code. Before diving into tools, you must understand these core concepts in your chosen language (Python or Java):</p>
-        <div class="grid md:grid-cols-2 gap-6 text-gray-300">
-            <div class="p-4 border-l-4 border-indigo-500 bg-gray-700/50 rounded">
-                <h3 class="font-semibold text-blue-400 mb-1">Variables & Data Types</h3>
-                <p class="text-sm">Storage containers for data (e.g., strings for text, integers for numbers). You use them to store things like usernames, URLs, or element names.</p>
+    #floating-nav.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    #floating-nav h3 {
+      font-weight: 600;
+      color: #818cf8;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #374151;
+      padding-bottom: 4px;
+    }
+
+    #floating-nav a {
+      display: block;
+      color: #d1d5db;
+      padding: 6px 8px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    #floating-nav a:hover {
+      background-color: #4f46e5;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+<div class="fixed top-18 left-6 flex items-center gap-3 z-50">
+  <button id="back-button"
+    class="w-12 h-12 bg-gray-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-600 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  <button id="menu-toggle"
+    class="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-700 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+</div>
+
+<div id="floating-nav">
+  <h3>Quick Navigation</h3>
+  <a href="#why-automate">1. Why Automate Testing?</a>
+  <a href="#programming-foundation">2. Programming Foundation</a>
+  <a href="#setup">3. Environment Setup</a>
+  <a href="#code-examples">4. Code Examples</a>
+  <a href="#next-steps">5. Next Steps</a>
+</div>
+
+
+    <div class="p-4 sm:p-12 max-w-8xl mx-auto bg-gray-900 min-h-screen">
+        <h1 class="text-3xl md:text-5xl font-extrabold text-indigo-400 mb-2">Automation Testing: The Beginner's Guide</h1>
+        <p class="text-lg text-indigo-400 mb-10 border-b border-gray-700 pb-4">Start your journey! This guide covers the 'why,' essential programming concepts, OS-specific setup steps, and your first code examples.</p>
+
+        <section id="why-automate" class="bg-gray-800 p-8 rounded-2xl shadow-xl shadow-gray-900/50 mb-10 border border-gray-700">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4 flex items-center">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                1. Why Automate Testing? 🚀
+            </h2>
+            <div class="space-y-4 text-gray-300">
+                <p class="text-gray-300">Automation means using code to run tests that a human would normally perform manually. It's essential for modern software development because it shifts testing left, providing fast feedback and enabling continuous delivery. Key benefits include:</p>
+                <ul class="list-disc list-inside space-y-2 ml-4">
+                    <li class="pl-2"><strong class="text-green-400">Speed:</strong> Automated tests run in seconds or minutes, allowing instant validation of new code commits.</li>
+                    <li class="pl-2"><strong class="text-indigo-400">Reliability:</strong> Eliminates human error; every test runs exactly the same way every time.</li>
+                    <li class="pl-2"><strong class="text-red-400">Repetition:</strong> Ideal for <strong>Regression Testing</strong>, ensuring new changes haven't broken existing, critical features.</li>
+                </ul>
             </div>
-            <div class="p-4 border-l-4 border-indigo-500 bg-gray-700/50 rounded">
-                <h3 class="font-semibold text-blue-400 mb-1">Conditional Statements (If/Else)</h3>
-                <p class="text-sm">Logic that executes code based on conditions, like "If the element is visible, click it, ELSE print an error."</p>
-            </div>
-            <div class="p-4 border-l-4 border-indigo-500 bg-gray-700/50 rounded">
-                <h3 class="font-semibold text-blue-400 mb-1">Functions / Methods</h3>
-                <p class="text-sm">Reusable blocks of code that perform a specific action, like `login()` or `validate_page_title()`. This is key for creating clean test scripts.</p>
-            </div>
-            <div class="p-4 border-l-4 border-indigo-500 bg-gray-700/50 rounded">
-                <h3 class="font-semibold text-blue-400 mb-1">OOP (Classes & Objects)</h3>
-                <p class="text-sm">Object-Oriented Programming (OOP) is crucial for large frameworks like the <strong>Page Object Model (POM)</strong>, which organizes your tests into logical "Classes."</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 3. The Essentials: Tools & Setup --><section class="bg-gray-800 p-8 rounded-2xl shadow-xl shadow-gray-900/50 mb-10 border border-gray-700">
-        <h2 class="text-3xl font-bold text-blue-400 mb-4 flex items-center">
-            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9h-3M12 21a9 9 0 01-9-9m9 9v-3M3 12h3M12 3v3"></path></svg>
-            3. Setting Up Your Environment: OS Specific Guides
-        </h2>
+        <section id="programming-foundation" class="bg-gray-800 p-8 rounded-2xl shadow-xl shadow-gray-900/50 mb-10 border border-gray-700">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4 flex items-center">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                2. Foundation: Required Programming Concepts
+            </h2>
+            <p class="text-gray-300 mb-6">Automation scripts are just code. Before diving into tools, you must understand these core concepts in your chosen language (Python or Java):</p>
+            <div class="grid md:grid-cols-2 gap-6 text-gray-300">
+                <div class="p-4 border-l-4 border-indigo-500 bg-gray-700/50 rounded">
+                    <h3 class="font-semibold text-blue-400 mb-1">Variables & Data Types</h3>
+                    <p class="text-sm">Storage containers for data (e.g., strings for text, integers for numbers). You use them to store things like usernames, URLs, or element names.</p>
+                </div>
+                <div class="p-4 border-l-4 border-indigo-500 bg-gray-700/50 rounded">
+                    <h3 class="font-semibold text-blue-400 mb-1">Conditional Statements (If/Else)</h3>
+                    <p class="text-sm">Logic that executes code based on conditions, like "If the element is visible, click it, ELSE print an error."</p>
+                </div>
+                <div class="p-4 border-l-4 border-indigo-500 bg-gray-700/50 rounded">
+                    <h3 class="font-semibold text-blue-400 mb-1">Functions / Methods</h3>
+                    <p class="text-sm">Reusable blocks of code that perform a specific action, like `login()` or `validate_page_title()`. This is key for creating clean test scripts.</p>
+                </div>
+                <div class="p-4 border-l-4 border-indigo-500 bg-gray-700/50 rounded">
+                    <h3 class="font-semibold text-blue-400 mb-1">OOP (Classes & Objects)</h3>
+                    <p class="text-sm">Object-Oriented Programming (OOP) is crucial for large frameworks like the <strong>Page Object Model (POM)</strong>, which organizes your tests into logical "Classes."</p>
+                </div>
+            </div>
+        </section>
 
-        <!-- Python & Selenium Setup --><div class="mb-8">
-            <h3 class="text-2xl font-semibold text-blue-400 mt-6 mb-3 border-b border-gray-700 pb-2">Python & Selenium (Recommended Beginner Stack)</h3>
-            <p class="text-gray-300 mb-4">Python is easy to read and has excellent support for automation. Selenium is the library that lets Python control the browser.</p>
+        <section id="setup" class="bg-gray-800 p-8 rounded-2xl shadow-xl shadow-gray-900/50 mb-10 border border-gray-700">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4 flex items-center">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9h-3M12 21a9 9 0 01-9-9m9 9v-3M3 12h3M12 3v3"></path></svg>
+                3. Setting Up Your Environment: OS Specific Guides
+            </h2>
 
-            <div class="grid md:grid-cols-2 gap-6">
-                <!-- Windows Setup --><div class="bg-gray-700/50 p-4 rounded-lg">
-                    <h4 class="text-xl font-medium text-blue-400 mb-2">Windows Setup</h4>
+            <div class="mb-8">
+                <h3 class="text-2xl font-semibold text-blue-400 mt-6 mb-3 border-b border-gray-700 pb-2">Python & Selenium (Recommended Beginner Stack)</h3>
+                <p class="text-gray-300 mb-4">Python is easy to read and has excellent support for automation. Selenium is the library that lets Python control the browser.</p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-700/50 p-4 rounded-lg">
+                        <h4 class="text-xl font-medium text-blue-400 mb-2">Windows Setup</h4>
+                        <ol class="list-decimal list-inside space-y-2 ml-4 text-gray-300 text-sm">
+                            <li class="pl-2"><strong>Install Python:</strong> Download the official installer from <a href="https://www.python.org/downloads/windows/" target="_blank" class="text-indigo-400 hover:underline">python.org</a>. <strong>Crucially, check the "Add Python to PATH" box</strong> during installation.</li>
+                            <li class="pl-2"><strong>Verify:</strong> Open PowerShell or Command Prompt and run: <code class="bg-gray-800 text-green-400 p-1 rounded">python --version</code></li>
+                            <li class="pl-2"><strong>Install Selenium:</strong> Install the library using Python's package manager:
+                                <pre class="bg-gray-900 text-green-400 p-2 rounded-lg mt-1 overflow-x-auto"><code>pip install selenium</code></pre>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="bg-gray-700/50 p-4 rounded-lg">
+                        <h4 class="text-xl font-medium text-blue-400 mb-2">macOS / Linux Setup</h4>
+                        <ol class="list-decimal list-inside space-y-2 ml-4 text-gray-300 text-sm">
+                            <li class="pl-2"><strong>Install Python:</strong> Python 3 is often pre-installed. You may use a package manager like Homebrew on macOS for the latest version.</li>
+                            <li class="pl-2"><strong>Verify:</strong> Open Terminal and run: <code class="bg-gray-900 text-green-400 p-1 rounded">python3 --version</code></li>
+                            <li class="pl-2"><strong>Install Selenium:</strong> Use `pip3` (to specify Python 3) to install Selenium:
+                                <pre class="bg-gray-900 text-green-400 p-2 rounded-lg mt-1 overflow-x-auto"><code>pip3 install selenium</code></pre>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <p class="text-gray-400 mt-4 text-sm bg-gray-700/30 p-3 rounded">
+                    <strong class="text-indigo-400">Note on Drivers:</strong> Modern Selenium (v4.6+) automatically downloads and manages the browser driver (e.g., ChromeDriver) using <strong>Selenium Manager</strong>. You usually no longer need to download or set the path manually!
+                </p>
+            </div>
+
+            <div class="mt-8">
+                <h3 class="text-2xl font-semibold text-blue-400 mt-6 mb-3 border-b border-gray-700 pb-2">Java & Enterprise Automation (Intermediate Track)</h3>
+                <p class="text-300 mb-4">Java is the standard for large enterprise applications. It requires setting up a JDK and a build tool.</p>
+                <div class="bg-gray-700/50 p-4 rounded-lg">
+                    <h4 class="text-xl font-medium text-blue-400 mb-2">Java Environment Steps</h4>
                     <ol class="list-decimal list-inside space-y-2 ml-4 text-gray-300 text-sm">
-                        <li class="pl-2"><strong>Install Python:</strong> Download the official installer from <a href="https://www.python.org/downloads/windows/" target="_blank" class="text-indigo-400 hover:underline">python.org</a>. <strong>Crucially, check the "Add Python to PATH" box</strong> during installation.</li>
-                        <li class="pl-2"><strong>Verify:</strong> Open PowerShell or Command Prompt and run: <code class="bg-gray-800 text-green-400 p-1 rounded">python --version</code></li>
-                        <li class="pl-2"><strong>Install Selenium:</strong> Install the library using Python's package manager:
-                            <pre class="bg-gray-900 text-green-400 p-2 rounded-lg mt-1 overflow-x-auto"><code>pip install selenium</code></pre>
-                        </li>
+                        <li class="pl-2"><strong>Install JDK:</strong> Download and install a recent version of the Java Development Kit (JDK 17 or higher) from Oracle or OpenJDK.</li>
+                        <li class="pl-2"><strong>Set JAVA_HOME:</strong> Configure your operating system's environment variables to point to your JDK installation directory.</li>
+                        <li class="pl-2"><strong>Build Tool:</strong> Set up a project using <strong>Maven</strong> or <strong>Gradle</strong>. These tools manage dependencies (like the Selenium and TestNG libraries) and build the project.</li>
+                        <li class="pl-2"><strong>Add Selenium Dependency:</strong> Add the Selenium library to your project's `pom.xml` (Maven) or `build.gradle` (Gradle) file.</li>
                     </ol>
                 </div>
-                <!-- macOS/Linux Setup --><div class="bg-gray-700/50 p-4 rounded-lg">
-                    <h4 class="text-xl font-medium text-blue-400 mb-2">macOS / Linux Setup</h4>
-                    <ol class="list-decimal list-inside space-y-2 ml-4 text-gray-300 text-sm">
-                        <li class="pl-2"><strong>Install Python:</strong> Python 3 is often pre-installed. You may use a package manager like Homebrew on macOS for the latest version.</li>
-                        <li class="pl-2"><strong>Verify:</strong> Open Terminal and run: <code class="bg-gray-900 text-green-400 p-1 rounded">python3 --version</code></li>
-                        <li class="pl-2"><strong>Install Selenium:</strong> Use `pip3` (to specify Python 3) to install Selenium:
-                            <pre class="bg-gray-900 text-green-400 p-2 rounded-lg mt-1 overflow-x-auto"><code>pip3 install selenium</code></pre>
-                        </li>
-                    </ol>
-                </div>
             </div>
-            <p class="text-gray-400 mt-4 text-sm bg-gray-700/30 p-3 rounded">
-                <strong class="text-indigo-400">Note on Drivers:</strong> Modern Selenium (v4.6+) automatically downloads and manages the browser driver (e.g., ChromeDriver) using <strong>Selenium Manager</strong>. You usually no longer need to download or set the path manually!
-            </p>
-        </div>
+        </section>
 
-        <!-- Java & Enterprise Setup --><div class="mt-8">
-            <h3 class="text-2xl font-semibold text-blue-400 mt-6 mb-3 border-b border-gray-700 pb-2">Java & Enterprise Automation (Intermediate Track)</h3>
-            <p class="text-gray-300 mb-4">Java is the standard for large enterprise applications. It requires setting up a JDK and a build tool.</p>
-            <div class="bg-gray-700/50 p-4 rounded-lg">
-                <h4 class="text-xl font-medium text-blue-400 mb-2">Java Environment Steps</h4>
-                <ol class="list-decimal list-inside space-y-2 ml-4 text-gray-300 text-sm">
-                    <li class="pl-2"><strong>Install JDK:</strong> Download and install a recent version of the Java Development Kit (JDK 17 or higher) from Oracle or OpenJDK.</li>
-                    <li class="pl-2"><strong>Set JAVA_HOME:</strong> Configure your operating system's environment variables to point to your JDK installation directory.</li>
-                    <li class="pl-2"><strong>Build Tool:</strong> Set up a project using <strong>Maven</strong> or <strong>Gradle</strong>. These tools manage dependencies (like the Selenium and TestNG libraries) and build the project.</li>
-                    <li class="pl-2"><strong>Add Selenium Dependency:</strong> Add the Selenium library to your project's `pom.xml` (Maven) or `build.gradle` (Gradle) file.</li>
-                </ol>
-            </div>
-        </div>
-    </section>
+        <section id="code-examples" class="bg-gray-800 p-8 rounded-2xl shadow-xl shadow-gray-900/50 mb-10 border border-gray-700">
+            <h2 class="text-3xl font-bold text-blue-400 mb-4 flex items-center">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944c3.048 0 5.618 1.547 6.182 4.041M12 20.056c-3.048 0-5.618-1.547-6.182-4.041m0 0a1 1 0 011.732 0h-1.732z"></path></svg>
+                4. Code Examples: "Hello WebDriver" 💻
+            </h2>
+            <p class="text-gray-300 mb-6">These basic scripts open a browser and close it, confirming your setup works. They are the simplest form of automation.</p>
 
-    <!-- 4. Code Examples --><section class="bg-gray-800 p-8 rounded-2xl shadow-xl shadow-gray-900/50 mb-10 border border-gray-700">
-        <h2 class="text-3xl font-bold text-blue-400 mb-4 flex items-center">
-            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944c3.048 0 5.618 1.547 6.182 4.041M12 20.056c-3.048 0-5.618-1.547-6.182-4.041m0 0a1 1 0 011.732 0h-1.732z"></path></svg>
-            4. Code Examples: "Hello WebDriver" 💻
-        </h2>
-        <p class="text-gray-300 mb-6">These basic scripts open a browser and close it, confirming your setup works. They are the simplest form of automation.</p>
-
-        <div class="mb-6">
-            <h3 class="text-2xl font-medium text-blue-400 mb-2 border-b border-gray-700 pb-2">Example 1: Python with Selenium</h3>
-            <p class="text-gray-300 mb-3">This Python script opens Chrome, navigates to Google, prints the title, and then quits the browser.</p>
-            <div class="bg-gray-900 p-4 rounded-lg text-sm font-mono relative">
-                <pre class="overflow-x-auto">
+            <div class="mb-6">
+                <h3 class="text-2xl font-medium text-blue-400 mb-2 border-b border-gray-700 pb-2">Example 1: Python with Selenium</h3>
+                <p class="text-gray-300 mb-3">This Python script opens Chrome, navigates to Google, prints the title, and then quits the browser.</p>
+                <div class="bg-gray-900 p-4 rounded-lg text-sm font-mono relative">
+                    <pre class="overflow-x-auto">
 <code class="language-python">from selenium import webdriver
 from selenium.webdriver.common.by import By
 from time import sleep
@@ -133,14 +224,14 @@ driver.quit()
 
 # Output in console: "Page Title: Google"
 </code></pre>
+                </div>
             </div>
-        </div>
 
-        <div>
-            <h3 class="text-2xl font-medium text-blue-400 mb-2 border-b border-gray-700 pb-2">Example 2: Java with Selenium (Core Logic)</h3>
-            <p class="text-gray-300 mb-3">Java requires a simple project setup (e.g., Maven/Gradle) to handle dependencies, but the core logic for the test file is similar.</p>
-            <div class="bg-gray-900 p-4 rounded-lg text-sm font-mono relative">
-                <pre class="overflow-x-auto">
+            <div>
+                <h3 class="text-2xl font-medium text-blue-400 mb-2 border-b border-gray-700 pb-2">Example 2: Java with Selenium (Core Logic)</h3>
+                <p class="text-gray-300 mb-3">Java requires a simple project setup (e.g., Maven/Gradle) to handle dependencies, but the core logic for the test file is similar.</p>
+                <div class="bg-gray-900 p-4 rounded-lg text-sm font-mono relative">
+                    <pre class="overflow-x-auto">
 <code class="language-java">import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -164,35 +255,95 @@ public class BasicAutomation {
 }
 // Output in console: "Page Title: Google"
 </code></pre>
+                </div>
             </div>
+        </section>
+
+        <section id="next-steps" class="bg-gray-800 p-8 rounded-2xl shadow-xl shadow-gray-900/50 border border-gray-700">
+        <h2 class="text-3xl font-bold text-blue-400 mb-4 flex items-center">
+            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M5 13l4 4L19 7"></path>
+            </svg>
+            5. Your Next Steps
+        </h2>
+        <p class="text-gray-300 mb-6">You've successfully set up your environment and run your first WebDriver script! Now, pick your preferred learning track to dive deeper:</p>
+        <div class="flex flex-wrap gap-4">
+            <a href="https://www.tpointtech.com/python-tutorial" target="_blank"
+               class="inline-flex items-center px-6 py-3 text-lg font-semibold rounded-full text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150 shadow-md">
+                <span class="mr-2">🐍</span> Python Automation Deep Dive
+            </a>
+            <a href="https://www.tpointtech.com/java-tutorial" target="_blank"
+               class="inline-flex items-center px-6 py-3 text-lg font-semibold rounded-full text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150 shadow-md">
+                <span class="mr-2">☕</span> Java Automation Deep Dive
+            </a>
+            <a href="https://www.selenium.dev/" target="_blank"
+               class="inline-flex items-center px-6 py-3 text-lg font-semibold rounded-full text-white bg-gray-700 hover:bg-gray-600 transition duration-150 shadow-md">
+                <span class="mr-2">🌐</span> Selenium Fundamentals
+            </a>
         </div>
     </section>
 
-    <!-- 5. Your Next Steps --><section class="bg-gray-800 p-8 rounded-2xl shadow-xl shadow-gray-900/50 border border-gray-700">
-    <h2 class="text-3xl font-bold text-blue-400 mb-4 flex items-center">
-        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-             xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M5 13l4 4L19 7"></path>
-        </svg>
-        5. Your Next Steps
-    </h2>
-    <p class="text-gray-300 mb-6">You've successfully set up your environment and run your first WebDriver script! Now, pick your preferred learning track to dive deeper:</p>
-    <div class="flex flex-wrap gap-4">
-        <a href="https://www.tpointtech.com/python-tutorial" target="_blank"
-           class="inline-flex items-center px-6 py-3 text-lg font-semibold rounded-full text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150 shadow-md">
-            <span class="mr-2">🐍</span> Python Automation Deep Dive
-        </a>
-        <a href="https://www.tpointtech.com/java-tutorial" target="_blank"
-           class="inline-flex items-center px-6 py-3 text-lg font-semibold rounded-full text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150 shadow-md">
-            <span class="mr-2">☕</span> Java Automation Deep Dive
-        </a>
-        <a href="https://www.selenium.dev/" target="_blank"
-           class="inline-flex items-center px-6 py-3 text-lg font-semibold rounded-full text-white bg-gray-700 hover:bg-gray-600 transition duration-150 shadow-md">
-            <span class="mr-2">🌐</span> Selenium Fundamentals
-        </a>
     </div>
-</section>
 
-</div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const backButton = document.getElementById("back-button");
+  const menuToggle = document.getElementById("menu-toggle");
+  const floatingNav = document.getElementById("floating-nav");
+  let isNavOpen = false;
+
+  // Back Button
+  backButton.addEventListener("click", () => {
+    if (window.history.length > 1) window.history.back();
+    else alert("No previous page found.");
+  });
+
+  // Toggle Floating Menu
+  menuToggle.addEventListener("click", () => {
+    isNavOpen = !isNavOpen;
+    floatingNav.classList.toggle("active", isNavOpen);
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (isNavOpen && !floatingNav.contains(e.target) && !menuToggle.contains(e.target)) {
+      floatingNav.classList.remove("active");
+      isNavOpen = false;
+    }
+  });
+
+  // Smooth Scroll
+  document.querySelectorAll('#floating-nav a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      const target = document.querySelector(link.getAttribute('href'));
+      
+      if (target) {
+        // Calculate position relative to the top, accounting for fixed elements
+        const headerHeight = 80; 
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
+      }
+      
+      floatingNav.classList.remove('active');
+      isNavOpen = false;
+    });
+  });
+});
+</script>
+
+<footer class="max-w-screen-2xl mx-auto mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 p-4 sm:p-8">
+    <p>&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+</footer>
+
+</body>
+</html>
 {% endblock %}

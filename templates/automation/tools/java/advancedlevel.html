@@ -1,35 +1,120 @@
 {% extends "base.html" %}
 {% block title %}Java Advanced Concepts{% endblock %}
-{% block extra_head %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Java Advanced Concepts</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-900 text-gray-100 min-h-screen flex">
-
-<!-- Sidebar Navigation -->
-<aside class="w-64 bg-gray-800 p-4 space-y-3 sticky top-0 h-screen">
-    <h2 class="text-2xl font-bold text-center mb-6 border-b border-gray-600 pb-3">Java Advanced</h2>
-    <nav class="space-y-2">
-        <a href="#multithreading" class="block text-gray-300 hover:text-white">1. Multithreading</a>
-        <a href="#java8plus" class="block text-gray-300 hover:text-white">2. Java 8+ Advanced Features</a>
-        <a href="#jdbc" class="block text-gray-300 hover:text-white">3. JDBC (Database Connectivity)</a>
-        <a href="#reflection" class="block text-gray-300 hover:text-white">4. Reflection API</a>
-        <a href="#annotations" class="block text-gray-300 hover:text-white">5. Annotations</a>
-        <a href="#networking" class="block text-gray-300 hover:text-white">6. Java Networking</a>
-        <a href="#nio" class="block text-gray-300 hover:text-white">7. Java I/O (NIO)</a>
-        <a href="#designpatterns" class="block text-gray-300 hover:text-white">8. Design Patterns</a>
-        <a href="#jvminternals" class="block text-gray-300 hover:text-white">9. JVM Internals</a>
-        <a href="#bestpractices" class="block text-gray-300 hover:text-white">10. Best Practices</a>
-    </nav>
-</aside>
-{% endblock %}
-
 {% block content %}
-<!-- Main Content -->
-<main class="flex-1 p-6 space-y-10 overflow-y-auto">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Advanced Concepts | QA Smart Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #000;
+      color: #f3f4f6;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    #floating-nav {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      background-color: rgba(17, 24, 39, 0.97);
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 14px 12px;
+      width: 270px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+    #floating-nav.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    #floating-nav h3 {
+      font-weight: 800;
+      color: #10b981;
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #10b981;
+      padding-bottom: 5px;
+    }
+    #floating-nav a {
+      display: block;
+      color: #d1d5db;
+      padding: 6px 8px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    #floating-nav a:hover {
+      background-color: #10b981;
+      color: #000;
+    }
+    pre {
+      background-color: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      overflow-x: auto;
+      color: #d1d5db;
+      font-family: 'Fira Code', monospace;
+    }
+  </style>
+</head>
+
+<body class="bg-black text-gray-200">
+
+  <!-- Floating Controls -->
+  <div class="fixed top-20 left-6 flex items-center gap-3 z-50">
+    <!-- Back Button -->
+    <button id="back-button"
+      class="w-12 h-12 bg-gray-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-600 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-400">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+      </svg>
+    </button>
+
+    <!-- Menu Button -->
+    <button id="menu-toggle"
+      class="w-12 h-12 bg-green-500 text-black font-bold rounded-full flex items-center justify-center shadow-lg hover:bg-green-400 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-400">
+      ☰
+    </button>
+  </div>
+
+  <!-- Floating Navigation -->
+  <div id="floating-nav">
+    <h3>Java Advanced Topics</h3>
+    <a href="#multithreading">1️⃣ Multithreading</a>
+    <a href="#java8plus">2️⃣ Java 8+ Advanced Features</a>
+    <a href="#jdbc">3️⃣ JDBC (Database Connectivity)</a>
+    <a href="#reflection">4️⃣ Reflection API</a>
+    <a href="#annotations">5️⃣ Annotations</a>
+    <a href="#networking">6️⃣ Java Networking</a>
+    <a href="#nio">7️⃣ Java NIO</a>
+    <a href="#design-patterns">8️⃣ Design Patterns</a>
+    <a href="#jvm-internals">9️⃣ JVM Internals</a>
+    <a href="#best-practices">🔟 Best Practices</a>
+  </div>
+
+  <!-- Page Header -->
+  <header class="pt-25 text-center">
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-white">Java Advanced Concepts</h1>
+    <p class="text-gray-400 mt-3 text-lg">Deep dive into advanced Java programming topics.</p>
+  </header>
+
+
+    <!-- Main Content -->
+    <!-- Added pt-20 to clear the fixed navigation controls at the top -->
+    <main class="flex-1 max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-12 pb-10">
 
     <section id="multithreading">
         <h1 class="text-4xl font-bold text-blue-400 mb-4">1. Multithreading and Concurrency</h1>
@@ -39,7 +124,7 @@
         </p>
 
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Creating Threads using <code>Thread</code> class</h2>
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 class MyThread extends Thread {
     public void run() {
         for (int i = 1; i <= 5; i++) {
@@ -57,7 +142,7 @@ class MyThread extends Thread {
 </code></pre>
 
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Implementing <code>Runnable</code> Interface</h2>
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 class MyRunnable implements Runnable {
     public void run() {
         for (int i = 1; i <= 3; i++) {
@@ -77,7 +162,7 @@ class MyRunnable implements Runnable {
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Thread Synchronization</h2>
         <p class="mb-3">Synchronization prevents multiple threads from accessing shared resources simultaneously, avoiding data inconsistency.</p>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 class Counter {
     int count;
 
@@ -111,7 +196,7 @@ public class Main {
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Executors Framework</h2>
         <p class="mb-3">The Executors framework provides thread pools for managing large numbers of concurrent tasks efficiently.</p>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -143,7 +228,7 @@ public class Main {
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Lambda Expressions</h2>
         <p class="mb-3">Lambda expressions enable functional-style programming and reduce boilerplate code.</p>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 @FunctionalInterface
 interface Greeting {
     void sayHello(String name);
@@ -160,7 +245,7 @@ public class LambdaDemo {
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Streams API</h2>
         <p class="mb-3">Streams simplify processing collections using filter-map-reduce operations.</p>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 import java.util.Arrays;
 import java.util.List;
 
@@ -181,7 +266,7 @@ public class StreamExample {
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Optional Class</h2>
         <p class="mb-3">Optional helps avoid <code>NullPointerException</code> by providing a container for optional values.</p>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 import java.util.Optional;
 
 public class OptionalDemo {
@@ -196,7 +281,7 @@ public class OptionalDemo {
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Method References</h2>
         <p class="mb-3">Method references are shorthand for calling existing methods using the <code>::</code> operator.</p>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 import java.util.Arrays;
 
 public class MethodRefExample {
@@ -226,7 +311,7 @@ public class MethodRefExample {
             <li>6️⃣ Close Connection</li>
         </ul>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -274,7 +359,7 @@ public class JDBCDemo {
             It’s often used in frameworks, testing tools, and IDEs.
         </p>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 import java.lang.reflect.Method;
 
 class Sample {
@@ -320,7 +405,7 @@ public class ReflectionDemo {
             <li><code>@SuppressWarnings</code> — hides specific compiler warnings.</li>
         </ul>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 class Parent {
     void show() {
         System.out.println("Parent method");
@@ -351,7 +436,7 @@ public class AnnotationDemo {
             You can define your own annotations for specific use cases such as validation or documentation.
         </p>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -385,7 +470,7 @@ public class CustomAnnotationExample {
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Socket Programming (Example)</h2>
         <p class="mb-3">Below is a simple client–server example using sockets.</p>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 // Server.java
 import java.io.*;
 import java.net.*;
@@ -404,7 +489,7 @@ public class Server {
 }
 </code></pre>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 // Client.java
 import java.io.*;
 import java.net.*;
@@ -422,7 +507,7 @@ public class Client {
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Working with URL</h2>
         <p class="mb-3">Use the <code>java.net.URL</code> class to read data from a webpage.</p>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 import java.net.*;
 import java.io.*;
 
@@ -455,7 +540,7 @@ public class URLExample {
 
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Reading File Using NIO</h2>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 import java.nio.file.*;
 import java.io.IOException;
 
@@ -474,7 +559,7 @@ public class ReadFileNIO {
 
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Writing File Using NIO</h2>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 import java.nio.file.*;
 import java.io.IOException;
 
@@ -502,7 +587,7 @@ public class WriteFileNIO {
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Singleton Pattern</h2>
         <p class="mb-3">Ensures only one instance of a class exists throughout the program.</p>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 public class Singleton {
     private static Singleton instance;
 
@@ -529,7 +614,7 @@ public class Singleton {
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Factory Pattern</h2>
         <p class="mb-3">Used to create objects without exposing the creation logic to the client.</p>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 interface Shape {
     void draw();
 }
@@ -562,7 +647,7 @@ public class FactoryPatternDemo {
         <h2 class="text-2xl font-semibold text-green-400 mt-6 mb-2">👉 Observer Pattern</h2>
         <p class="mb-3">Defines a one-to-many relationship where when one object changes state, dependents are notified.</p>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 import java.util.*;
 
 interface Observer {
@@ -616,7 +701,7 @@ public class ObserverPatternDemo {
             <li><strong>Garbage Collector:</strong> Frees unused memory automatically.</li>
         </ul>
 
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 // Example: JVM Garbage Collection
 public class GCExample {
     public static void main(String[] args) {
@@ -644,7 +729,7 @@ public class GCExample {
             <li>✅ Use meaningful log messages and avoid System.out in production.</li>
             <li>✅ Optimize Streams and avoid unnecessary loops.</li>
         </ul>
-<pre class="bg-gray-800 text-sm p-4 rounded-lg overflow-x-auto"><code class="language-java">
+<pre><code class="language-java">
 // Example of proper resource handling
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -667,8 +752,51 @@ public class TryWithResourcesExample {
 
 </main>
 
+
+  <!-- Footer -->
+  <footer class="max-w-screen-2xl mx-auto mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 p-4 sm:p-8">
+    <p>&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const backButton = document.getElementById("back-button");
+      const menuToggle = document.getElementById("menu-toggle");
+      const floatingNav = document.getElementById("floating-nav");
+      let isNavOpen = false;
+
+      // Back Button
+      backButton.addEventListener("click", () => {
+        if (window.history.length > 1) window.history.back();
+        else alert("No previous page available.");
+      });
+
+      // Toggle menu
+      menuToggle.addEventListener("click", () => {
+        isNavOpen = !isNavOpen;
+        floatingNav.classList.toggle("active", isNavOpen);
+      });
+
+      // Close on outside click
+      document.addEventListener("click", (e) => {
+        if (isNavOpen && !floatingNav.contains(e.target) && !menuToggle.contains(e.target)) {
+          floatingNav.classList.remove("active");
+          isNavOpen = false;
+        }
+      });
+
+      // Smooth Scroll
+      document.querySelectorAll('#floating-nav a').forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+          floatingNav.classList.remove('active');
+          isNavOpen = false;
+        });
+      });
+    });
+  </script>
 </body>
+</html>
 {% endblock %}
-
-
-

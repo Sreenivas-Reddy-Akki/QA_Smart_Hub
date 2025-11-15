@@ -1,132 +1,242 @@
 {% extends "base.html" %}
-{% block title %}Page Title{% endblock %}
+{% block title %}Manual Testing{% endblock %}
 {% block content %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual Testing: Beginners to Advanced</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
-<body class="bg-gray-900 font-sans">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #111827;
+      color: #f3f4f6;
+      overflow-x: hidden;
+    }
 
-<div class="max-w-6xl mx-auto px-4 py-10 text-gray-100">
+    /* Floating Navigation Menu */
+    #floating-nav {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      background-color: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 12px 10px;
+      width: 260px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      max-height: 75vh;               /* limit height */
+      overflow-y: auto;               /* enable scrolling */
+      scrollbar-width: thin;          /* Firefox scrollbar */
+      scrollbar-color: #4f46e5 #1f2937;
+    }
 
-<!-- Header -->
-<header class="text-center mb-8">
-<h1 class="text-4xl font-extrabold text-indigo-400 mb-2">🧭 Manual Testing – Complete Guide (Beginner to Professional)</h1>
-<p class="text-gray-400">Master the art of quality assurance through comprehensive functional and non-functional testing methodologies.</p>
-</header>
+    #floating-nav.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
 
-<div class="grid lg:grid-cols-4 gap-8">
+    #floating-nav h3 {
+      font-weight: 600;
+      color: #818cf8;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #374151;
+      padding-bottom: 4px;
+      position: sticky;
+      top: 0;
+      background-color: rgba(17,24,39,0.95);
+      z-index: 5;
+    }
 
-<!-- Sidebar (Now Sticky with Indigo Accents) -->
-<aside class="lg:col-span-1 sticky top-6 self-start">
-  <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-    <h3 class="text-lg font-bold text-indigo-300 mb-4">Topic Navigation</h3>
-    <nav class="space-y-2 text-gray-200">
-      <a href="#t1" class="block py-2 px-3 rounded hover:bg-gray-700">1. What is Software Testing?</a>
-      <a href="#t2" class="block py-2 px-3 rounded hover:bg-gray-700">2. Why Testing</a>
-      <a href="#t3" class="block py-2 px-3 rounded hover:bg-gray-700">3. SDLC</a>
-      <a href="#t4" class="block py-2 px-3 rounded hover:bg-gray-700">4. STLC</a>
-      <a href="#t5" class="block py-2 px-3 rounded hover:bg-gray-700">5. Test Docs</a>
-      <a href="#t6" class="block py-2 px-3 rounded hover:bg-gray-700">6. Bug Life Cycle</a>
-      <a href="#t7" class="block py-2 px-3 rounded hover:bg-gray-700">7. Severity & Priority</a>
-      <a href="#t8" class="block py-2 px-3 rounded hover:bg-gray-700">8. Testing Techniques</a>
-      <a href="#t9" class="block py-2 px-3 rounded hover:bg-gray-700">9–11. Types of Testing</a>
-      <a href="#t12" class="block py-2 px-3 rounded hover:bg-gray-700">12–19. Agile & Pro</a>
-      <!-- Updated navigation link to include the new section (24) -->
-      <a href="#t20" class="block py-2 px-3 rounded hover:bg-gray-700">20–24. Roadmap & Resources</a>
-    </nav>
-  </div>
-</aside>
+    #floating-nav a {
+      display: block;
+      color: #d1d5db;
+      padding: 6px 8px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
 
-<!-- Main content -->
-<main class="lg:col-span-3 space-y-8">
+    #floating-nav a:hover {
+      background-color: #4f46e5;
+      color: #fff;
+    }
 
-  <!-- 1 -->
-  <section id="t1" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-    <h2 class="text-2xl font-bold text-indigo-300 mb-3">1. What is Software Testing?</h2>
-    <p class="text-gray-300 mb-2">Software testing is the process of checking whether an application works correctly and meets business requirements. It helps find <strong>defects</strong> before release so the product is stable, reliable, and user-friendly.</p>
+    /* Chrome / Edge scrollbar styling */
+    #floating-nav::-webkit-scrollbar {
+      width: 8px;
+    }
+    #floating-nav::-webkit-scrollbar-track {
+      background: #1f2937;
+      border-radius: 10px;
+    }
+    #floating-nav::-webkit-scrollbar-thumb {
+      background-color: #4f46e5;
+      border-radius: 10px;
+    }
+    #floating-nav::-webkit-scrollbar-thumb:hover {
+      background-color: #6366f1;
+    }
+  </style>
+</head>
 
-    <h3 class="font-semibold text-gray-200 mt-4 mb-2">Simple Example (Login Page)</h3>
-    <ol class="list-decimal ml-5 space-y-1 text-gray-300">
-      <li>Check valid user can log in.</li>
-      <li>Enter invalid password — verify correct error shown.</li>
-      <li>Verify the “Forgot Password” link navigates correctly.</li>
-    </ol>
+<body class="min-h-screen">
 
-    <h3 class="font-semibold text-gray-200 mt-4 mb-2">Purpose of Testing</h3>
-    <ul class="list-disc ml-5 space-y-1 text-gray-300">
-      <li>Ensure software behaves as expected.</li>
-      <li>Find <strong>defects</strong> early.</li>
-      <li>Improve product quality and user satisfaction.</li>
-      <li>Build customer confidence.</li>
-    </ul>
-  </section>
+<!-- ============================= -->
+<!-- Floating Top Buttons -->
+<!-- ============================= -->
+<div class="fixed top-18 left-6 flex items-center gap-3 z-50">
+  <!-- Back Button -->
+  <button id="back-button"
+    class="w-12 h-12 bg-gray-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-600 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+    </svg>
+  </button>
 
-  <!-- 2 -->
-  <section id="t2" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-    <h2 class="text-2xl font-bold text-indigo-300 mb-3">2. Why is Testing Important?</h2>
-    <p class="text-gray-300 mb-3">Testing helps to mitigate risk, maintain quality, and avoid business losses. It validates both functionality and non-functional expectations like performance and security.</p>
-    <h3 class="font-semibold text-gray-200 mb-2">Key Benefits</h3>
-    <ul class="list-disc ml-5 space-y-1 text-gray-300">
-      <li>Identify bugs early — reduce fix cost.</li>
-      <li>Improve performance and security posture.</li>
-      <li>Ensure cross-device and cross-browser compatibility.</li>
-      <li>Protect business reputation and revenue.</li>
-    </ul>
+  <!-- Toggle Menu Button -->
+  <button id="menu-toggle"
+    class="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-700 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+</div>
 
-    <div class="bg-gray-900 p-4 rounded mt-4 border border-gray-700 text-gray-300">
-      <strong>Example:</strong> If an e-commerce app allows negative prices due to a bug, the company could lose money. Testers prevent such issues by validating inputs and flows.
-    </div>
-  </section>
+<!-- ============================= -->
+<!-- Floating Navigation Menu -->
+<!-- ============================= -->
+<div id="floating-nav">
+  <h3>Quick Navigation</h3>
+  <a href="#t1">1. What is Software Testing?</a>
+  <a href="#t2">2. Why is Testing Important?</a>
+  <a href="#t3">3. SDLC</a>
+  <a href="#t4">4. STLC</a>
+  <a href="#t5">5. Test Plan, Case & Scenario</a>
+  <a href="#t6">6. Defect Life Cycle</a>
+  <a href="#t7">7. Severity & Priority</a>
+  <a href="#t8">8. Testing Techniques</a>
+  <a href="#t9">9–11. Testing Types</a>
+  <a href="#t12">12. Agile Testing</a>
+  <a href="#t13">13. Shift-Left Testing</a>
+  <a href="#t14">14. Risk-Based Testing</a>
+  <a href="#t15">15. RCA</a>
+  <a href="#t16">16. Test Metrics</a>
+  <a href="#t17">17. Test Management Tools</a>
+  <a href="#t18">18. API Testing</a>
+  <a href="#t19">19. Test Closure</a>
+  <a href="#t20">20. Real-Life Example</a>
+  <a href="#t21">21. Career Roadmap</a>
+  <a href="#t22">22. Practice Exercises</a>
+  <a href="#t23">23. Summary</a>
+  <a href="#t24">24. Interview Qs</a>
+</div>
 
-  <!-- 3 -->
-  <section id="t3" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-    <h2 class="text-2xl font-bold text-indigo-300 mb-3">3. Software Development Life Cycle (SDLC)</h2>
-    <p class="text-gray-300 mb-2">SDLC is the structured process used to design, develop, test, deploy, and maintain software.</p>
+        <div id="mainContentContainer" class="flex-1 pt-32 lg:pt-8 p-4 lg:p-8 min-h-screen">
+            <main id="mainContent" class="max-w-10xl mx-auto space-y-8">
 
-    <h3 class="font-semibold text-gray-200 mb-2">Common SDLC Phases (step-by-step)</h3>
-    <ol class="list-decimal ml-5 space-y-1 text-gray-300">
-      <li><strong>Requirement Gathering:</strong> Document what users/business need.</li>
-      <li><strong>Design:</strong> Create architecture and UI/UX designs.</li>
-      <li><strong>Development:</strong> Engineers implement the code.</li>
-      <li><strong>Testing:</strong> QA verifies functionality and quality.</li>
-      <li><strong>Deployment:</strong> Release software to users.</li>
-      <li><strong>Maintenance:</strong> Patch bugs and release updates.</li>
-    </ol>
+              <header class="mb-10 p-6 bg-gray-900 rounded-2xl border-b-4 border-primary-accent shadow-xl">
+                  <h1 class="text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+                      Manual Testing: Beginners to Advanced
+                  </h1>
+                  <p class="mt-2 text-lg text-gray-400">Your complete guide to Quality Assurance principles and practices.</p>
+              </header>
 
-    <div class="mt-3 text-gray-300">
-      <strong>Example (Banking App):</strong> Requirement → Customer can view balance. Design → Balance screen layout. Development → API and UI for balance. Testing → Verify shown balance matches backend.
-    </div>
-  </section>
+              <section id="t1" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">1. What is Software Testing?</h2>
+                <p class="text-gray-300 mb-2">Software testing is the process of checking whether an application works correctly and meets business requirements. It helps find <strong>defects</strong> before release so the product is stable, reliable, and user-friendly.</p>
 
-  <!-- 4 -->
-  <section id="t4" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-    <h2 class="text-2xl font-bold text-indigo-300 mb-3">4. Software Testing Life Cycle (STLC)</h2>
-    <p class="text-gray-300 mb-2">STLC defines the sequence of testing activities to ensure quality is built into the product.</p>
+                <h3 class="font-semibold text-gray-200 mt-4 mb-2">Simple Example (Login Page)</h3>
+                <ol class="list-decimal ml-5 space-y-1 text-gray-300">
+                  <li>Check valid user can log in.</li>
+                  <li>Enter invalid password — verify correct error shown.</li>
+                  <li>Verify the “Forgot Password” link navigates correctly.</li>
+                </ol>
 
-    <h3 class="font-semibold text-gray-200 mb-2">STLC Phases (step-by-step)</h3>
-    <ol class="list-decimal ml-5 space-y-1 text-gray-300">
-      <li><strong>Requirement Analysis:</strong> Identify testable requirements and clarify ambiguities.</li>
-      <li><strong>Test Planning:</strong> Define scope, resources, schedule, and deliverables.</li>
-      <li><strong>Test Case Design:</strong> Write test cases and test data for each requirement.</li>
-      <li><strong>Test Environment Setup:</strong> Prepare hardware, software, and data.</li>
-      <li><strong>Test Execution:</strong> Run test cases and record results.</li>
-      <li><strong>Defect Reporting:</strong> Log defects with steps, severity, and priority.</li>
-      <li><strong>Test Closure:</strong> Evaluate exit criteria, prepare summary reports, and archive artifacts.</li>
-    </ol>
+                <h3 class="font-semibold text-gray-200 mt-4 mb-2">Purpose of Testing</h3>
+                <ul class="list-disc ml-5 space-y-1 text-gray-300">
+                  <li>Ensure software behaves as expected.</li>
+                  <li>Find <strong>defects</strong> early.</li>
+                  <li>Improve product quality and user satisfaction.</li>
+                  <li>Build customer confidence.</li>
+                </ul>
+              </section>
 
-    <div class="bg-gray-900 p-4 rounded mt-3 border border-gray-700 text-gray-300">
-      <strong>Example (Login Page):</strong> Requirement → verify login. Test cases → valid login, invalid login, password reset. Execution → run across browsers. Defect → log and retest until closed.
-    </div>
-  </section>
+              <section id="t2" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">2. Why is Testing Important?</h2>
+                <p class="text-gray-300 mb-3">Testing helps to mitigate risk, maintain quality, and avoid business losses. It validates both functionality and non-functional expectations like performance and security.</p>
+                <h3 class="font-semibold text-gray-200 mb-2">Key Benefits</h3>
+                <ul class="list-disc ml-5 space-y-1 text-gray-300">
+                  <li>Identify bugs early — reduce fix cost.</li>
+                  <li>Improve performance and security posture.</li>
+                  <li>Ensure cross-device and cross-browser compatibility.</li>
+                  <li>Protect business reputation and revenue.</li>
+                </ul>
 
-  <!-- 5 -->
-  <section id="t5" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-    <h2 class="text-2xl font-bold text-indigo-300 mb-3">5. Test Plan, Test Case, and Test Scenario</h2>
+                <div class="bg-gray-900 p-4 rounded mt-4 border border-gray-700 text-gray-300">
+                  <strong>Example:</strong> If an e-commerce app allows negative prices due to a bug, the company could lose money. Testers prevent such issues by validating inputs and flows.
+                </div>
+              </section>
 
-    <h3 class="font-semibold text-gray-200 mb-2">Test Plan</h3>
-    <p class="text-gray-300">A document outlining <strong>what</strong> to test, <strong>how</strong>, and <strong>who</strong> will test. Typically includes objectives, scope, strategy, resources, schedule, and entry/exit criteria.</p>
+              <section id="t3" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">3. Software Development Life Cycle (SDLC)</h2>
+                <p class="text-gray-300 mb-2">SDLC is the structured process used to design, develop, test, deploy, and maintain software.</p>
 
-    <h3 class="font-semibold text-gray-200 mb-2 mt-4">Test Case (step-by-step format)</h3>
-    <div class="bg-gray-900 p-4 rounded border border-gray-700 text-gray-300">
-      <pre class="whitespace-pre-wrap text-sm">
+                <h3 class="font-semibold text-gray-200 mb-2">Common SDLC Phases (step-by-step)</h3>
+                <ol class="list-decimal ml-5 space-y-1 text-gray-300">
+                  <li><strong>Requirement Gathering:</strong> Document what users/business need.</li>
+                  <li><strong>Design:</strong> Create architecture and UI/UX designs.</li>
+                  <li><strong>Development:</strong> Engineers implement the code.</li>
+                  <li><strong>Testing:</strong> QA verifies functionality and quality.</li>
+                  <li><strong>Deployment:</strong> Release software to users.</li>
+                  <li><strong>Maintenance:</strong> Patch bugs and release updates.</li>
+                </ol>
+
+                <div class="mt-3 text-gray-300">
+                  <strong>Example (Banking App):</strong> Requirement → Customer can view balance. Design → Balance screen layout. Development → API and UI for balance. Testing → Verify shown balance matches backend.
+                </div>
+              </section>
+
+              <section id="t4" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">4. Software Testing Life Cycle (STLC)</h2>
+                <p class="text-gray-300 mb-2">STLC defines the sequence of testing activities to ensure quality is built into the product.</p>
+
+                <h3 class="font-semibold text-gray-200 mb-2">STLC Phases (step-by-step)</h3>
+                <ol class="list-decimal ml-5 space-y-1 text-gray-300">
+                  <li><strong>Requirement Analysis:</strong> Identify testable requirements and clarify ambiguities.</li>
+                  <li><strong>Test Planning:</strong> Define scope, resources, schedule, and deliverables.</li>
+                  <li><strong>Test Case Design:</strong> Write test cases and test data for each requirement.</li>
+                  <li><strong>Test Environment Setup:</strong> Prepare hardware, software, and data.</li>
+                  <li><strong>Test Execution:</strong> Run test cases and record results.</li>
+                  <li><strong>Defect Reporting:</strong> Log defects with steps, severity, and priority.</li>
+                  <li><strong>Test Closure:</strong> Evaluate exit criteria, prepare summary reports, and archive artifacts.</li>
+                </ol>
+
+                <div class="bg-gray-900 p-4 rounded mt-3 border border-gray-700 text-gray-300">
+                  <strong>Example (Login Page):</strong> Requirement → verify login. Test cases → valid login, invalid login, password reset. Execution → run across browsers. Defect → log and retest until closed.
+                </div>
+              </section>
+
+              <section id="t5" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">5. Test Plan, Test Case, and Test Scenario</h2>
+
+                <h3 class="font-semibold text-gray-200 mb-2">Test Plan</h3>
+                <p class="text-gray-300">A document outlining <strong>what</strong> to test, <strong>how</strong>, and <strong>who</strong> will test. Typically includes objectives, scope, strategy, resources, schedule, and entry/exit criteria.</p>
+
+                <h3 class="font-semibold text-gray-200 mb-2 mt-4">Test Case (step-by-step format)</h3>
+                <div class="bg-gray-900 p-4 rounded border border-gray-700 text-gray-300">
+                  <pre class="whitespace-pre-wrap text-sm">
 Test Case ID: TC001
 Title: Verify login with valid credentials
 Preconditions: User account exists
@@ -143,407 +253,428 @@ Expected Result: User lands on dashboard
 Actual Result: (to be filled during execution)
 Status: Pass / Fail</pre>
 
-</div>
+                </div>
 
-<h3 class="font-semibold text-gray-200 mb-2 mt-4">Test Scenario</h3>
-<p class="text-gray-300">A high-level idea of what to test. Example: Verify user login functionality (covers multiple test cases like valid, invalid, and boundary conditions).</p>
+                <h3 class="font-semibold text-gray-200 mb-2 mt-4">Test Scenario</h3>
+                <p class="text-gray-300">A high-level idea of what to test. Example: Verify user login functionality (covers multiple test cases like valid, invalid, and boundary conditions).</p>
 
-<p class="mt-3 text-gray-300"><strong>Practice Tip:</strong> Create at least 10 test cases for login covering valid, invalid, empty, boundary, and security inputs.</p>
-</section>
+                <p class="mt-3 text-gray-300"><strong>Practice Tip:</strong> Create at least 10 test cases for login covering valid, invalid, empty, boundary, and security inputs.</p>
+              </section>
 
-<!-- 6 -->
+              <section id="t6" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">6. Defect / Bug Life Cycle</h2>
+                <p class="text-gray-300 mb-2">A defect is a mismatch between expected and actual results. The bug life cycle tracks progress from discovery to closure.</p>
 
-<section id="t6" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-<h2 class="text-2xl font-bold text-indigo-300 mb-3">6. Defect / Bug Life Cycle</h2>
-<p class="text-gray-300 mb-2">A defect is a mismatch between expected and actual results. The bug life cycle tracks progress from discovery to closure.</p>
+                <h3 class="font-semibold text-gray-200 mb-2">Common States (step-by-step)</h3>
+                <ol class="list-decimal ml-5 space-y-1 text-gray-300">
+                  <li><strong>New:</strong> Tester logs the defect.</li>
+                  <li><strong>Assigned:</strong> Lead assigns it to a developer.</li>
+                  <li><strong>Open / In Progress:</strong> Developer starts work.</li>
+                  <li><strong>Fixed:</strong> Developer marks as fixed and adds details.</li>
+                  <li><strong>Retest:</strong> Tester verifies the fix.</li>
+                  <li><strong>Closed:</strong> If fixed, defect is closed.</li>
+                  <li><strong>Reopen:</strong> If issue persists, tester reopens it.</li>
+                </ol>
 
-<h3 class="font-semibold text-gray-200 mb-2">Common States (step-by-step)</h3>
-<ol class="list-decimal ml-5 space-y-1 text-gray-300">
-<li><strong>New:</strong> Tester logs the defect.</li>
-<li><strong>Assigned:</strong> Lead assigns it to a developer.</li>
-<li><strong>Open / In Progress:</strong> Developer starts work.</li>
-<li><strong>Fixed:</strong> Developer marks as fixed and adds details.</li>
-<li><strong>Retest:</strong> Tester verifies the fix.</li>
-<li><strong>Closed:</strong> If fixed, defect is closed.</li>
-<li><strong>Reopen:</strong> If issue persists, tester reopens it.</li>
-</ol>
+                <div class="mt-3 bg-gray-900 p-3 rounded border border-gray-700 text-gray-300">
+                  <strong>Example:</strong> Tester reports "Login button not clickable". Log as New → Assigned to Dev → Fixed → Tester retests → Closed.
+                </div>
+              </section>
 
-<div class="mt-3 bg-gray-900 p-3 rounded border border-gray-700 text-gray-300">
-<strong>Example:</strong> Tester reports "Login button not clickable". Log as New → Assigned to Dev → Fixed → Tester retests → Closed.
-</div>
-</section>
+              <section id="t7" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">7. Severity and Priority</h2>
+                <p class="text-gray-300 mb-2">These fields help decide the order and urgency for fixing defects.</p>
 
-<!-- 7 -->
+                <h3 class="font-semibold text-gray-200 mb-2">Definitions</h3>
+                <ul class="list-disc ml-5 space-y-1 text-gray-300">
+                  <li><strong>Severity:</strong> Technical impact of defect (e.g., crash, data corruption).</li>
+                  <li><strong>Priority:</strong> Business urgency (e.g., payment failing vs minor UI typos).</li>
+                </ul>
 
-<section id="t7" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-<h2 class="text-2xl font-bold text-indigo-300 mb-3">7. Severity and Priority</h2>
-<p class="text-gray-300 mb-2">These fields help decide the order and urgency for fixing defects.</p>
+                <h3 class="font-semibold text-gray-200 mb-2 mt-3">Examples</h3>
+                <ul class="list-disc ml-5 space-y-1 text-gray-300">
+                  <li>App crash on checkout → <strong>High Severity</strong>, <strong>High Priority</strong>.</li>
+                  <li>Typo on marketing page → <strong>Low Severity</strong>, <strong>High Priority</strong> if on home page for campaign.</li>
+                </ul>
+              </section>
 
-<h3 class="font-semibold text-gray-200 mb-2">Definitions</h3>
-<ul class="list-disc ml-5 space-y-1 text-gray-300">
-<li><strong>Severity:</strong> Technical impact of defect (e.g., crash, data corruption).</li>
-<li><strong>Priority:</strong> Business urgency (e.g., payment failing vs minor UI typos).</li>
-</ul>
+              <section id="t8" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">8. Testing Techniques</h2>
+                <p class="text-gray-300 mb-2">Common techniques used to design tests based on knowledge of the system.</p>
 
-<h3 class="font-semibold text-gray-200 mb-2 mt-3">Examples</h3>
-<ul class="list-disc ml-5 space-y-1 text-gray-300">
-<li>App crash on checkout → <strong>High Severity</strong>, <strong>High Priority</strong>.</li>
-<li>Typo on marketing page → <strong>Low Severity</strong>, <strong>High Priority</strong> if on home page for campaign.</li>
-</ul>
-</section>
+                <h3 class="font-semibold text-gray-200 mb-2">Black Box Testing</h3>
+                <p class="text-gray-300">Test without internal code knowledge — focus on inputs and outputs.</p>
+                <div class="ml-5 text-gray-300">Example: Enter letters into phone number field and expect validation error.</div>
 
-<!-- 8 -->
+                <h3 class="font-semibold text-gray-200 mb-2 mt-3">White Box Testing</h3>
+                <p class="text-gray-300">Developer-level testing that validates internal logic and code paths.</p>
+                <div class="ml-5 text-gray-300">Example: Unit tests to ensure loops and branches execute correctly.</div>
 
-<section id="t8" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-<h2 class="text-2xl font-bold text-indigo-300 mb-3">8. Testing Techniques</h2>
-<p class="text-gray-300 mb-2">Common techniques used to design tests based on knowledge of the system.</p>
+                <h3 class="font-semibold text-gray-200 mb-2 mt-3">Grey Box Testing</h3>
+                <p class="text-gray-300">Tester has partial knowledge of internals which helps create better test data.</p>
+                <div class="ml-5 text-gray-300">Example: Knowing DB schema to validate input edge-cases efficiently.</div>
+              </section>
 
-<h3 class="font-semibold text-gray-200 mb-2">Black Box Testing</h3>
-<p class="text-gray-300">Test without internal code knowledge — focus on inputs and outputs.</p>
-<div class="ml-5 text-gray-300">Example: Enter letters into phone number field and expect validation error.</div>
+              <section id="t9" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">9–11. Functional & Non-Functional Testing Types</h2>
 
-<h3 class="font-semibold text-gray-200 mb-2 mt-3">White Box Testing</h3>
-<p class="text-gray-300">Developer-level testing that validates internal logic and code paths.</p>
-<div class="ml-5 text-gray-300">Example: Unit tests to ensure loops and branches execute correctly.</div>
+                <h3 class="font-semibold text-gray-200 mb-2">Functional Testing</h3>
+                <p class="text-gray-300">Validates specific functions/features work as required.</p>
+                <ul class="list-disc ml-5 space-y-1 text-gray-300">
+                  <li>Login/Logout</li>
+                  <li>Search</li>
+                  <li>Payment gateway</li>
+                </ul>
 
-<h3 class="font-semibold text-gray-200 mb-2 mt-3">Grey Box Testing</h3>
-<p class="text-gray-300">Tester has partial knowledge of internals which helps create better test data.</p>
-<div class="ml-5 text-gray-300">Example: Knowing DB schema to validate input edge-cases efficiently.</div>
-</section>
+                <h3 class="font-semibold text-gray-200 mb-2 mt-3">Functional Sub-types (quick steps)</h3>
+                <ul class="list-disc ml-5 space-y-1 text-gray-300">
+                  <li><strong>Smoke Testing:</strong> Quick checks to see if build is testable (sanity).</li>
+                  <li><strong>Sanity Testing:</strong> Verify specific bug fixes or small areas after change.</li>
+                  <li><strong>Regression Testing:</strong> Re-run tests to ensure changes did not break features.</li>
+                  <li><strong>Re-Testing:</strong> Verify defects once fixed.</li>
+                  <li><strong>Exploratory Testing:</strong> Ad-hoc investigations to find unexpected issues.</li>
+                  <li><strong>UAT (User Acceptance Testing):</strong> End-user validation before go-live.</li>
+                </ul>
 
-<!-- 9,10,11 -->
+                <h3 class="font-semibold text-gray-200 mb-2 mt-3">Non-Functional Testing Types</h3>
+                <ul class="list-disc ml-5 space-y-1 text-gray-300">
+                  <li><strong>Performance:</strong> Speed and stability under load.</li>
+                  <li><strong>Load Testing:</strong> Expected concurrent user checks.</li>
+                  <li><strong>Stress Testing:</strong> Push beyond limits to find breaking points.</li>
+                  <li><strong>Security Testing:</strong> Vulnerabilities like SQL injection, XSS.</li>
+                  <li><strong>Usability:</strong> Ease-of-use and navigation.</li>
+                  <li><strong>Compatibility:</strong> Cross-browser and cross-device checks.</li>
+                  <li><strong>Accessibility:</strong> Screen readers, keyboard navigation for differently-abled users.</li>
+                </ul>
+              </section>
 
-<section id="t9" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-<h2 class="text-2xl font-bold text-indigo-300 mb-3">9–11. Functional & Non-Functional Testing Types</h2>
+              <section id="t12" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">12. Agile Testing</h2>
+                <p class="text-300 mb-2">In Agile, testing is integrated into development sprints for continuous feedback.</p>
 
-<h3 class="font-semibold text-gray-200 mb-2">Functional Testing</h3>
-<p class="text-gray-300">Validates specific functions/features work as required.</p>
-<ul class="list-disc ml-5 space-y-1 text-gray-300">
-<li>Login/Logout</li>
-<li>Search</li>
-<li>Payment gateway</li>
-</ul>
+                <h3 class="font-semibold text-gray-200 mb-2">Key Practices (step-by-step)</h3>
+                <ol class="list-decimal ml-5 space-y-1 text-gray-300">
+                  <li>Join requirement discussions early.</li>
+                  <li>Create story-based test cases during the sprint.</li>
+                  <li>Perform continuous testing (unit + UI + exploratory) as features are developed.</li>
+                  <li>Attend daily stand-ups to surface risks.</li>
+                  <li>Participate in sprint retros to improve test processes.</li>
+                </ol>
 
-<h3 class="font-semibold text-gray-200 mb-2 mt-3">Functional Sub-types (quick steps)</h3>
-<ul class="list-disc ml-5 space-y-1 text-gray-300">
-<li><strong>Smoke Testing:</strong> Quick checks to see if build is testable (sanity).</li>
-<li><strong>Sanity Testing:</strong> Verify specific bug fixes or small areas after change.</li>
-<li><strong>Regression Testing:</strong> Re-run tests to ensure changes did not break features.</li>
-<li><strong>Re-Testing:</strong> Verify defects once fixed.</li>
-<li><strong>Exploratory Testing:</strong> Ad-hoc investigations to find unexpected issues.</li>
-<li><strong>UAT (User Acceptance Testing):</strong> End-user validation before go-live.</li>
-</ul>
+                <div class="mt-3 text-gray-300"><strong>Example:</strong> In a 2-week sprint, implement login — testers write and execute cases within the sprint; devs fix defects quickly and tester retests before demo.</div>
+              </section>
 
-<h3 class="font-semibold text-gray-200 mb-2 mt-3">Non-Functional Testing Types</h3>
-<ul class="list-disc ml-5 space-y-1 text-gray-300">
-<li><strong>Performance:</strong> Speed and stability under load.</li>
-<li><strong>Load Testing:</strong> Expected concurrent user checks.</li>
-<li><strong>Stress Testing:</strong> Push beyond limits to find breaking points.</li>
-<li><strong>Security Testing:</strong> Vulnerabilities like SQL injection, XSS.</li>
-<li><strong>Usability:</strong> Ease-of-use and navigation.</li>
-<li><strong>Compatibility:</strong> Cross-browser and cross-device checks.</li>
-<li><strong>Accessibility:</strong> Screen readers, keyboard navigation for differently-abled users.</li>
-</ul>
-</section>
+              <section id="t13" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">13. Shift-Left Testing</h2>
+                <p class="text-gray-300">Shift-left means moving testing earlier in the lifecycle so defects are caught sooner and cheaper.</p>
+                <ol class="list-decimal ml-5 space-y-1 text-gray-300">
+                  <li>Review requirements and design for gaps.</li>
+                  <li>Create test cases before code is written.</li>
+                  <li>Use unit tests and early integration tests.</li>
+                  <li>Use mocks/stubs to validate functionality before full integration.</li>
+                </ol>
+                <div class="mt-3 text-gray-300"><strong>Example:</strong> Tester finds a missing validation in requirements for mobile screens before development — saves rework.</div>
+              </section>
 
-<!-- 12 -->
+              <section id="t14" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">14. Risk-Based Testing</h2>
+                <p class="text-gray-300">Prioritize testing efforts on features with the highest business or technical risk.</p>
 
-<section id="t12" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-<h2 class="text-2xl font-bold text-indigo-300 mb-3">12. Agile Testing</h2>
-<p class="text-gray-300 mb-2">In Agile, testing is integrated into development sprints for continuous feedback.</p>
+                <h3 class="font-semibold text-gray-200 mb-2">How to do it (step-by-step)</h3>
+                <ol class="list-decimal ml-5 space-y-1 text-gray-300">
+                  <li>Identify features and their business value.</li>
+                  <li>Estimate likelihood of failure and impact.</li>
+                  <li>Rank features by combined risk score.</li>
+                  <li>Allocate more test effort to high-risk items.</li>
+                </ol>
 
-<h3 class="font-semibold text-gray-200 mb-2">Key Practices (step-by-step)</h3>
-<ol class="list-decimal ml-5 space-y-1 text-gray-300">
-<li>Join requirement discussions early.</li>
-<li>Create story-based test cases during the sprint.</li>
-<li>Perform continuous testing (unit + UI + exploratory) as features are developed.</li>
-<li>Attend daily stand-ups to surface risks.</li>
-<li>Participate in sprint retros to improve test processes.</li>
-</ol>
+                <div class="mt-3 text-gray-300"><strong>Example (Banking App):</strong> Login and transfer functions = high risk → exhaustive tests. Help page = low risk → minimal tests.</div>
+              </section>
 
-<div class="mt-3 text-gray-300"><strong>Example:</strong> In a 2-week sprint, implement login — testers write and execute cases within the sprint; devs fix defects quickly and tester retests before demo.</div>
-</section>
+              <section id="t15" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">15. Root Cause Analysis (RCA)</h2>
+                <p class="text-gray-300">RCA finds the underlying reason a defect occurred so it can be prevented in the future.</p>
 
-<!-- 13 -->
+                <h3 class="font-semibold text-gray-200 mb-2">RCA Steps (structured)</h3>
+                <ol class="list-decimal ml-5 space-y-1 text-gray-300">
+                  <li>Collect facts: logs, screenshots, test steps.</li>
+                  <li>Reproduce the issue reliably.</li>
+                  <li>Brainstorm possible causes with the team.</li>
+                  <li>Use methods like 5 Whys or Fishbone diagram to dig deeper.</li>
+                  <li>Implement corrective and preventive actions.</li>
+                </ol>
 
-<section id="t13" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-<h2 class="text-2xl font-bold text-indigo-300 mb-3">13. Shift-Left Testing</h2>
-<p class="text-gray-300">Shift-left means moving testing earlier in the lifecycle so defects are caught sooner and cheaper.</p>
-<ol class="list-decimal ml-5 space-y-1 text-gray-300">
-<li>Review requirements and design for gaps.</li>
-<li>Create test cases before code is written.</li>
-<li>Use unit tests and early integration tests.</li>
-<li>Use mocks/stubs to validate functionality before full integration.</li>
-</ol>
-<div class="mt-3 text-gray-300"><strong>Example:</strong> Tester finds a missing validation in requirements for mobile screens before development — saves rework.</div>
-</section>
+                <div class="mt-3 text-gray-300"><strong>Example:</strong> Crash on Save → RCA finds missing null-check. Fix → add validation and update tests to cover null case.</div>
+              </section>
 
-<!-- 14 -->
+              <section id="t16" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">16. Test Metrics and Reporting</h2>
+                <p class="text-gray-300">Track metrics to measure testing progress and product quality.</p>
 
-<section id="t14" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-<h2 class="text-2xl font-bold text-indigo-300 mb-3">14. Risk-Based Testing</h2>
-<p class="text-gray-300">Prioritize testing efforts on features with the highest business or technical risk.</p>
+                <h3 class="font-semibold text-gray-200 mb-2">Common Metrics & Formulas</h3>
+                <table class="w-full text-sm text-left mt-2 border-collapse">
+                  <thead class="text-xs uppercase text-gray-200">
+                    <tr>
+                      <th class="p-2">Metric</th>
+                      <th class="p-2">Formula</th>
+                      <th class="p-2">Example</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-gray-300">
+                    <tr class="border-t border-gray-700">
+                      <td class="p-2">Test Case Execution %</td>
+                      <td class="p-2">(Executed / Planned) × 100</td>
+                      <td class="p-2">(80 / 100) × 100 = 80%</td>
+                    </tr>
+                    <tr class="border-t border-gray-700">
+                      <td class="p-2">Defect Leakage</td>
+                      <td class="p-2">(Prod defects / Total defects) × 100</td>
+                      <td class="p-2">2 / 20 = 10%</td>
+                    </tr>
+                    <tr class="border-t border-gray-700">
+                      <td class="p-2">Test Pass Rate</td>
+                      <td class="p-2">(Passed / Executed) × 100</td>
+                      <td class="p-2">(70 / 80) = 87.5%</td>
+                    </tr>
+                  </tbody>
+                </table>
 
-<h3 class="font-semibold text-gray-200 mb-2">How to do it (step-by-step)</h3>
-<ol class="list-decimal ml-5 space-y-1 text-gray-300">
-<li>Identify features and their business value.</li>
-<li>Estimate likelihood of failure and impact.</li>
-<li>Rank features by combined risk score.</li>
-<li>Allocate more test effort to high-risk items.</li>
-</ol>
+                <div class="mt-3 text-gray-300"><strong>Report Example:</strong> Total Test Cases: 120; Passed: 110; Failed: 10; Defects Logged: 8; Defects Closed: 5.</div>
+              </section>
 
-<div class="mt-3 text-gray-300"><strong>Example (Banking App):</strong> Login and transfer functions = high risk → exhaustive tests. Help page = low risk → minimal tests.</div>
-</section>
+              <section id="t17" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">17. Test Management Tools</h2>
+                <p class="text-gray-300 mb-2">Tools that help organize test artifacts, execution tracking, and defect management.</p>
 
-<!-- 15 -->
+                <ul class="list-disc ml-5 space-y-1 text-gray-300">
+                  <li><strong>JIRA:</strong> Manage user stories, tasks, and defects.</li>
+                  <li><strong>TestRail / Zephyr:</strong> Store and execute test cases.</li>
+                  <li><strong>Bugzilla:</strong> Open-source defect tracker.</li>
+                </ul>
 
-<section id="t15" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-<h2 class="text-2xl font-bold text-indigo-300 mb-3">15. Root Cause Analysis (RCA)</h2>
-<p class="text-gray-300">RCA finds the underlying reason a defect occurred so it can be prevented in the future.</p>
+                <div class="mt-3 text-gray-300"><strong>Example Workflow:</strong> Create story in JIRA → Add test cases in TestRail → Execute tests and log defects back in JIRA.</div>
+              </section>
 
-<h3 class="font-semibold text-gray-200 mb-2">RCA Steps (structured)</h3>
-<ol class="list-decimal ml-5 space-y-1 text-gray-300">
-<li>Collect facts: logs, screenshots, test steps.</li>
-<li>Reproduce the issue reliably.</li>
-<li>Brainstorm possible causes with the team.</li>
-<li>Use methods like 5 Whys or Fishbone diagram to dig deeper.</li>
-<li>Implement corrective and preventive actions.</li>
-</ol>
+             <section id="t18" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">18. API Testing (Manual)</h2>
+                <p class="text-gray-300 mb-2">API testing validates backend endpoints without the UI — tools like Postman are commonly used.</p>
 
-<div class="mt-3 text-gray-300"><strong>Example:</strong> Crash on Save → RCA finds missing null-check. Fix → add validation and update tests to cover null case.</div>
-</section>
+                <h3 class="font-semibold text-gray-200 mb-2">Steps to Test an API</h3>
+                <ol class="list-decimal ml-5 space-y-1 text-gray-300">
+                  <li>Understand API spec (endpoint, method, params, headers).</li>
+                  <li>Create test requests with valid and invalid inputs.</li>
+                  <li>Validate status codes, response body, headers, and performance.</li>
+                  <li>Log issues for incorrect behavior or error codes.</li>
+                </ol>
 
-<!-- 16 -->
-
-<section id="t16" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-<h2 class="text-2xl font-bold text-indigo-300 mb-3">16. Test Metrics and Reporting</h2>
-<p class="text-gray-300">Track metrics to measure testing progress and product quality.</p>
-
-<h3 class="font-semibold text-gray-200 mb-2">Common Metrics & Formulas</h3>
-<table class="w-full text-sm text-left mt-2 border-collapse">
-<thead class="text-xs uppercase text-gray-200">
-<tr>
-<th class="p-2">Metric</th>
-<th class="p-2">Formula</th>
-<th class="p-2">Example</th>
-</tr>
-</thead>
-<tbody class="text-gray-300">
-<tr class="border-t border-gray-700">
-<td class="p-2">Test Case Execution %</td>
-<td class="p-2">(Executed / Planned) × 100</td>
-<td class="p-2">(80 / 100) × 100 = 80%</td>
-</tr>
-<tr class="border-t border-gray-700">
-<td class="p-2">Defect Leakage</td>
-<td class="p-2">(Prod defects / Total defects) × 100</td>
-<td class="p-2">2 / 20 = 10%</td>
-</tr>
-<tr class="border-t border-gray-700">
-<td class="p-2">Test Pass Rate</td>
-<td class="p-2">(Passed / Executed) × 100</td>
-<td class="p-2">(70 / 80) = 87.5%</td>
-</tr>
-</tbody>
-</table>
-
-<div class="mt-3 text-gray-300"><strong>Report Example:</strong> Total Test Cases: 120; Passed: 110; Failed: 10; Defects Logged: 8; Defects Closed: 5.</div>
-</section>
-
-<!-- 17 -->
-
-<section id="t17" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-<h2 class="text-2xl font-bold text-indigo-300 mb-3">17. Test Management Tools</h2>
-<p class="text-gray-300 mb-2">Tools that help organize test artifacts, execution tracking, and defect management.</p>
-
-<ul class="list-disc ml-5 space-y-1 text-gray-300">
-<li><strong>JIRA:</strong> Manage user stories, tasks, and defects.</li>
-<li><strong>TestRail / Zephyr:</strong> Store and execute test cases.</li>
-<li><strong>Bugzilla:</strong> Open-source defect tracker.</li>
-</ul>
-
-<div class="mt-3 text-gray-300"><strong>Example Workflow:</strong> Create story in JIRA → Add test cases in TestRail → Execute tests and log defects back in JIRA.</div>
-</section>
-
-<!-- 18 -->
-
-<section id="t18" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-<h2 class="text-2xl font-bold text-indigo-300 mb-3">18. API Testing (Manual)</h2>
-<p class="text-gray-300 mb-2">API testing validates backend endpoints without the UI — tools like Postman are commonly used.</p>
-
-<h3 class="font-semibold text-gray-200 mb-2">Steps to Test an API</h3>
-<ol class="list-decimal ml-5 space-y-1 text-gray-300">
-<li>Understand API spec (endpoint, method, params, headers).</li>
-<li>Create test requests with valid and invalid inputs.</li>
-<li>Validate status codes, response body, headers, and performance.</li>
-<li>Log issues for incorrect behavior or error codes.</li>
-</ol>
-
-<div class="mt-3 bg-gray-900 p-3 rounded border border-gray-700 text-gray-300">
-<strong>Example (GET):</strong>
-<pre class="whitespace-pre-wrap text-sm mt-2">GET https://reqres.in/api/users/2
+                <div class="mt-3 bg-gray-900 p-3 rounded border border-gray-700 text-gray-300">
+                  <strong class="mt-3 block">Example (GET):</strong>
+                  <pre class="whitespace-pre-wrap text-sm mt-2">GET https://reqres.in/api/users/2
 
 Expected: Status = 200, response contains name = "Janet"</pre>
 
-      <strong class="mt-3 block">Example (POST):</strong>
-      <pre class="whitespace-pre-wrap text-sm mt-2">POST https://reqres.in/api/users
+                  <strong class="mt-3 block">Example (POST):</strong>
+                  <pre class="whitespace-pre-wrap text-sm mt-2">POST https://reqres.in/api/users
 
 
 Body: { "name": "John", "job": "Tester" }
 Expected: Status = 201 (Created)</pre>
-</div>
-</section>
+                </div>
+              </section>
 
-  <!-- 19 -->
-  <section id="t19" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-    <h2 class="text-2xl font-bold text-indigo-300 mb-3">19. Test Closure Activities</h2>
-    <p class="text-gray-300 mb-2">Finalize testing, archive artifacts, and gather lessons learned.</p>
+              <section id="t19" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">19. Test Closure Activities</h2>
+                <p class="text-gray-300 mb-2">Finalize testing, archive artifacts, and gather lessons learned.</p>
 
-    <h3 class="font-semibold text-gray-200 mb-2">Step-by-step Closure Checklist</h3>
-    <ol class="list-decimal ml-5 space-y-1 text-gray-300">
-      <li>Ensure all planned test cases are executed or documented as deferred.</li>
-      <li>Confirm defects are closed or properly deferred with business sign-off.</li>
-      <li>Prepare a Test Summary Report (metrics, risks, and recommendations).</li>
-      <li>Archive test artifacts (cases, data, environment details).</li>
-      <li>Conduct a lessons-learned session and update test assets.</li>
-    </ol>
+                <h3 class="font-semibold text-gray-200 mb-2">Step-by-step Closure Checklist</h3>
+                <ol class="list-decimal ml-5 space-y-1 text-gray-300">
+                  <li>Ensure all planned test cases are executed or documented as deferred.</li>
+                  <li>Confirm defects are closed or properly deferred with business sign-off.</li>
+                  <li>Prepare a Test Summary Report (metrics, risks, and recommendations).</li>
+                  <li>Archive test artifacts (cases, data, environment details).</li>
+                  <li>Conduct a lessons-learned session and update test assets.</li>
+                </ol>
 
-    <div class="mt-3 text-gray-300"><strong>Example Summary:</strong> Modules tested: 5; Total bugs: 30; Fixed: 28; Deferred: 2; UAT Signoff: Done.</div>
-  </section>
+                <div class="mt-3 text-gray-300"><strong>Example Summary:</strong> Modules tested: 5; Total bugs: 30; Fixed: 28; Deferred: 2; UAT Signoff: Done.</div>
+              </section>
 
-  <!-- 20 -->
-  <section id="t20" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-    <h2 class="text-2xl font-bold text-indigo-300 mb-3">20. Real-Life Manual Testing Example</h2>
-    <p class="text-gray-300 mb-2">Project: Online Shopping Website — sample feature checks.</p>
+              <section id="t20" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">20. Real-Life Manual Testing Example</h2>
+                <p class="text-gray-300 mb-2">Project: Online Shopping Website — sample feature checks.</p>
 
-    <table class="w-full text-left text-sm border-collapse">
-      <thead class="text-xs text-gray-200">
-        <tr>
-          <th class="p-2">Feature</th>
-          <th class="p-2">What to Test</th>
-          <th class="p-2">Example Scenario</th>
-        </tr>
-      </thead>
-      <tbody class="text-gray-300">
-        <tr class="border-t border-gray-700">
-          <td class="p-2">Login</td>
-          <td class="p-2">Valid/Invalid login</td>
-          <td class="p-2">Valid user logs in successfully</td>
-        </tr>
-        <tr class="border-t border-gray-700">
-          <td class="p-2">Search</td>
-          <td class="p-2">Product search</td>
-          <td class="p-2">Search "Laptop" → shows relevant results</td>
-        </tr>
-        <tr class="border-t border-gray-700">
-          <td class="p-2">Cart</td>
-          <td class="p-2">Add/remove items, quantity calc</td>
-          <td class="p-2">Add 2 items → verify total</td>
-        </tr>
-        <tr class="border-t border-gray-700">
-          <td class="p-2">Payment</td>
-          <td class="p-2">Payment flow & error handling</td>
-          <td class="p-2">Pay with card → success or proper error</td>
-        </tr>
-      </tbody>
-    </table>
+                <table class="w-full text-left text-sm border-collapse">
+                  <thead class="text-xs text-gray-200">
+                    <tr>
+                      <th class="p-2">Feature</th>
+                      <th class="p-2">What to Test</th>
+                      <th class="p-2">Example Scenario</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-gray-300">
+                    <tr class="border-t border-gray-700">
+                      <td class="p-2">Login</td>
+                      <td class="p-2">Valid/Invalid login</td>
+                      <td class="p-2">Valid user logs in successfully</td>
+                    </tr>
+                    <tr class="border-t border-gray-700">
+                      <td class="p-2">Search</td>
+                      <td class="p-2">Product search</td>
+                      <td class="p-2">Search "Laptop" → shows relevant results</td>
+                    </tr>
+                    <tr class="border-t border-gray-700">
+                      <td class="p-2">Cart</td>
+                      <td class="p-2">Add/remove items, quantity calc</td>
+                      <td class="p-2">Add 2 items → verify total</td>
+                    </tr>
+                    <tr class="border-t border-gray-700">
+                      <td class="p-2">Payment</td>
+                      <td class="p-2">Payment flow & error handling</td>
+                      <td class="p-2">Pay with card → success or proper error</td>
+                    </tr>
+                  </tbody>
+                </table>
 
-    <h3 class="font-semibold text-gray-200 mt-4 mb-2">Key Deliverables</h3>
-    <ul class="list-disc ml-5 space-y-1 text-gray-300">
-      <li>Test Plan (PDF)</li>
-      <li>Test Cases (spreadsheet or TestRail)</li>
-      <li>Defect Report (JIRA or Excel)</li>
-      <li>Test Summary Report</li>
-    </ul>
-  </section>
+                <h3 class="font-semibold text-gray-200 mt-4 mb-2">Key Deliverables</h3>
+                <ul class="list-disc ml-5 space-y-1 text-gray-300">
+                  <li>Test Plan (PDF)</li>
+                  <li>Test Cases (spreadsheet or TestRail)</li>
+                  <li>Defect Report (JIRA or Excel)</li>
+                  <li>Test Summary Report</li>
+                </ul>
+              </section>
 
-  <!-- 21 -->
-  <section id="t21" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-    <h2 class="text-2xl font-bold text-indigo-300 mb-3">21. Manual Testing Career Roadmap</h2>
+              <section id="t21" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">21. Manual Testing Career Roadmap</h2>
 
-    <table class="w-full text-sm text-left text-gray-300">
-      <thead class="text-xs text-gray-200">
-        <tr>
-          <th class="p-2">Level</th>
-          <th class="p-2">Focus</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="border-t border-gray-700">
-          <td class="p-2">Beginner</td>
-          <td class="p-2">Learn SDLC, STLC, test cases, basics of bugs</td>
-        </tr>
-        <tr class="border-t border-gray-700">
-          <td class="p-2">Intermediate</td>
-          <td class="p-2">Agile, JIRA, API testing basics</td>
-        </tr>
-        <tr class="border-t border-gray-700">
-          <td class="p-2">Advanced</td>
-          <td class="p-2">Risk analysis, reporting, UAT, basic SQL</td>
-        </tr>
-        <tr class="border-t border-gray-700">
-          <td class="p-2">Professional</td>
-          <td class="p-2">Manage QA teams, planning, mentoring</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
+                <table class="w-full text-sm text-left text-gray-300">
+                  <thead class="text-xs text-gray-200">
+                    <tr>
+                      <th class="p-2">Level</th>
+                      <th class="p-2">Focus</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-t border-gray-700">
+                      <td class="p-2">Beginner</td>
+                      <td class="p-2">Learn SDLC, STLC, test cases, basics of bugs</td>
+                    </tr>
+                    <tr class="border-t border-gray-700">
+                      <td class="p-2">Intermediate</td>
+                      <td class="p-2">Agile, JIRA, API testing basics</td>
+                    </tr>
+                    <tr class="border-t border-gray-700">
+                      <td class="p-2">Advanced</td>
+                      <td class="p-2">Risk analysis, reporting, UAT, basic SQL</td>
+                    </tr>
+                    <tr class="border-t border-gray-700">
+                      <td class="p-2">Professional</td>
+                      <td class="p-2">Manage QA teams, planning, mentoring</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
 
-  <!-- 22 -->
-  <section id="t22" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-    <h2 class="text-2xl font-bold text-indigo-300 mb-3">22. Practice Exercises for Learners</h2>
-    <ol class="list-decimal ml-5 space-y-2 text-gray-300">
-      <li>
-        <strong>Write 10 test cases for a login page</strong> — include valid, invalid, empty, and boundary values.
-      </li>
-      <li>
-        <strong>Perform exploratory testing</strong> on a demo site (e.g., <a href="https://demoqa.com/" target="_blank" class="text-indigo-200 hover:underline">demoqa.com</a>) — note any unexpected behavior.
-      </li>
-      <li>
-        <strong>Create a bug report</strong> for any issue you find — include summary, steps, expected, actual, severity, and priority.
-      </li>
-      <li>
-        <strong>Design a test plan</strong> for an e-commerce checkout module — include scope, test types, and risks.
-      </li>
-      <li>
-        <strong>Test REST API endpoints</strong> using Postman — validate status, payload, and error handling.
-      </li>
-    </ol>
-  </section>
+              <section id="t22" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">22. Practice Exercises for Learners</h2>
+                <ol class="list-decimal ml-5 space-y-2 text-gray-300">
+                  <li>
+                    <strong>Write 10 test cases for a login page</strong> — include valid, invalid, empty, and boundary values.
+                  </li>
+                  <li>
+                    <strong>Perform exploratory testing</strong> on a demo site (e.g., <a href="https://demoqa.com/" target="_blank" class="text-indigo-200 hover:underline">demoqa.com</a>) — note any unexpected behavior.
+                  </li>
+                  <li>
+                    <strong>Create a bug report</strong> for any issue you find — include summary, steps, expected, actual, severity, and priority.
+                  </li>
+                  <li>
+                    <strong>Design a test plan</strong> for an e-commerce checkout module — include scope, test types, and risks.
+                  </li>
+                  <li>
+                    <strong>Test REST API endpoints</strong> using Postman — validate status, payload, and error handling.
+                  </li>
+                </ol>
+              </section>
 
-  <!-- 23 -->
-  <section id="t23" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-    <h2 class="text-2xl font-bold text-indigo-300 mb-3">23. Summary</h2>
-    <p class="text-gray-300">Manual testing is a foundational skill for QA professionals. It builds domain understanding, sharpens user-focused thinking, and complements automation by catching issues that automated tests may miss.</p>
+              <section id="t23" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">23. Summary</h2>
+                <p class="text-gray-300">Manual testing is a foundational skill for QA professionals. It builds domain understanding, sharpens user-focused thinking, and complements automation by catching issues that automated tests may miss.</p>
 
-    <div class="mt-4 text-gray-300">
-      <strong>Final note:</strong> Practice writing clear test cases, reporting concise bugs, and collaborating with developers — these skills scale your impact as a QA professional.
-    </div>
-  </section>
+                <div class="mt-4 text-gray-300">
+                  <strong>Final note:</strong> Practice writing clear test cases, reporting concise bugs, and collaborating with developers — these skills scale your impact as a QA professional.
+                </div>
+              </section>
 
-  <!-- 24 - NEW SECTION ADDED -->
-  <section id="t24" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
-    <h2 class="text-2xl font-bold text-indigo-300 mb-3">24. Interview Questions & Resources</h2>
-    <p class="text-gray-300 mb-2">Use these resources to prepare for interviews and validate your core knowledge.</p>
+              <section id="t24" class="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h2 class="text-2xl font-bold text-primary-accent mb-3">24. Interview Questions & Resources</h2>
+                <p class="text-gray-300 mb-2">Use these resources to prepare for interviews and validate your core knowledge.</p>
 
-    <h3 class="font-semibold text-gray-200 mt-4 mb-2">Key Interview Prep Resource</h3>
-    <ul class="list-disc ml-5 space-y-1 text-gray-300">
-      <li>
-        <a href="https://www.geeksforgeeks.org/software-testing/manual-testing-interview-questions/" target="_blank" class="text-indigo-200 hover:underline">Top 50 Manual Testing Interview Questions and Answers [2025 Updated] - GeeksforGeeks</a>
-      </li>
-    </ul>
-  </section>
+                <h3 class="font-semibold text-gray-200 mt-4 mb-2">Key Interview Prep Resources</h3>
+                <ul class="list-disc ml-5 space-y-1 text-gray-300">
+                  <li><strong>ISTQB Certification:</strong> Standardized concepts for core knowledge.</li>
+                  <li><strong>Online Testing Communities:</strong> Websites and forums for real-world scenarios.</li>
+                  <li><strong>Practice Websites:</strong> Use sites like <a href="http://testing-public.s3-website-us-east-1.amazonaws.com/" target="_blank" class="text-indigo-200 hover:underline">The Sauce Demo Site</a> for test case generation.</li>
+                  </ul>
 
-  <!-- Footer -->
-  <div class="text-center text-gray-500 text-sm mt-6">
-    © 2025 QA Smart Hub — Manual Testing Guide
-  </div>
+                <h3 class="font-semibold text-gray-200 mt-4 mb-2">Top 5 Interview Questions</h3>
+                <ol class="list-decimal ml-5 space-y-2 text-gray-300">
+                  <li>Explain the difference between <strong>Severity</strong> and <strong>Priority</strong>. (Key: Severity is impact, Priority is urgency).</li>
+                  <li>Walk me through the <strong>Defect Life Cycle</strong>. (Key: New -> Assigned -> Fixed -> Retest -> Closed/Reopen).</li>
+                  <li>What is <strong>Regression Testing</strong> and why is it important? (Key: Re-verification after change to prevent breaks).</li>
+                  <li>How do you perform <strong>Boundary Value Analysis</strong> for an input field? (Key: Test min, max, min-1, max+1).</li>
+                  <li>Describe your approach to <strong>Exploratory Testing</strong>. (Key: Ad-hoc, concurrent learning and design, not script-based).</li>
+                </ol>
+              </section>
 
-</main>
+            </main>
+        </div>
+<!-- ============================= -->
+<!-- JavaScript for Buttons & Nav -->
+<!-- ============================= -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const backButton = document.getElementById("back-button");
+  const menuToggle = document.getElementById("menu-toggle");
+  const floatingNav = document.getElementById("floating-nav");
+  let isNavOpen = false;
 
+  // Back Button
+  backButton.addEventListener("click", () => {
+    if (window.history.length > 1) window.history.back();
+    else alert("No previous page available.");
+  });
 
-</div>
-</div>
+  // Toggle Floating Menu
+  menuToggle.addEventListener("click", () => {
+    isNavOpen = !isNavOpen;
+    floatingNav.classList.toggle("active", isNavOpen);
+  });
+
+  // Close Menu on Outside Click
+  document.addEventListener("click", (event) => {
+    if (isNavOpen && !floatingNav.contains(event.target) && !menuToggle.contains(event.target)) {
+      floatingNav.classList.remove("active");
+      isNavOpen = false;
+    }
+  });
+
+  // Smooth Scroll Links
+  document.querySelectorAll('#floating-nav a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      floatingNav.classList.remove('active');
+      isNavOpen = false;
+    });
+  });
+});
+</script>
+
+<!--footer section-->
+<footer class="max-w-screen-2xl mx-auto mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 p-4 sm:p-8">
+  <p>&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+</footer>
+
 </body>
-
+</html>
 {% endblock %}
+

@@ -1,49 +1,139 @@
 {% extends "base.html" %}
-{% block title %}Java for Beginners | QA Smart Hub{% endblock %}
+{% block title %}Java Beginners Concepts{% endblock %}
 {% block content %}
-<html lang="en" class="h-full">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Java for Beginners | QA Smart Hub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Smooth scroll for better navigation experience */
-        html {
-            scroll-behavior: smooth;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Beginners Concepts | QA Smart Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #000;
+      color: #f3f4f6;
+      overflow-x: hidden;
+    }
+
+    /* Floating Menu */
+    #floating-nav {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      background-color: rgba(17, 24, 39, 0.97);
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 12px 10px;
+      width: 260px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      max-height: 75vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #4f46e5 #1f2937;
+    }
+
+    #floating-nav.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    #floating-nav h3 {
+      font-weight: 700;
+      color: #818cf8;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #4f46e5;
+      padding-bottom: 4px;
+    }
+
+    #floating-nav a {
+      display: block;
+      color: #d1d5db;
+      padding: 6px 8px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    #floating-nav a:hover {
+      background-color: #4f46e5;
+      color: #fff;
+    }
+
+    /* Code blocks */
+    pre {
+      background-color: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      overflow-x: auto;
+      color: #d1d5db;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Scrollbars */
+    #floating-nav::-webkit-scrollbar { width: 8px; }
+    #floating-nav::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 10px; }
+    #floating-nav::-webkit-scrollbar-track { background: #1f2937; border-radius: 10px; }
+  </style>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen font-sans">
 
-    <!-- Removed <header> block and moved content into <main> -->
+<body class="bg-black text-gray-200">
 
-    <main class="max-w-5xl mx-auto px-4 py-10 space-y-12">
+  <!-- Floating Buttons -->
+  <div class="fixed top-20 left-6 flex items-center gap-3 z-50">
+    <!-- Back Button -->
+    <button id="back-button"
+      class="w-12 h-12 bg-gray-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-600 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+      </svg>
+    </button>
 
-        <!-- REMOVED: Title section and Navigation Menu as requested -->
+    <!-- Menu Toggle Button -->
+    <button id="menu-toggle"
+      class="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-700 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
 
-        <!-- NEW: Table of Contents (TOC) for easy navigation -->
-        <div class="bg-gray-800 p-6 rounded-xl shadow-lg border border-blue-600/50">
-            <h2 class="text-3xl font-extrabold text-blue-400 mb-4 tracking-wider border-b border-blue-400/30 pb-2">Course Navigation</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
-                <a href="#intro" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50">1. Introduction to Java</a>
-                <a href="#syntax_datatypes" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50">2. Java Syntax and Data Types</a>
-                <a href="#operators" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50">3. Operators in Java</a>
-                <a href="#control_statements" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50">4. Control Statements</a>
-                <a href="#loops" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50">5. Loops in Java</a>
-                <a href="#arrays_basic" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50">6. Arrays in Java</a>
-                <a href="#strings_basic" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50">7. Strings in Java</a>
-                <a href="#methods_basic" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50">8. Methods in Java</a>
-                <a href="#classes_objects" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50">9. Classes and Objects</a>
-                <a href="#constructors" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50">10. Constructors</a>
-                <a href="#this_keyword" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50">11. The <code>this</code> Keyword</a>
-                <a href="#static_members" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50">12. Static Members</a>
-                <a href="#access_encapsulation" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50">13. Access Modifiers & Encapsulation</a>
-                <a href="#oops-intro" class="hover:text-yellow-400 transition duration-150 p-2 rounded-md hover:bg-gray-700/50 col-span-1 md:col-span-2 lg:col-span-3">Introduction to Object-Oriented Programming (OOPs)</a>
-            </div>
-        </div>
+  <!-- Floating Quick Navigation -->
+  <div id="floating-nav">
+    <h3>Java Beginners Topics</h3>
+    <a href="#intro">1. Introduction to Java</a>
+    <a href="#syntax_datatypes">2. Syntax and Data Types</a>
+    <a href="#operators">3. Operators</a>
+    <a href="#control_statements">4. Control Statements</a>
+    <a href="#loops">5. Loops</a>
+    <a href="#arrays_basic">6. Arrays</a>
+    <a href="#strings_basic">7. Strings</a>
+    <a href="#methods_basic">8. Methods</a>
+    <a href="#classes_objects">9. Classes and Objects</a>
+    <a href="#constructors">10. Constructors</a>
+    <a href="#this_keyword">11. This Keyword</a>
+    <a href="#static_members">12. Static Members</a>
+    <a href="#access_encapsulation">13. Access Modifiers & Encapsulation</a>
+    <a href="#oops-intro">14. OOPs Overview</a>
+  </div>
 
+  <!-- Page Header -->
+  <header class="pt-12 text-center">
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-white">Java Beginners Concepts</h1>
+    <p class="text-gray-400 mt-3 text-lg">Step-by-step guide to mastering Java fundamentals for QA automation and development.</p>
+  </header>
 
+    <!-- Main content area -->
+    <main class="max-w-6xl mx-auto px-4 py-10 space-y-12">
         <!-- Section 1: Introduction -->
         <section id="intro">
             <h2 class="text-3xl font-semibold text-blue-400 mb-4">1. Introduction to Java</h2>
@@ -545,7 +635,7 @@ public class ThisKeywordExample {
                 They can be accessed directly using the class name.
             </p>
 
-            <h3 class="text-2xl font-semibold text-blue-300">💻 Example: Static Variables and Methods</h3>
+            <h3 class="text-2xl font-semibold text-blue-300 mt-6 mb-2">💻 Example: Static Variables and Methods</h3>
             <pre class="bg-gray-800 p-4 rounded-lg overflow-x-auto">
 <code class="language-java">
 class Counter {
@@ -629,26 +719,25 @@ public class EncapsulationExample {
         </section>
 
 
-        <!-- REMOVED: Redundant Array, Strings, and Methods sections (as they were already covered by numbered sections 6, 7, and 8) -->
+        <!-- OOPs Summary Block -->
+        <section id="oops-intro" class="p-6 bg-gray-800 rounded-xl mb-6 border border-yellow-400/30">
+            <h2 class="text-3xl font-bold text-yellow-400 mb-4">Introduction to Object-Oriented Programming (OOPs)</h2>
+            <p class="text-gray-300 mb-4">
+                Java is an <strong>Object-Oriented Programming Language</strong>.
+                OOPs concepts help organize code into objects and classes, improving maintainability and reusability.
+            </p>
 
-<section id="oops-intro" class="p-6 bg-gray-800 rounded-xl mb-6 border border-yellow-400/30">
-    <h2 class="text-3xl font-bold text-yellow-400 mb-4">Introduction to Object-Oriented Programming (OOPs)</h2>
-    <p class="text-gray-300 mb-4">
-        Java is an <strong>Object-Oriented Programming Language</strong>.
-        OOPs concepts help organize code into objects and classes, improving maintainability and reusability.
-    </p>
+            <ul class="list-disc text-gray-300 ml-6">
+                <li><strong>Class:</strong> Blueprint for creating objects.</li>
+                <li><strong>Object:</strong> Instance of a class.</li>
+                <li><strong>Encapsulation:</strong> Binding data and methods together.</li>
+                <li><strong>Inheritance:</strong> Acquiring properties of another class.</li>
+                <li><strong>Polymorphism:</strong> One interface, multiple implementations.</li>
+                <li><strong>Abstraction:</strong> Hiding internal details and showing essential features.</li>
+            </ul>
 
-    <ul class="list-disc text-gray-300 ml-6">
-        <li><strong>Class:</strong> Blueprint for creating objects.</li>
-        <li><strong>Object:</strong> Instance of a class.</li>
-        <li><strong>Encapsulation:</strong> Binding data and methods together.</li>
-        <li><strong>Inheritance:</strong> Acquiring properties of another class.</li>
-        <li><strong>Polymorphism:</strong> One interface, multiple implementations.</li>
-        <li><strong>Abstraction:</strong> Hiding internal details and showing essential features.</li>
-    </ul>
-
-    <h3 class="text-2xl text-green-400 mt-4 mb-2">Example: Simple Class and Object</h3>
-    <pre class="bg-black text-white p-4 rounded-lg">
+            <h3 class="text-2xl text-green-400 mt-4 mb-2">Example: Simple Class and Object</h3>
+            <pre class="bg-black text-white p-4 rounded-lg">
 class Car {
     String brand = "Tesla";
     int year = 2023;
@@ -665,15 +754,55 @@ public class Main {
         myCar.startEngine();
     }
 }
-    </pre>
-</section>
-
-<!-- NEXT CONTINUATION: Will include Constructors, Inheritance, Polymorphism, Encapsulation, and Abstraction -->
+            </pre>
+        </section>
     </main>
 
-    <footer class="bg-gray-800 text-center py-4 mt-10 text-gray-400 text-sm">
-        © 2025 QA Smart Hub | Java Learning Series
-    </footer>
+  <!-- Footer -->
+  <footer class="max-w-screen-2xl mx-auto mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 p-4 sm:p-8">
+    <p>&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+  </footer>
+
+  <!-- JS for Buttons & Smooth Scroll -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const backButton = document.getElementById("back-button");
+    const menuToggle = document.getElementById("menu-toggle");
+    const floatingNav = document.getElementById("floating-nav");
+    let isNavOpen = false;
+
+    // Back Button
+    backButton.addEventListener("click", () => {
+      if (window.history.length > 1) window.history.back();
+      else alert("No previous page available.");
+    });
+
+    // Toggle Menu
+    menuToggle.addEventListener("click", () => {
+      isNavOpen = !isNavOpen;
+      floatingNav.classList.toggle("active", isNavOpen);
+    });
+
+    // Close Menu on Outside Click
+    document.addEventListener("click", (event) => {
+      if (isNavOpen && !floatingNav.contains(event.target) && !menuToggle.contains(event.target)) {
+        floatingNav.classList.remove("active");
+        isNavOpen = false;
+      }
+    });
+
+    // Smooth Scroll for Links
+    document.querySelectorAll('#floating-nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+        floatingNav.classList.remove('active');
+        isNavOpen = false;
+      });
+    });
+  });
+  </script>
+
 </body>
 </html>
 {% endblock %}

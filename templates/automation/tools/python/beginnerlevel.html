@@ -1,33 +1,153 @@
 {% extends "base.html" %}
-{% block title %}Python for Beginners{% endblock %}
-{% block extra_head %}
+{% block title %}Python For Beginners{% endblock %}
+{% block content %}
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python for Beginners</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python For Beginners</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #111827;
+      color: #f3f4f6;
+      overflow-x: hidden;
+    }
+
+    /* Floating Navigation Menu */
+    #floating-nav {
+      position: fixed;
+      top: 80px;
+      left: 20px;
+      background-color: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 12px 10px;
+      width: 260px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      max-height: 75vh;               /* limit height */
+      overflow-y: auto;               /* enable scrolling */
+      scrollbar-width: thin;          /* Firefox scrollbar */
+      scrollbar-color: #4f46e5 #1f2937;
+    }
+
+    #floating-nav.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    #floating-nav h3 {
+      font-weight: 600;
+      color: #818cf8;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #374151;
+      padding-bottom: 4px;
+      position: sticky;
+      top: 0;
+      background-color: rgba(17,24,39,0.95);
+      z-index: 5;
+    }
+
+    #floating-nav a {
+      display: block;
+      color: #d1d5db;
+      padding: 6px 8px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    #floating-nav a:hover {
+      background-color: #4f46e5;
+      color: #fff;
+    }
+
+    /* Chrome / Edge scrollbar styling */
+    #floating-nav::-webkit-scrollbar {
+      width: 8px;
+    }
+    #floating-nav::-webkit-scrollbar-track {
+      background: #1f2937;
+      border-radius: 10px;
+    }
+    #floating-nav::-webkit-scrollbar-thumb {
+      background-color: #4f46e5;
+      border-radius: 10px;
+    }
+    #floating-nav::-webkit-scrollbar-thumb:hover {
+      background-color: #6366f1;
+    }
+  </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans">
+
+<body class="min-h-screen">
+
+<!-- ============================= -->
+<!-- Floating Top Buttons -->
+<!-- ============================= -->
+<div class="fixed top-18 left-6 flex items-center gap-3 z-50">
+  <!-- Back Button -->
+  <button id="back-button"
+    class="w-12 h-12 bg-gray-700 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-600 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  <!-- Toggle Menu Button -->
+  <button id="menu-toggle"
+    class="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-700 transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+</div>
 
 <!-- ======================
-    NAVIGATION SIDEBAR
+    FLOATING NAV MENU
 ====================== -->
-<div class="flex">
-    <nav class="w-64 bg-gray-800 p-6 h-screen sticky top-0">
-        <h1 class="text-2xl font-bold text-blue-400 mb-6">Python Basics</h1>
-        <ul class="space-y-3 text-gray-300">
-            <li><a href="#introduction" class="hover:text-blue-400">Introduction to Python</a></li>
-            <li><a href="#setup" class="hover:text-blue-400">Setting Up Environment</a></li>
-            <li><a href="#syntax" class="hover:text-blue-400">Python Syntax</a></li>
-            <li><a href="#variables" class="hover:text-blue-400">Variables</a></li>
-            <li><a href="#datatypes" class="hover:text-blue-400">Data Types</a></li>
-            <li><a href="#typecasting" class="hover:text-blue-400">Type Casting</a></li>
-            <li><a href="#operators" class="hover:text-blue-400">Operators</a></li>
-        </ul>
-    </nav>
-{% endblock %}
-{% block content %}
-    <main class="flex-1 p-10 overflow-y-auto">
+<div id="floating-nav">
+    <h3>Quick Navigation</h3>
+    <a href="#introduction">Introduction to Python</a>
+    <a href="#setup">Setting Up Environment</a>
+    <a href="#syntax">Python Syntax</a>
+    <a href="#variables">Variables</a>
+    <a href="#datatypes">Data Types</a>
+    <a href="#typecasting">Type Casting</a>
+    <a href="#operators">Operators</a>
+    <a href="#control-flow">Control Flow</a>
+    <a href="#loops">Loops</a>
+    <a href="#functions">Functions</a>
+    <a href="#lists">Lists</a>
+    <a href="#tuples">Tuples</a>
+    <a href="#dictionaries">Dictionaries</a>
+    <a href="#strings">Strings</a>
+    <a href="#sets">Sets</a>
+    <a href="#input-output">Input & Output</a>
+    <a href="#exceptions">Exception Handling</a>
+    <a href="#conclusion">Conclusion</a>
+</div>
+
+<!-- ======================
+    PAGE LAYOUT
+====================== -->
+<div class="flex h-screen">
+
+
+    <main class="flex-1 p-8 overflow-y-auto">
+        <section id="functions" class="mt-12">
+           <h1 class="text-5xl font-extrabold text-blue-400 mb-4">Python For Beginners</h1>
 
         <!-- ======================
              INTRODUCTION TO PYTHON
@@ -767,11 +887,56 @@ finally:
 </section>
         <!-- NEXT CONTINUATION: Will include Constructors, Inheritance, Polymorphism, Encapsulation, and Abstraction -->
     </main>
+</div>
 
-    <footer class="bg-gray-800 text-center py-4 mt-10 text-gray-400 text-sm">
-        © 2025 QA Smart Hub | Java Learning Series
-    </footer>
+<!-- ============================= -->
+<!-- JavaScript for Buttons & Nav -->
+<!-- ============================= -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const backButton = document.getElementById("back-button");
+  const menuToggle = document.getElementById("menu-toggle");
+  const floatingNav = document.getElementById("floating-nav");
+  let isNavOpen = false;
+
+  // Back Button
+  backButton.addEventListener("click", () => {
+    if (window.history.length > 1) window.history.back();
+    else alert("No previous page available.");
+  });
+
+  // Toggle Floating Menu
+  menuToggle.addEventListener("click", () => {
+    isNavOpen = !isNavOpen;
+    floatingNav.classList.toggle("active", isNavOpen);
+  });
+
+  // Close Menu on Outside Click
+  document.addEventListener("click", (event) => {
+    if (isNavOpen && !floatingNav.contains(event.target) && !menuToggle.contains(event.target)) {
+      floatingNav.classList.remove("active");
+      isNavOpen = false;
+    }
+  });
+
+  // Smooth Scroll Links
+  document.querySelectorAll('#floating-nav a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      floatingNav.classList.remove('active');
+      isNavOpen = false;
+    });
+  });
+});
+</script>
+
+<!--footer section-->
+<footer class="max-w-screen-2xl mx-auto mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 p-4 sm:p-8">
+  <p>&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+</footer>
+
 </body>
+</html>
 {% endblock %}
-
 

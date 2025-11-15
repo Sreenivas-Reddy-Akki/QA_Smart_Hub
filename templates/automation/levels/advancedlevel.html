@@ -1,14 +1,11 @@
 {% extends "base.html" %}
-
-{% block title %}Automation Testing Master Plan{% endblock %}
-
+{% block title %}Automation Advanced Reference{% endblock %}
 {% block content %}
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Advanced Selenium Automation Reference</title>
+  <title>Automation Advanced Reference</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
 
@@ -28,9 +25,9 @@
       line-height: 1.6;
     }
 
-    /* Layout Structure (Flex for Main + Sidebar) */
+    /* Layout Structure */
     .layout {
-      display: flex;
+      display: block;
       min-height: 100vh;
       overflow: hidden;
     }
@@ -40,17 +37,25 @@
       flex-grow: 1;
       overflow-y: auto;
       background: #000;
-      padding: 2.5rem; /* Increased padding */
-      transition: all 0.3s ease-in-out;
-      margin-left: 0;
-      width: 100%; /* Default mobile width */
+      padding: 2.5rem;
+      width: 100%;
+      box-sizing: border-box;
+      /* Adjusted padding to clear the fixed top-left buttons (Menu Toggle + Back Button) */
+      padding-top: 3rem; /* Reflects top-20 positioning of fixed controls */
     }
 
-    /* ===== Sidebar Styles (Navigation) ===== */
+    /* CRITICAL FIX: Add margin when scrolling to anchor targets */
+    article[id] {
+        scroll-margin-top: 50px;
+    }
+
+
+    /* ===== Sidebar Styles (Navigation - Full Overlay) ===== */
     #sidebar {
       background: #111827; /* Darker navy, complements black */
       color: #fff;
-      width: 18rem; /* Wider sidebar for desktop */
+      width: 18rem; /* Desktop width for overlay */
+      max-width: 90vw; /* Responsive limit for smaller screens */
       padding: 1.5rem;
       overflow-y: auto;
       transition: transform 0.3s ease-in-out;
@@ -58,12 +63,20 @@
       height: 100%;
       left: 0;
       top: 0;
-      z-index: 40;
+      z-index: 50; /* Higher z-index to overlay content and toggle button */
+
+      /* Universally hidden by default (MOBILE AND DESKTOP) */
+      transform: translateX(-100%);
+      box-shadow: 2px 0 15px rgba(0,0,0,0.6);
+    }
+
+    #sidebar.visible {
+      transform: translateX(0); /* Slides into view */
     }
 
     #sidebar a {
       display: block;
-      padding: 0.75rem 1rem; /* Slightly larger targets */
+      padding: 0.75rem 1rem;
       border-radius: 0.5rem;
       transition: background 0.2s;
       color: #9ca3af;
@@ -85,18 +98,9 @@
       box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
     }
 
-    /* Responsive Sidebar (Mobile) */
-    #sidebar {
-      transform: translateX(-100%);
-    }
-
-    #sidebar.visible {
-      transform: translateX(0);
-      box-shadow: 2px 0 15px rgba(0,0,0,0.6);
-    }
-
-    .sidebar-toggle {
-      background: #111827;
+    /* ===== Fixed Button Styling (Applied to both Back and Menu Toggle) ===== */
+    .fixed-control-btn {
+      background: #2563eb;
       color: #fff;
       border: none;
       border-radius: 0.5rem;
@@ -106,54 +110,69 @@
       align-items: center;
       justify-content: center;
       transition: background 0.2s;
-      z-index: 50;
-      position: sticky;
-      top: 1rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    }
+    .fixed-control-btn:hover {
+        background: #1d4ed8;
+    }
+
+    /* Scroll-to-Top (Back) Button Styling - Kept bottom-left */
+    #backToTopBtn {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      right: auto;
+      background-color: #4f46e5; /* Different color for distinction */
+      color: #ffffff;
+      padding: 0.75rem 1.25rem;
+      border-radius: 9999px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      z-index: 30;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out, transform 0.2s ease;
+      transform: scale(0.95);
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    #backToTopBtn.show {
+        opacity: 1;
+        transform: scale(1);
+    }
+    #backToTopBtn:hover {
+        background-color: #4338ca;
     }
 
     .card-title {
-        color: #60a5fa; /* A brighter blue for primary headings */
+        color: #60a5fa;
     }
 
-    /* Desktop View Adjustments */
-    @media (min-width: 1024px) {
-      #sidebar {
-        position: fixed;
-        transform: none !important;
-      }
-      main {
-        margin-left: 18rem; /* Match sidebar width */
-      }
-      .sidebar-toggle {
-        display: none;
-      }
-    }
-
-    /* ===== Content Cards and Code Styling (Reference Style) ===== */
+    /* Content Cards and Code Styling */
     .content-card {
-        background-color: #1a1a1a; /* Dark gray background */
-        border: 1px solid #374151; /* Subtle border */
+        background-color: #1a1a1a;
+        border: 1px solid #374151;
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
     }
 
     .hover-glow:hover {
-        border-color: #2563eb; /* Blue border on hover */
+        border-color: #2563eb;
         box-shadow: 0 15px 30px rgba(37, 99, 235, 0.2);
         transform: translateY(-4px);
     }
 
     .code-block {
         font-family: 'Consolas', 'Monaco', monospace;
-        background-color: #0f172a; /* Even darker, slate color for code */
-        color: #d1fa17; /* Vibrant lime green for code text */
+        background-color: #0f172a;
+        color: #d1fa17;
         border-radius: 0.5rem;
         padding: 1.25rem;
         overflow-x: auto;
         font-size: 0.875rem;
         line-height: 1.4;
-        border-left: 4px solid #3b82f6; /* Blue left marker */
+        border-left: 4px solid #3b82f6;
     }
 
     .code-language {
@@ -180,9 +199,30 @@
 </head>
 
 <body>
+
+  <!-- FIXED TOP-LEFT CONTROL GROUP (Position: top-20) -->
+  <div class="fixed top-20 left-4 z-50 flex space-x-3">
+    <!-- New History Back Button -->
+    <button id="historyBackBtn" class="fixed-control-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clip-rule="evenodd" />
+        </svg>
+        Back
+    </button>
+
+    <!-- Sidebar Toggle (Now part of the left-side control group) -->
+    <button id="sidebarToggle" class="fixed-control-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <!-- Icon will change in JS when opened/closed -->
+            <path fill-rule="evenodd" id="menuIcon" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+        </svg>
+        <span class="inline">Menu</span>
+    </button>
+  </div>
+
   <div class="layout">
 
-    <!-- Sidebar Navigation -->
+    <!-- Sidebar Navigation (Hidden by default, slides in as overlay) -->
     <aside id="sidebar">
       <div class="mb-8">
         <h1 class="text-3xl font-extrabold text-blue-400 tracking-tight">
@@ -193,25 +233,25 @@
 
       <nav class="space-y-2 text-sm">
         <div class="text-xs font-bold uppercase text-gray-500 mb-2">Core Architectures</div>
-        <a href="#topic1">1. ⚙️ Selenium Grid</a>
-        <a href="#topic2">2. ☁️ Cloud Testing</a>
-        <a href="#topic3">3. 🧱 Hybrid Framework</a>
-        <a href="#topic4">4. 🧪 BDD (Gherkin)</a>
+        <a href="#topic1">1. Selenium Grid</a>
+        <a href="#topic2">2. Cloud Testing</a>
+        <a href="#topic3">3. Hybrid Framework</a>
+        <a href="#topic4">4. BDD (Gherkin)</a>
 
         <div class="text-xs font-bold uppercase text-gray-500 mt-5 mb-2 border-t border-gray-700 pt-3">Enterprise Integration</div>
-        <a href="#topic5">5. 🧰 CI/CD with Jenkins</a>
-        <a href="#topic6">6. 🧩 Parallel Execution</a>
-        <a href="#topic7">7. 📊 Advanced Reporting</a>
-        <a href="#topic8">8. 📦 Docker for Grid</a>
+        <a href="#topic5">5. CI/CD with Jenkins</a>
+        <a href="#topic6">6. Parallel Execution</a>
+        <a href="#topic7">7. Advanced Reporting</a>
+        <a href="#topic8">8. Docker for Grid</a>
 
         <div class="text-xs font-bold uppercase text-gray-500 mt-5 mb-2 border-t border-gray-700 pt-3">Advanced Techniques</div>
-        <a href="#topic9">9. 🔒 Secure Data</a>
-        <a href="#topic10">10. 🧠 Exception Handling</a>
-        <a href="#topic11">11. 🔍 API & DB Integration</a>
-        <a href="#topic12">12. ⚡ Performance Testing</a>
-        <a href="#topic13">13. 🤖 AI/Visual Testing</a>
-        <a href="#topic14">14. 🧩 Best Practices</a>
-        <a href="#topic15">15. 🎯 Interview Topics</a>
+        <a href="#topic9">9. Secure Data</a>
+        <a href="#topic10">10. Exception Handling</a>
+        <a href="#topic11">11. API & DB Integration</a>
+        <a href="#topic12">12. Performance Testing</a>
+        <a href="#topic13">13. AI/Visual Testing</a>
+        <a href="#topic14">14. Best Practices</a>
+        <a href="#topic15">15. Interview Topics</a>
       </nav>
 
       <div class="mt-12 border-t border-gray-700 pt-4 text-xs text-gray-500">
@@ -220,44 +260,36 @@
     </aside>
 
     <!-- Main Content Area -->
-    <main id="main-content">
-
-      <!-- Mobile Sidebar Toggle -->
-      <button id="sidebarToggle" class="sidebar-toggle mb-8 lg:mb-12">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-        </svg>
-        Menu
-      </button>
+    <main id="main-content" class="main-content-padding">
 
       <!-- Main Header -->
       <header class="mb-12">
         <h2 class="text-5xl font-extrabold text-blue-400 tracking-tight">Advanced Selenium Mastery</h2>
         <p class="text-gray-400 mt-3 text-xl">
-          A deep dive into **scalable architecture**, performance, and enterprise-level testing.
+          A deep dive into <strong>scalable architecture</strong>, performance, and enterprise-level testing.
         </p>
       </header>
 
       <!-- Introduction Card -->
       <section class="content-card rounded-xl shadow-2xl p-8 fade-in appear border-l-8 border-blue-600">
         <h3 class="text-3xl font-bold mb-3 text-blue-400 flex items-center">
-          <span class="mr-3 text-blue-600">🚀</span> The Automation Architect's Guide
+          The Automation Architect's Guide
         </h3>
         <p class="text-gray-300 leading-relaxed">
-          Welcome to the advanced level. To excel as a **QA Automation Engineer** today, you must master more than just writing selectors. This guide focuses on **scalability**, **continuous integration**, **secure data handling**, and building highly **maintainable, resilient frameworks** capable of handling massive test suites and CI/CD pipelines.
+          Welcome to the advanced level. To excel as a <strong>QA Automation Engineer</strong> today, you must master more than just writing selectors. This guide focuses on <strong>scalability</strong>, <strong>continuous integration</strong>, <strong>secure data handling</strong>, and building highly <strong>maintainable, resilient frameworks</strong> capable of handling massive test suites and CI/CD pipelines.
         </p>
       </section>
 
       <!-- TOPIC 1 -->
       <article id="topic1" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">1. ⚙️ Selenium Grid – Distributed Execution</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">1. Selenium Grid – Distributed Execution</h3>
         <p class="text-gray-300 mb-4">
-          **Selenium Grid** enables test distribution across multiple machines (**Nodes**) managed by a central **Hub**. This massively reduces test suite execution time by facilitating true parallel testing on different browsers and OS combinations.
+          <strong>Selenium Grid</strong> enables test distribution across multiple machines (<strong>Nodes</strong>) managed by a central <strong>Hub</strong>. This massively reduces test suite execution time by facilitating true parallel testing on different browsers and OS combinations.
         </p>
         <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
-          <li>Understanding the **Hub-Node Architecture**.</li>
-          <li>Configuring **Desired Capabilities** for remote execution.</li>
-          <li>Scaling tests efficiently using **Dockerized Grid**.</li>
+          <li>Understanding the <strong>Hub-Node Architecture</strong>.</li>
+          <li>Configuring <strong>Desired Capabilities</strong> for remote execution.</li>
+          <li>Scaling tests efficiently using <strong>Dockerized Grid</strong>.</li>
         </ul>
 
         <div class="grid md:grid-cols-2 gap-4 mt-6">
@@ -300,7 +332,7 @@ public class GridTest {
         );
         driver.get("https://example.com");
         System.out.println(driver.getTitle());
-        driver.quit();
+        driver.quit()
     }
 }
 </pre>
@@ -310,14 +342,14 @@ public class GridTest {
 
       <!-- TOPIC 2 -->
       <article id="topic2" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">2. ☁️ Cloud-Based Testing (BrowserStack / Sauce Labs)</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">2. Cloud Testing (BrowserStack / Sauce Labs)</h3>
         <p class="text-gray-300 mb-4">
-          Cloud platforms **externalize infrastructure maintenance** by providing instant access to a vast matrix of real browsers and mobile devices. This guarantees **cross-browser coverage** without managing your own grid.
+          Cloud platforms <strong>externalize infrastructure maintenance</strong> by providing instant access to a vast matrix of real browsers and mobile devices. This guarantees <strong>cross-browser coverage</strong> without managing your own grid.
         </p>
         <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
           <li>Advantages over maintaining a local Grid.</li>
           <li>Configuring capabilities for specific cloud providers (e.g., BrowserStack capabilities).</li>
-          <li>Using **Tunneling** for testing internal/staging environments.</li>
+          <li>Using <strong>Tunneling</strong> for testing internal/staging environments.</li>
         </ul>
 
         <div class="code-block">
@@ -351,15 +383,15 @@ driver.quit()
 
       <!-- TOPIC 3 -->
       <article id="topic3" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">3. 🧱 Hybrid Framework Development</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">3. Hybrid Framework Development</h3>
         <p class="text-gray-300 mb-4">
-          The **Hybrid Framework** is the industry-standard architecture, combining the best features of:
-          1.  **Page Object Model (POM):** For code structure and element abstraction.
-          2.  **Data-Driven Testing (DDT):** Separating test input from logic.
-          3.  **Keyword-Driven Testing (KDT):** Reusable action keywords.
+          The <strong>Hybrid Framework</strong> is the industry-standard architecture, combining the best features of:
+          1.  <strong>Page Object Model (POM):</strong> For code structure and element abstraction.
+          2.  <strong>Data-Driven Testing (DDT):</strong> Separating test input from logic.
+          3.  <strong>Keyword-Driven Testing (KDT):</strong> Reusable action keywords.
         </p>
         <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
-          <li>Prioritizing **reusability** and **low maintenance cost**.</li>
+          <li>Prioritizing <strong>reusability</strong> and <strong>low maintenance cost</strong>.</li>
           <li>Centralizing configuration and reporting utilities.</li>
         </ul>
 
@@ -378,9 +410,9 @@ automation_framework/
 
       <!-- TOPIC 4 -->
       <article id="topic4" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">4. 🧪 Behavior Driven Development (BDD)</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">4. BDD (Gherkin)</h3>
         <p class="text-gray-300 mb-4">
-          **BDD** (using tools like Behave, Cucumber, or SpecFlow) shifts focus from technical implementation to business value. Tests are written in the **Gherkin** language (Given-When-Then), fostering collaboration across product, QA, and development teams.
+          <strong>BDD</strong> (using tools like Behave, Cucumber, or SpecFlow) shifts focus from technical implementation to business value. Tests are written in the <strong>Gherkin</strong> language (Given-When-Then), fostering collaboration across product, QA, and development teams.
         </p>
 
         <div class="grid md:grid-cols-2 gap-4 mt-6">
@@ -432,12 +464,12 @@ public void redirected_to_login() {
 
       <!-- TOPIC 5 -->
       <article id="topic5" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">5. 🧰 Continuous Integration (CI/CD) with Jenkins</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">5. CI/CD with Jenkins</h3>
         <p class="text-gray-300 mb-4">
-          **CI/CD** pipelines automate the testing process, triggering the Selenium suite automatically upon every code change. **Jenkins** (or GitLab CI, Azure DevOps) ensures rapid feedback, which is critical for **DevOps** practices.
+          <strong>CI/CD</strong> pipelines automate the testing process, triggering the Selenium suite automatically upon every code change. <strong>Jenkins</strong> (or GitLab CI, Azure DevOps) ensures rapid feedback, which is critical for <strong>DevOps</strong> practices.
         </p>
         <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
-          <li>Configuring **headless execution** for CI environments.</li>
+          <li>Configuring <strong>headless execution</strong> for CI environments.</li>
           <li>Setting up post-build actions to publish reports (e.g., Allure).</li>
         </ul>
 
@@ -483,12 +515,12 @@ pipeline {
 
       <!-- TOPIC 6 -->
       <article id="topic6" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">6. 🧩 Parallel Test Execution</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">6. Parallel Test Execution</h3>
         <p class="text-gray-300 mb-4">
           Beyond a standard Grid, efficient parallel execution requires framework integration:
-          1.  **Process-Based:** Uses tools like `pytest-xdist` to fork processes (Python).
-          2.  **Thread-Based:** Uses TestNG (Java) or Pytest fixtures for setup/teardown in parallel threads.
-          **Crucial:** Tests must be **independent** (not sharing data or state) to run in parallel.
+          1.  <strong>Process-Based:</strong> Uses tools like <code>pytest-xdist</code> to fork processes (Python).
+          2.  <strong>Thread-Based:</strong> Uses TestNG (Java) or Pytest fixtures for setup/teardown in parallel threads.
+          <strong>Crucial:</strong> Tests must be <strong>independent</strong> (not sharing data or state) to run in parallel.
         </p>
 
         <div class="grid md:grid-cols-2 gap-4 mt-6">
@@ -524,13 +556,13 @@ pytest -n auto --dist loadscope
 
       <!-- TOPIC 7 -->
       <article id="topic7" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">7. 📊 Advanced Reporting & Logging</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">7. Advanced Reporting & Logging</h3>
         <p class="text-gray-300 mb-4">
-          A professional report tells a story beyond pass/fail. **Allure Reports** (or Extent Reports) provides clear visualizations, execution trends, and crucial debug information (screenshots, logs, environment variables) directly tied to test steps.
+          A professional report tells a story beyond pass/fail. <strong>Allure Reports</strong> (or Extent Reports) provides clear visualizations, execution trends, and crucial debug information (screenshots, logs, environment variables) directly tied to test steps.
         </p>
         <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
-          <li>Implementing **detailed step logging** (using Allure `@step`).</li>
-          <li>Configuring log levels (`DEBUG`, `INFO`, `ERROR`) strategically.</li>
+          <li>Implementing <strong>detailed step logging</strong> (using Allure <code>@step</code>).</li>
+          <li>Configuring log levels (<code>DEBUG</code>, <code>INFO</code>, <code>ERROR</code>) strategically.</li>
         </ul>
 
         <div class="code-block">
@@ -559,13 +591,13 @@ def login(username, password):
 
       <!-- TOPIC 8 -->
       <article id="topic8" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">8. 📦 Docker for Selenium</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">8. Docker for Selenium</h3>
         <p class="text-gray-300 mb-4">
-          **Docker** is key to solving the **"works on my machine"** problem. It packages the entire execution environment (OS, browser, Grid) into portable containers, guaranteeing consistency from local development to CI/CD.
+          <strong>Docker</strong> is key to solving the <strong>"works on my machine"</strong> problem. It packages the entire execution environment (OS, browser, Grid) into portable containers, guaranteeing consistency from local development to CI/CD.
         </p>
         <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
-          <li>Creating a reproducible test environment with a **Dockerfile**.</li>
-          <li>Orchestrating the Hub and Nodes easily with **Docker Compose**.</li>
+          <li>Creating a reproducible test environment with a <strong>Dockerfile</strong>.</li>
+          <li>Orchestrating the Hub and Nodes easily with <strong>Docker Compose</strong>.</li>
         </ul>
 
         <div class="code-block">
@@ -585,7 +617,6 @@ services:
     depends_on:
       - selenium-hub
     environment:
-      # Use the container name for the host connection
       - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
@@ -598,15 +629,15 @@ services:
 
       <!-- TOPIC 9 -->
       <article id="topic9" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">9. 🔒 Secure Test Data Management</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">9. Secure Test Data Management</h3>
         <p class="text-gray-300 mb-4">
           Hardcoding sensitive data (passwords, tokens, API keys) is a major security flaw. Best practice dictates using:
-          1.  **Environment Variables:** Read in runtime from the shell or CI tool.
-          2.  **Secret Managers:** Jenkins Credentials, HashiCorp Vault, AWS Secrets Manager.
+          1.  <strong>Environment Variables:</strong> Read in runtime from the shell or CI tool.
+          2.  <strong>Secret Managers:</strong> Jenkins Credentials, HashiCorp Vault, AWS Secrets Manager.
         </p>
         <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
-          <li>Using **parameterization** to mask sensitive output in logs.</li>
-          <li>Implementing **data masking** for database/log entries.</li>
+          <li>Using <strong>parameterization</strong> to mask sensitive output in logs.</li>
+          <li>Implementing <strong>data masking</strong> for database/log entries.</li>
         </ul>
 
         <div class="code-block">
@@ -631,13 +662,13 @@ if not USERNAME or not PASSWORD:
 
       <!-- TOPIC 10 -->
       <article id="topic10" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">10. 🧠 Advanced Exception Handling and Recovery Scenarios</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">10. Advanced Exception Handling and Recovery Scenarios</h3>
         <p class="text-gray-300 mb-4">
-          Resilient automation requires more than simple `try...catch` blocks. Implement **Test Recovery** to handle transient errors (e.g., StaleElementReferenceException) by refreshing the element or the page, and then retrying the operation.
+          Resilient automation requires more than simple <code>try...catch</code> blocks. Implement <strong>Test Recovery</strong> to handle transient errors (e.g., StaleElementReferenceException) by refreshing the element or the page, and then retrying the operation.
         </p>
         <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
-          <li>Using **Custom Utility Functions** to wrap flaky operations.</li>
-          <li>Implementing test retry mechanisms (e.g., `@flaky` decorators or TestNG retries).</li>
+          <li>Using <strong>Custom Utility Functions</strong> to wrap flaky operations.</li>
+          <li>Implementing test retry mechanisms (e.g., <code>@flaky</code> decorators or TestNG retries).</li>
         </ul>
 
         <div class="code-block">
@@ -653,8 +684,7 @@ def click_stale_safe(driver, locator, max_retries=3):
             return # Success
         except StaleElementReferenceException:
             if attempt < max_retries - 1:
-                # Refresh element reference or wait briefly
-                print(f"Stale element encountered. Retrying (Attempt {attempt + 2})...")
+                print(f"Stale element encountered. Retrying (Attempt {attempt + 2})....")
                 continue # Retry loop
             else:
                 raise # Re-raise if all retries fail
@@ -666,13 +696,13 @@ def click_stale_safe(driver, locator, max_retries=3):
 
       <!-- TOPIC 11 -->
       <article id="topic11" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">11. 🔍 Integration with APIs and Databases</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">11. Integration with APIs and Databases</h3>
         <p class="text-gray-300 mb-4">
-          **End-to-End (E2E)** validation means verifying the entire stack. Use APIs to **pre-condition** the test state (create a user, populate a cart) and use database queries to **post-verify** data integrity after UI actions.
+          <strong>End-to-End (E2E)</strong> validation means verifying the entire stack. Use APIs to <strong>pre-condition</strong> the test state (create a user, populate a cart) and use database queries to <strong>post-verify</strong> data integrity after UI actions.
         </p>
         <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
-          <li>Using the `requests` library (Python) for API validation.</li>
-          <li>SQL connections (e.g., `sqlite3` or `psycopg2`) for data verification.</li>
+          <li>Using the <code>requests</code> library (Python) for API validation.</li>
+          <li>SQL connections (e.g., <code>sqlite3</code> or <code>psycopg2</code>) for data verification.</li>
         </ul>
 
         <div class="code-block">
@@ -697,9 +727,9 @@ def create_test_user(data):
 
       <!-- TOPIC 12 -->
       <article id="topic12" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">12. ⚡ Performance and Load Testing (Intro)</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">12. Performance and Load Testing (Intro)</h3>
         <p class="text-gray-300 mb-4">
-          While Selenium tests one user, understanding performance is vital. Dedicated tools like **Locust** (Python), **JMeter** (Java), or **Gatling** (Scala) are used to simulate thousands of concurrent users by hitting APIs/endpoints directly.
+          While Selenium tests one user, understanding performance is vital. Dedicated tools like <strong>Locust</strong> (Python), <strong>JMeter</strong> (Java), or <strong>Gatling</strong> (Scala) are used to simulate thousands of concurrent users by hitting APIs/endpoints directly.
         </p>
         <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
           <li>Key performance indicators (KPIs): Latency, Throughput, Error Rate.</li>
@@ -730,9 +760,9 @@ class APIUser(HttpUser):
 
       <!-- TOPIC 13 -->
       <article id="topic13" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">13. 🤖 AI-Powered and Visual Testing (Modern Tools)</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">13. AI-Powered and Visual Testing (Modern Tools)</h3>
         <p class="text-gray-300 mb-4">
-          Modern testing extends beyond functional correctness to **visual integrity**. Tools like **Applitools Eyes** and **Percy.io** use advanced algorithms to detect visual regressions (layout shifts, misplaced elements) that functional tests often miss. They also introduce **self-healing locators** to reduce maintenance.
+          Modern testing extends beyond functional correctness to <strong>visual integrity</strong>. Tools like <strong>Applitools Eyes</strong> and <strong>Percy.io</strong> use advanced algorithms to detect visual regressions (layout shifts, misplaced elements) that functional tests often miss. They also introduce <strong>self-healing locators</strong> to reduce maintenance.
         </p>
         <ul class="list-disc list-inside text-sm text-gray-400 mb-4 ml-4 space-y-1">
           <li>Visual Regression Testing (VRT): Pixel-by-pixel comparison.</li>
@@ -742,22 +772,22 @@ class APIUser(HttpUser):
 
       <!-- TOPIC 14 -->
       <article id="topic14" class="content-card rounded-xl p-6 mt-8 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">14. 🧩 Best Practices for Large Projects</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">14. Best Practices for Large Projects</h3>
         <p class="text-gray-300 mb-4">
           Scalability depends on rigorous framework discipline:
         </p>
         <ul class="list-disc list-inside text-base text-gray-300 mb-4 ml-4 space-y-2">
-          <li>**WebDriver Factory Pattern:** Centralize driver initialization and teardown to ensure proper resource management in parallel runs.</li>
-          <li>**Explicit Waits Only:** Completely avoid `time.sleep()` (Python) or `Thread.sleep()` (Java) to prevent flaky tests.</li>
-          <li>**Atomic Tests:** Each test case must be independent and test one single piece of functionality.</li>
-          <li>**Locator Strategy:** Prioritize unique IDs, names, or custom `data-testid` attributes over brittle XPaths.</li>
-          <li>**DRY Principle:** Follow **Don't Repeat Yourself** by using shared utility functions and Page Objects.</li>
+          <li><strong>WebDriver Factory Pattern:</strong> Centralize driver initialization and teardown to ensure proper resource management in parallel runs.</li>
+          <li><strong>Explicit Waits Only:</strong> Completely avoid <code>time.sleep()</code> (Python) or <code>Thread.sleep()</code> (Java) to prevent flaky tests.</li>
+          <li><strong>Atomic Tests:</strong> Each test case must be independent and test one single piece of functionality.</li>
+          <li><strong>Locator Strategy:</strong> Prioritize unique IDs, names, or custom <code>data-testid</code> attributes over brittle XPaths.</li>
+          <li><strong>DRY Principle:</strong> Follow <strong>Don't Repeat Yourself</strong> by using shared utility functions and Page Objects.</li>
         </ul>
       </article>
 
       <!-- TOPIC 15 -->
       <article id="topic15" class="content-card rounded-xl p-6 mt-8 mb-12 fade-in hover-glow">
-        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">15. 🎯 Advanced Interview Topics</h3>
+        <h3 class="text-2xl font-semibold mb-3 card-title border-b border-gray-700 pb-2">15. Advanced Interview Topics</h3>
         <p class="text-gray-300 mb-4">
           Key topics that Senior QA Automation Engineers must articulate clearly in interviews.
         </p>
@@ -782,6 +812,15 @@ class APIUser(HttpUser):
           </table>
         </div>
       </article>
+
+      <!-- Scroll-to-Top (Back to Top) Button - Kept bottom left -->
+      <button id="backToTopBtn" class="focus:outline-none focus:ring-4 focus:ring-indigo-300 focus:ring-opacity-50" title="Go to top">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+        <span class="ml-2">Back to Top</span>
+      </button>
+
     </main>
   </div>
 
@@ -789,58 +828,62 @@ class APIUser(HttpUser):
 <script>
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('sidebarToggle');
+    const historyBackBtn = document.getElementById('historyBackBtn'); // New button
     const mainContent = document.getElementById('main-content');
     const sections = document.querySelectorAll('article[id]');
     const navLinks = document.querySelectorAll('#sidebar a');
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    const menuIconPath = document.getElementById('menuIcon');
+    // 'X' icon path for close state
+    const closeIconPath = "M6 18L18 6M6 6l12 12";
+    // 'Menu' icon path for open state
+    const openIconPath = "M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z";
 
-    // 1. Sidebar Visibility on Load (Desktop vs Mobile)
-    function checkSidebarVisibility() {
-        if (window.innerWidth >= 1024) {
-            sidebar.classList.remove('hidden');
-            sidebar.classList.add('visible');
-            document.body.style.overflow = 'auto';
-        } else {
-            if (!sidebar.classList.contains('visible')) {
-                sidebar.classList.remove('visible');
-                sidebar.classList.add('hidden');
-            }
-        }
-    }
-    window.addEventListener('load', checkSidebarVisibility);
-    window.addEventListener('resize', checkSidebarVisibility);
 
+    // 1. History Back Button Logic
+    historyBackBtn.addEventListener('click', () => {
+        window.history.back();
+    });
 
     // 2. Sidebar Toggle Logic
     toggleBtn.addEventListener('click', () => {
       if (sidebar.classList.contains('visible')) {
+        // Close menu
         sidebar.classList.remove('visible');
-        sidebar.classList.add('hidden');
         document.body.style.overflow = 'auto'; // Unlock body scroll
+        toggleBtn.querySelector('span').textContent = 'Menu';
+        menuIconPath.setAttribute('d', openIconPath);
       } else {
-        sidebar.classList.remove('hidden');
+        // Open menu
         sidebar.classList.add('visible');
-        document.body.style.overflow = 'hidden'; // Lock body scroll when sidebar is open
+        // Lock body scroll to prevent content behind overlay from scrolling
+        document.body.style.overflow = 'hidden';
+        toggleBtn.querySelector('span').textContent = 'Close';
+        menuIconPath.setAttribute('d', closeIconPath);
       }
     });
 
-    // 3. Close sidebar if a link is clicked on mobile
+    // 3. Close sidebar if a link is clicked
     document.querySelectorAll('#sidebar a').forEach(link => {
         link.addEventListener('click', () => {
-            if (window.innerWidth < 1024) {
+            // Wait for scroll animation to start before closing
+            setTimeout(() => {
                 sidebar.classList.remove('visible');
-                sidebar.classList.add('hidden');
                 document.body.style.overflow = 'auto';
-            }
+                toggleBtn.querySelector('span').textContent = 'Menu';
+                menuIconPath.setAttribute('d', openIconPath);
+            }, 300);
         });
     });
 
     // 4. Scroll Spy Logic (Highlight Active Link)
     function updateActiveLink() {
       let current = '';
-      const offset = 150; // Increased offset due to header and padding
+      const offset = 150; // Offset due to fixed elements/padding
 
       sections.forEach(section => {
         const sectionTop = section.offsetTop - offset;
+        // Check if the current scroll position is past the section start point
         if (mainContent.scrollTop >= sectionTop) {
           current = section.getAttribute('id');
         }
@@ -848,17 +891,39 @@ class APIUser(HttpUser):
 
       navLinks.forEach(link => {
         link.classList.remove('active');
+        // Highlight the last section scrolled past
         if (link.getAttribute('href') === '#' + current) {
           link.classList.add('active');
         }
       });
     }
 
-    mainContent.addEventListener('scroll', updateActiveLink);
-    window.addEventListener('load', updateActiveLink);
+    // 5. Scroll-to-Top (Back) Button Visibility and Functionality
+    function handleScroll() {
+      // Toggle 'show' class based on scroll position
+      if (mainContent.scrollTop > 300) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+
+      updateActiveLink();
+    }
+
+    // Smooth scroll to top when button is clicked
+    backToTopBtn.addEventListener('click', () => {
+        mainContent.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // Event listeners
+    mainContent.addEventListener('scroll', handleScroll);
+    window.addEventListener('load', handleScroll); // Initial check on load
 
 
-    // 5. Smooth Scroll
+    // 6. Smooth Scroll (Internal Anchor Links)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -866,18 +931,20 @@ class APIUser(HttpUser):
         const targetElement = document.getElementById(targetId);
 
         if (targetElement) {
-          // Adjust for the sticky toggle button/padding
-          const offsetTop = targetElement.offsetTop;
-          mainContent.scrollTo({
-            top: offsetTop - 100,
-            behavior: 'smooth'
+          // Use scrollIntoView for reliable scrolling within the custom scroll container
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
           });
+
+          // Optional: Update URL hash without causing a page jump
+          history.pushState(null, '', `#${targetId}`);
         }
       });
     });
 
 
-    // 6. Fade-in Animation on Scroll (Intersection Observer)
+    // 7. Fade-in Animation on Scroll (Intersection Observer)
     const faders = document.querySelectorAll('.fade-in');
     const appearOptions = {
       threshold: 0.1,
@@ -899,6 +966,11 @@ class APIUser(HttpUser):
       }
     });
   </script>
+
+<!--  footer section-->
+  <footer class="max-w-screen-2xl mx-auto mt-12 pt-6 border-t border-gray-700 text-center text-gray-400 p-4 sm:p-8">
+      <p>&copy; 2025 QA Smart Hub. All rights reserved. | Built for modern Quality Assurance.</p>
+  </footer>
 </body>
 </html>
 {% endblock %}
